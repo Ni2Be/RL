@@ -65,21 +65,21 @@ unset(_expectedTargets)
 add_library(sfml-system SHARED IMPORTED)
 
 set_target_properties(sfml-system PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
 )
 
 # Create imported target sfml-main
 add_library(sfml-main STATIC IMPORTED)
 
 set_target_properties(sfml-main PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
 )
 
 # Create imported target sfml-window
 add_library(sfml-window SHARED IMPORTED)
 
 set_target_properties(sfml-window PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
   INTERFACE_LINK_LIBRARIES "sfml-system"
 )
 
@@ -94,7 +94,7 @@ set_target_properties(OpenGL PROPERTIES
 add_library(sfml-network SHARED IMPORTED)
 
 set_target_properties(sfml-network PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
   INTERFACE_LINK_LIBRARIES "sfml-system"
 )
 
@@ -102,7 +102,7 @@ set_target_properties(sfml-network PROPERTIES
 add_library(sfml-graphics SHARED IMPORTED)
 
 set_target_properties(sfml-graphics PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
   INTERFACE_LINK_LIBRARIES "sfml-window"
 )
 
@@ -110,16 +110,16 @@ set_target_properties(sfml-graphics PROPERTIES
 add_library(Freetype INTERFACE IMPORTED)
 
 set_target_properties(Freetype PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/headers/freetype2"
-  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/freetype.lib"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/headers/freetype2"
+  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/freetype.lib"
 )
 
 # Create imported target OpenAL
 add_library(OpenAL INTERFACE IMPORTED)
 
 set_target_properties(OpenAL PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/headers/AL"
-  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/openal32.lib"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/headers/AL"
+  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/openal32.lib"
 )
 
 # Create imported target Vorbis
@@ -127,8 +127,8 @@ add_library(Vorbis INTERFACE IMPORTED)
 
 set_target_properties(Vorbis PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "OV_EXCLUDE_STATIC_CALLBACKS"
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/headers;D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/headers"
-  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/vorbisenc.lib;D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/vorbisfile.lib;D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/vorbis.lib;D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/ogg.lib"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/headers;D:/Programmieren/TH/RL/lib/SFML/extlibs/headers"
+  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/vorbisenc.lib;D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/vorbisfile.lib;D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/vorbis.lib;D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/ogg.lib"
 )
 
 # Create imported target FLAC
@@ -136,184 +136,184 @@ add_library(FLAC INTERFACE IMPORTED)
 
 set_target_properties(FLAC PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "FLAC__NO_DLL"
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/headers"
-  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/extlibs/libs-msvc-universal/x64/flac.lib"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/headers"
+  INTERFACE_LINK_LIBRARIES "D:/Programmieren/TH/RL/lib/SFML/extlibs/libs-msvc-universal/x64/flac.lib"
 )
 
 # Create imported target sfml-audio
 add_library(sfml-audio SHARED IMPORTED)
 
 set_target_properties(sfml-audio PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/include"
+  INTERFACE_INCLUDE_DIRECTORIES "D:/Programmieren/TH/RL/lib/SFML/include"
   INTERFACE_LINK_LIBRARIES "sfml-system"
 )
 
 # Import target "sfml-system" for configuration "Debug"
 set_property(TARGET sfml-system APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-system PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-system-d.lib"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-system-d-2.dll"
+  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-system-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-system-d-2.dll"
   )
 
 # Import target "sfml-main" for configuration "Debug"
 set_property(TARGET sfml-main APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-main PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-main-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-main-d.lib"
   )
 
 # Import target "sfml-window" for configuration "Debug"
 set_property(TARGET sfml-window APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-window PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-window-d.lib"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-window-d-2.dll"
+  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-window-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-window-d-2.dll"
   )
 
 # Import target "sfml-network" for configuration "Debug"
 set_property(TARGET sfml-network APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-network PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-network-d.lib"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-network-d-2.dll"
+  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-network-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-network-d-2.dll"
   )
 
 # Import target "sfml-graphics" for configuration "Debug"
 set_property(TARGET sfml-graphics APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-graphics PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-graphics-d.lib"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-graphics-d-2.dll"
+  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-graphics-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-graphics-d-2.dll"
   )
 
 # Import target "sfml-audio" for configuration "Debug"
 set_property(TARGET sfml-audio APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(sfml-audio PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-audio-d.lib"
-  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Debug/sfml-audio-d-2.dll"
+  IMPORTED_IMPLIB_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-audio-d.lib"
+  IMPORTED_LOCATION_DEBUG "D:/Programmieren/TH/RL/lib/SFML/lib/Debug/sfml-audio-d-2.dll"
   )
 
 # Import target "sfml-system" for configuration "Release"
 set_property(TARGET sfml-system APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-system PROPERTIES
-  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-system.lib"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-system-2.dll"
+  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-system.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-system-2.dll"
   )
 
 # Import target "sfml-main" for configuration "Release"
 set_property(TARGET sfml-main APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-main PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-main.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-main.lib"
   )
 
 # Import target "sfml-window" for configuration "Release"
 set_property(TARGET sfml-window APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-window PROPERTIES
-  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-window.lib"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-window-2.dll"
+  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-window.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-window-2.dll"
   )
 
 # Import target "sfml-network" for configuration "Release"
 set_property(TARGET sfml-network APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-network PROPERTIES
-  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-network.lib"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-network-2.dll"
+  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-network.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-network-2.dll"
   )
 
 # Import target "sfml-graphics" for configuration "Release"
 set_property(TARGET sfml-graphics APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-graphics PROPERTIES
-  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-graphics.lib"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-graphics-2.dll"
+  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-graphics.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-graphics-2.dll"
   )
 
 # Import target "sfml-audio" for configuration "Release"
 set_property(TARGET sfml-audio APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(sfml-audio PROPERTIES
-  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-audio.lib"
-  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/Release/sfml-audio-2.dll"
+  IMPORTED_IMPLIB_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-audio.lib"
+  IMPORTED_LOCATION_RELEASE "D:/Programmieren/TH/RL/lib/SFML/lib/Release/sfml-audio-2.dll"
   )
 
 # Import target "sfml-system" for configuration "MinSizeRel"
 set_property(TARGET sfml-system APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-system PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-system.lib"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-system-2.dll"
+  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-system.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-system-2.dll"
   )
 
 # Import target "sfml-main" for configuration "MinSizeRel"
 set_property(TARGET sfml-main APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-main PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_MINSIZEREL "CXX"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-main.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-main.lib"
   )
 
 # Import target "sfml-window" for configuration "MinSizeRel"
 set_property(TARGET sfml-window APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-window PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-window.lib"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-window-2.dll"
+  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-window.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-window-2.dll"
   )
 
 # Import target "sfml-network" for configuration "MinSizeRel"
 set_property(TARGET sfml-network APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-network PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-network.lib"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-network-2.dll"
+  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-network.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-network-2.dll"
   )
 
 # Import target "sfml-graphics" for configuration "MinSizeRel"
 set_property(TARGET sfml-graphics APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-graphics PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-graphics.lib"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-graphics-2.dll"
+  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-graphics.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-graphics-2.dll"
   )
 
 # Import target "sfml-audio" for configuration "MinSizeRel"
 set_property(TARGET sfml-audio APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(sfml-audio PROPERTIES
-  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-audio.lib"
-  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/MinSizeRel/sfml-audio-2.dll"
+  IMPORTED_IMPLIB_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-audio.lib"
+  IMPORTED_LOCATION_MINSIZEREL "D:/Programmieren/TH/RL/lib/SFML/lib/MinSizeRel/sfml-audio-2.dll"
   )
 
 # Import target "sfml-system" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-system APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-system PROPERTIES
-  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-system.lib"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-system-2.dll"
+  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-system.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-system-2.dll"
   )
 
 # Import target "sfml-main" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-main APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-main PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELWITHDEBINFO "CXX"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-main.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-main.lib"
   )
 
 # Import target "sfml-window" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-window APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-window PROPERTIES
-  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-window.lib"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-window-2.dll"
+  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-window.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-window-2.dll"
   )
 
 # Import target "sfml-network" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-network APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-network PROPERTIES
-  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-network.lib"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-network-2.dll"
+  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-network.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-network-2.dll"
   )
 
 # Import target "sfml-graphics" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-graphics APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-graphics PROPERTIES
-  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-graphics.lib"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-graphics-2.dll"
+  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-graphics.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-graphics-2.dll"
   )
 
 # Import target "sfml-audio" for configuration "RelWithDebInfo"
 set_property(TARGET sfml-audio APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(sfml-audio PROPERTIES
-  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-audio.lib"
-  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/Informatikprojekt/lib/SFML/lib/RelWithDebInfo/sfml-audio-2.dll"
+  IMPORTED_IMPLIB_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-audio.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "D:/Programmieren/TH/RL/lib/SFML/lib/RelWithDebInfo/sfml-audio-2.dll"
   )
 
 # This file does not depend on other imported targets which have

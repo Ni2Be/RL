@@ -2,6 +2,6 @@
 C:/Program Files/CMake/share/cmake-3.13/Modules/FindOpenAL.cmake
 C:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageHandleStandardArgs.cmake
 C:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageMessage.cmake
-D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/cmake/Modules/FindFLAC.cmake
-D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/cmake/Modules/FindVorbis.cmake
-D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/src/SFML/Audio/CMakeLists.txt
+D:/Programmieren/TH/RL/lib/SFML/cmake/Modules/FindFLAC.cmake
+D:/Programmieren/TH/RL/lib/SFML/cmake/Modules/FindVorbis.cmake
+D:/Programmieren/TH/RL/lib/SFML/src/SFML/Audio/CMakeLists.txt

@@ -27,8 +27,12 @@ private:
 	void swap_field_values(Pos p1, Pos p2, Playing_Field& f);
 	Pos m_emty_position;
 
+	//Game
+	int m_counter = 0;
 	void build_field();
 	void update_game();
+
+	bool prove_victory_condition();
 
 	//Observable Enviroment
 	double reward(Playing_Field);

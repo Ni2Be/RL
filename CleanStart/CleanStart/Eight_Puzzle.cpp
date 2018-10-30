@@ -23,6 +23,7 @@ Eight_Puzzle::~Eight_Puzzle()
 {
 }
 
+//GAME
 
 void Eight_Puzzle::build_field()
 {
@@ -53,19 +54,52 @@ void Eight_Puzzle::build_field()
 
 void Eight_Puzzle::update_game()
 {
+	if (m_counter == 0)
+	{
+		//std::cout << "trys: " << m_counter << std::endl;
+		update_graphics();
+	}
+	m_counter++;
+
 	applay_action(m_playing_field, static_cast<Actions>(rand() % (Actions::L + 1)));
-
-	update_graphics();
-	sf::sleep(sf::milliseconds(10));
-
+	if (m_counter % 100000 == 0)
+	{
+		std::cout << "trys: " << m_counter << std::endl;
+		update_graphics();
+	}
+	if (prove_victory_condition())
+	{
+		std::cout << "WIN!!! trys: " << m_counter << std::endl;
+		update_graphics();
+		sf::sleep(sf::milliseconds(1000));
+		m_counter = 0;
+	}
+		
 }
+
+bool Eight_Puzzle::prove_victory_condition()
+{
+	int field_value = m_playing_field[0][0];
+	for (const auto& row : m_playing_field)
+	{
+		for (const auto& field : row)
+		{
+			if (field_value > field)
+				return false;
+			field_value = field;
+		}
+	}
+	return true;
+}
+
+
 
 
 //OBSERVABLE ENVIROMENT
 
 double Eight_Puzzle::reward(Playing_Field)
 {
-	//if ()
+	if (prove_victory_condition())
 		return 100.0;
 	return 0.0;
 }
@@ -87,7 +121,6 @@ Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions a
 	switch (action)
 	{
 	case Actions::U:
-		std::cout << "--------UP--------\n";
 		if (!(m_emty_position.row == playing_field.size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row + 1, m_emty_position.collumn), playing_field);
@@ -95,7 +128,6 @@ Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions a
 		}
 		break;
 	case Actions::D:
-		std::cout << "--------DOWN--------\n";
 		if (!(m_emty_position.row == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row - 1, m_emty_position.collumn), playing_field);
@@ -103,7 +135,6 @@ Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions a
 		}
 		break;
 	case Actions::R:
-		std::cout << "--------RIGHT--------\n";
 		if (!(m_emty_position.collumn == playing_field[m_emty_position.row].size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn + 1), playing_field);
@@ -111,7 +142,6 @@ Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions a
 		}
 			break;
 	case Actions::L:
-		std::cout << "--------LEFT--------\n";
 		if (!(m_emty_position.collumn == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn - 1), playing_field);
@@ -142,7 +172,7 @@ Playing_Field Eight_Puzzle::actual_state()
 
 void Eight_Puzzle::update_graphics()
 {
-	graphics.drawables().clear();
+	Game_Graphics::Draw_Container drawables;
 	for (int row = 0; row < m_playing_field.size(); row++)
 	{
 		for (int collumn = 0; collumn < m_playing_field[row].size(); collumn++)
@@ -151,7 +181,7 @@ void Eight_Puzzle::update_graphics()
 			field.setOutlineThickness(2);
 			field.setOutlineColor(sf::Color::Black);
 			field.setPosition(sf::Vector2f(m_field_width * collumn, m_field_width * row));
-			graphics.drawables().push_back(std::make_unique<sf::RectangleShape>(field));
+			drawables.push_back(std::make_unique<sf::RectangleShape>(field));
 
 			if (m_playing_field[row][collumn] != 0)
 			{
@@ -162,10 +192,11 @@ void Eight_Puzzle::update_graphics()
 				field_label.setOrigin(field_label.getLocalBounds().left + field_label.getLocalBounds().width / 2, field_label.getLocalBounds().top + field_label.getLocalBounds().height / 2);
 				field_label.setPosition(sf::Vector2f(m_field_width * collumn + m_field_width / 2.0f, m_field_width * row + m_field_width / 2.0f));
 				field_label.setFillColor(sf::Color::Black);
-				graphics.drawables().push_back(std::make_unique<sf::Text>(field_label));
+				drawables.push_back(std::make_unique<sf::Text>(field_label));
 			}
 		}
 	}
+	graphics().update_drawables(drawables);
 }
 
 //DEBUG

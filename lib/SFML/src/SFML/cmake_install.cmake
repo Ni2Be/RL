@@ -1,4 +1,4 @@
-# Install script for directory: D:/Programmieren/TH/Informatikprojekt/SFML-2.5.1/src/SFML
+# Install script for directory: D:/Programmieren/TH/RL/lib/SFML/src/SFML
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,12 +34,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/System/cmake_install.cmake")
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/Main/cmake_install.cmake")
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/Window/cmake_install.cmake")
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/Network/cmake_install.cmake")
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/Graphics/cmake_install.cmake")
-  include("D:/Programmieren/TH/Informatikprojekt/lib/SFML/src/SFML/Audio/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/System/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/Main/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/Window/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/Network/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/Graphics/cmake_install.cmake")
+  include("D:/Programmieren/TH/RL/lib/SFML/src/SFML/Audio/cmake_install.cmake")
 
 endif()
 

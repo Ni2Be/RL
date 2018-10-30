@@ -2,18 +2,28 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
+#include <thread>
+#include <mutex>
 
+#include <iostream>
 class Game_Graphics
 {
 public:
 	Game_Graphics(int width, int height, const std::string title);
 	~Game_Graphics();
 
-	void update();
+	void start_rendering_thread();
 	sf::RenderWindow& window() { return m_window; }
-	std::vector<std::unique_ptr<sf::Drawable>>& drawables() { return m_drawables; }
+
+	typedef std::vector<std::shared_ptr<sf::Drawable>> Draw_Container;
+	void update_drawables(Draw_Container& draw_vec) { std::lock_guard<std::mutex> lock(m_drawables_lock); m_drawables = draw_vec; }
+	const Draw_Container& drawables() { std::lock_guard<std::mutex> lock(m_drawables_lock); return m_drawables; }
 private:
+	std::mutex m_drawables_lock;
 	sf::RenderWindow m_window;
-	std::vector<std::unique_ptr<sf::Drawable>> m_drawables;
+	sf::Thread m_render_thread;
+	Draw_Container m_drawables;
+
+	void update();
 };
 
