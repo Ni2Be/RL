@@ -32,6 +32,9 @@
     <ClCompile Include="Eight_Puzzle.cpp">
       <Filter>Game\Eight_Puzzle</Filter>
     </ClCompile>
+    <ClCompile Include="Eight_Puzzle_Graphics.cpp">
+      <Filter>Game\Eight_Puzzle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="I_Observable_Environment.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Eight_Puzzle_Graphics.h">
+      <Filter>Game\Eight_Puzzle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

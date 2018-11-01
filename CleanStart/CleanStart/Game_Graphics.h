@@ -18,11 +18,15 @@ public:
 	typedef std::vector<std::shared_ptr<sf::Drawable>> Draw_Container;
 	void update_drawables(Draw_Container& draw_vec) { std::lock_guard<std::mutex> lock(m_drawables_lock); m_drawables = draw_vec; }
 	const Draw_Container& drawables() { std::lock_guard<std::mutex> lock(m_drawables_lock); return m_drawables; }
-private:
-	std::mutex m_drawables_lock;
+	bool& is_rendering() { return m_is_rendering; }
+protected:
+	std::mutex       m_drawables_lock;
 	sf::RenderWindow m_window;
-	sf::Thread m_render_thread;
-	Draw_Container m_drawables;
+	std::thread      m_render_thread;
+	Draw_Container   m_drawables;
+	bool             m_is_rendering = true;
+
+	sf::Font m_arial;
 
 	void update();
 };

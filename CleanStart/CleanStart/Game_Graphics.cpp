@@ -3,16 +3,17 @@
 
 Game_Graphics::Game_Graphics(int width, int height, const std::string title)
 	:
-	m_window(sf::VideoMode(width, height), title),
-	m_render_thread(&Game_Graphics::start_rendering_thread, this)
+	m_window(sf::VideoMode(width, height), title)
 {
+	m_arial.loadFromFile("arial.ttf");
 	m_window.setActive(false);
-	m_render_thread.launch();
+	m_render_thread = std::thread(&Game_Graphics::start_rendering_thread, this);
 }
 
 
 Game_Graphics::~Game_Graphics()
 {
+	m_render_thread.join();
 }
 
 void Game_Graphics::update()
@@ -31,9 +32,7 @@ void Game_Graphics::update()
 void Game_Graphics::start_rendering_thread()
 {
 	m_window.setActive(true);
-
-	while (m_window.isOpen())
-	{
+	while (m_is_rendering)
 		update();
-	}
+	m_window.close();
 }
