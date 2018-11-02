@@ -52,5 +52,8 @@
     <ClInclude Include="Eight_Puzzle_Graphics.h">
       <Filter>Game\Eight_Puzzle</Filter>
     </ClInclude>
+    <ClInclude Include="I_Agent.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

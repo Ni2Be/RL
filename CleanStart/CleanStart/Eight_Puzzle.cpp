@@ -91,8 +91,12 @@ void Eight_Puzzle::update_game()
 		m_graphics->update_graphics(m_playing_field);
 	}
 	m_counter++;
+
+
 	srand(std::chrono::system_clock::now().time_since_epoch().count());
 	applay_action(m_playing_field, static_cast<Actions>(rand() % (Actions::L + 1)));
+	
+	
 	if (m_counter % 100000 == 0)
 	{
 		std::cout << "trys: " << m_counter << std::endl;

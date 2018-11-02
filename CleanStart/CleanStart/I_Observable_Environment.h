@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-template <typename State, typename Action, typename Reward>
+template <class State, class Action, class Reward>
 class I_Observable_Environment
 {
 public:
