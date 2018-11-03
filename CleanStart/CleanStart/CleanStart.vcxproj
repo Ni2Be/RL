@@ -23,7 +23,7 @@
     <ProjectGuid>{AD64B6CC-918C-4FAD-A3E2-05CEE1D166D1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CleanStart</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -158,12 +158,13 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="I_Agent.h" />
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="Eight_Puzzle.h" />
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="I_Observable_Environment.h" />
+    <ClInclude Include="Random_Agent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

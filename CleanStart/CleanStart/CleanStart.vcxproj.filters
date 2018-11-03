@@ -18,6 +18,9 @@
     <Filter Include="AI">
       <UniqueIdentifier>{7b56d0fe-3ca6-4613-933c-7aa24bd1d0f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Random_Agent">
+      <UniqueIdentifier>{ebb0f106-dc53-4421-bd4f-1f25627d9595}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,7 +55,10 @@
     <ClInclude Include="Eight_Puzzle_Graphics.h">
       <Filter>Game\Eight_Puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="I_Agent.h">
+    <ClInclude Include="Random_Agent.h">
+      <Filter>AI\Random_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

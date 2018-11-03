@@ -16,7 +16,7 @@ Eight_Puzzle::Eight_Puzzle(int width, int height, int field_pixel)
 	{
 		build_field();
 	} while (!is_solvable());
-	m_game_state = m_playing_field;
+	m_game_state = convert_to_state(m_playing_field);
 }
 
 
@@ -94,7 +94,7 @@ void Eight_Puzzle::update_game()
 
 
 	srand(std::chrono::system_clock::now().time_since_epoch().count());
-	applay_action(m_playing_field, static_cast<Actions>(rand() % (Actions::L + 1)));
+	applay_action(m_game_state, static_cast<Action>(rand() % (Action::L + 1)));
 	
 	
 	if (m_counter % 100000 == 0)
@@ -130,23 +130,6 @@ bool Eight_Puzzle::prove_victory_condition()
 		return false;
 }
 
-
-
-
-//OBSERVABLE ENVIROMENT
-
-double Eight_Puzzle::reward(Playing_Field)
-{
-	if (prove_victory_condition())
-		return 100.0;
-	return 0.0;
-}
-
-std::vector<Actions> Eight_Puzzle::possible_actions(Playing_Field)
-{
-	return { Actions::U, Actions::D, Actions::R, Actions::L};
-}
-
 void Eight_Puzzle::swap_field_values(Pos p1, Pos p2, Playing_Field& f)
 {
 	int temp = f[p1.row][p1.collumn];
@@ -154,32 +137,38 @@ void Eight_Puzzle::swap_field_values(Pos p1, Pos p2, Playing_Field& f)
 	f[p2.row][p2.collumn] = temp;
 }
 
-Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions action)
+Eight_Puzzle::Playing_Field Eight_Puzzle::applay_action(Playing_Field playing_field, Action action)
+{
+	m_playing_field = assume_action(playing_field, action);
+	return m_playing_field;
+}
+
+Eight_Puzzle::Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Action action)
 {
 	switch (action)
 	{
-	case Actions::U:
+	case Action::U:
 		if (!(m_emty_position.row == playing_field.size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row + 1, m_emty_position.collumn), playing_field);
 			m_emty_position.row++;
 		}
 		break;
-	case Actions::D:
+	case Action::D:
 		if (!(m_emty_position.row == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row - 1, m_emty_position.collumn), playing_field);
 			m_emty_position.row--;
 		}
 		break;
-	case Actions::R:
+	case Action::R:
 		if (!(m_emty_position.collumn == playing_field[m_emty_position.row].size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn + 1), playing_field);
 			m_emty_position.collumn++;
 		}
-			break;
-	case Actions::L:
+		break;
+	case Action::L:
 		if (!(m_emty_position.collumn == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn - 1), playing_field);
@@ -192,26 +181,65 @@ Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_field, Actions a
 	return playing_field;
 }
 
-Playing_Field Eight_Puzzle::applay_action(Playing_Field playing_field, Actions action)
+
+//CONVERTER
+Eight_Puzzle::State Eight_Puzzle::convert_to_state(const Playing_Field playing_field) const
 {
-	m_game_state = assume_action(playing_field, action);
-	m_playing_field = m_game_state;
-	return m_game_state;
+	State state(playing_field[0].size() * playing_field.size());
+	int i = 0;
+	for (const auto& row : playing_field)
+		for (const auto& field : row)
+			state[i++] = field;
+	return state;
 }
 
-Playing_Field Eight_Puzzle::actual_state()
+Eight_Puzzle::Playing_Field Eight_Puzzle::convert_to_playing_field(const State state) const
 {
-	return m_game_state;
+	Playing_Field field(m_playing_field);
+	int i = 0;
+	for (auto& row : field)
+		for (auto& field : row)
+			field = state[i++];
+	return field;
 }
 
-State game_state()
-{
 
+//OBSERVABLE ENVIROMENT
+Eight_Puzzle::Reward Eight_Puzzle::reward(State)
+{
+	if (prove_victory_condition())
+		return 100.0;
+	return 0.0;
+}
+
+std::vector<Action> Eight_Puzzle::possible_actions(State)
+{
+	return { Action::U, Action::D, Action::R, Action::L};
+}
+
+Eight_Puzzle::State Eight_Puzzle::assume_action(State state, Action action)
+{
+	auto field    = convert_to_playing_field(state);
+	auto new_fiel = assume_action(field, action);
+	return convert_to_state(new_fiel);
+}
+
+Eight_Puzzle::State Eight_Puzzle::applay_action(State state, Action action)
+{
+	auto field    = convert_to_playing_field(state);
+	auto new_fiel = applay_action(field, action);
+	m_game_state = convert_to_state(new_fiel);
+	return convert_to_state(new_fiel);
+}
+
+Eight_Puzzle::State Eight_Puzzle::actual_state()
+{
+	m_game_state = convert_to_state(m_playing_field);
+	return m_game_state;
 }
 
 
 //DEBUG
-
 void Eight_Puzzle::console_print(Playing_Field playing_field)
 {
 	for (auto& row : playing_field)
