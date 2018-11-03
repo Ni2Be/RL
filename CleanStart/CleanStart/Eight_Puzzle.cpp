@@ -204,6 +204,11 @@ Playing_Field Eight_Puzzle::actual_state()
 	return m_game_state;
 }
 
+State game_state()
+{
+
+}
+
 
 //DEBUG
 

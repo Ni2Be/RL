@@ -13,7 +13,7 @@ enum Actions
 };
 
 typedef std::vector<std::vector<int>> Playing_Field;
-class Eight_Puzzle : public Game_Base<Eight_Puzzle_Graphics>, public I_Observable_Environment<Playing_Field, Actions, double>
+class Eight_Puzzle : public Game_Base<Eight_Puzzle_Graphics>, public I_Observable_Environment
 {
 public:
 	Eight_Puzzle(int width = 3, int height = 3, int field_width = 40);
@@ -37,11 +37,11 @@ private:
 	bool prove_victory_condition();
 
 	//Observable Enviroment
-	double reward(Playing_Field);
-	std::vector<Actions> possible_actions(Playing_Field);
-	Playing_Field assume_action(Playing_Field, Actions);
-	Playing_Field applay_action(Playing_Field, Actions);
-	Playing_Field actual_state();
+	//double reward(Playing_Field);
+	//std::vector<Actions> possible_actions(Playing_Field);
+	//Playing_Field assume_action(Playing_Field, Actions);
+	//Playing_Field applay_action(Playing_Field, Actions);
+	//Playing_Field actual_state();
 	
 
 	//DEBUG
