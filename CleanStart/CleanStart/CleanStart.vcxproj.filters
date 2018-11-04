@@ -21,6 +21,12 @@
     <Filter Include="AI\Random_Agent">
       <UniqueIdentifier>{ebb0f106-dc53-4421-bd4f-1f25627d9595}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{78cb0bd3-b513-4a89-8aa0-14b342511b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{01b6c250-4fb7-44c6-b76b-2be4abe407fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +66,12 @@
     </ClInclude>
     <ClInclude Include="Agent.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

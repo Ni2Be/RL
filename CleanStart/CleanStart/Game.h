@@ -5,9 +5,10 @@
 #include <thread>
 
 #include "SFML/Graphics.hpp"
+#include "I_Observable_Environment.h"
 
 template<class Graphics>
-class Game_Base
+class Game_Base : public I_Observable_Environment
 {
 	static_assert(std::is_base_of<Game_Graphics, Graphics>::value, "Game_Base template class must be derived from Game_Graphics");
 public:

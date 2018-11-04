@@ -11,11 +11,20 @@ Eight_Puzzle::Eight_Puzzle(int width, int height, int field_pixel)
 	m_field_width(width),
 	m_field_height(height)
 {
-	graphics(std::shared_ptr<Eight_Puzzle_Graphics>(new Eight_Puzzle_Graphics(field_pixel * width, field_pixel * height, "Eight Puzzle", field_pixel)));
+	graphics(
+		std::shared_ptr<Eight_Puzzle_Graphics>(
+			new Eight_Puzzle_Graphics(
+				field_pixel * width, 
+				field_pixel * height, 
+				"Eight Puzzle", 
+				field_pixel)));
 	do
 	{
 		build_field();
 	} while (!is_solvable());
+
+	m_graphics->update_graphics(m_playing_field);
+
 	m_game_state = convert_to_state(m_playing_field);
 }
 
@@ -29,8 +38,9 @@ Eight_Puzzle::~Eight_Puzzle()
 void Eight_Puzzle::build_field()
 {
 	/*
-	builds a playing field using numbers from 1 to n - 1 for fields
-	and 0 for the empty field
+	Builds a playing field using numbers from 1 to n - 1 for fields
+	and 0 for the empty field.
+	It is possible that the field can't be solved.
 	*/
 	m_playing_field = Playing_Field(m_field_height, std::vector<int>(m_field_width));
 	std::vector<int> field_values(m_field_width * m_field_height);
@@ -44,7 +54,7 @@ void Eight_Puzzle::build_field()
 		{
 			if (field_values[i] == 0)
 			{
-				m_emty_position.row = row;
+				m_emty_position.row     = row;
 				m_emty_position.collumn = collumn;
 			}
 			m_playing_field[row][collumn] = field_values[i++];
@@ -52,7 +62,6 @@ void Eight_Puzzle::build_field()
 	}
 }
 
-//TODO
 bool Eight_Puzzle::is_solvable()
 {
 	int inversion_counter = 0;
@@ -86,15 +95,11 @@ bool Eight_Puzzle::is_solvable()
 
 void Eight_Puzzle::update_game()
 {
-	if (m_counter == 0)
-	{
-		m_graphics->update_graphics(m_playing_field);
-	}
 	m_counter++;
 
-
-	srand(std::chrono::system_clock::now().time_since_epoch().count());
-	applay_action(m_game_state, static_cast<Action>(rand() % (Action::L + 1)));
+	//TODO get the agent out of here
+	srand(static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count()));
+	apply_action(m_game_state, rand() % (Actions::L + 1));
 	
 	
 	if (m_counter % 100000 == 0)
@@ -109,7 +114,6 @@ void Eight_Puzzle::update_game()
 		sf::sleep(sf::milliseconds(1000));
 		m_counter = 0;
 	}
-		
 }
 
 bool Eight_Puzzle::prove_victory_condition()
@@ -137,7 +141,7 @@ void Eight_Puzzle::swap_field_values(Pos p1, Pos p2, Playing_Field& f)
 	f[p2.row][p2.collumn] = temp;
 }
 
-Eight_Puzzle::Playing_Field Eight_Puzzle::applay_action(Playing_Field playing_field, Action action)
+Eight_Puzzle::Playing_Field Eight_Puzzle::apply_action(Playing_Field playing_field, Action action)
 {
 	m_playing_field = assume_action(playing_field, action);
 	return m_playing_field;
@@ -147,28 +151,28 @@ Eight_Puzzle::Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_fi
 {
 	switch (action)
 	{
-	case Action::U:
+	case Actions::U:
 		if (!(m_emty_position.row == playing_field.size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row + 1, m_emty_position.collumn), playing_field);
 			m_emty_position.row++;
 		}
 		break;
-	case Action::D:
+	case Actions::D:
 		if (!(m_emty_position.row == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row - 1, m_emty_position.collumn), playing_field);
 			m_emty_position.row--;
 		}
 		break;
-	case Action::R:
+	case Actions::R:
 		if (!(m_emty_position.collumn == playing_field[m_emty_position.row].size() - 1))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn + 1), playing_field);
 			m_emty_position.collumn++;
 		}
 		break;
-	case Action::L:
+	case Actions::L:
 		if (!(m_emty_position.collumn == 0))
 		{
 			swap_field_values(m_emty_position, Pos(m_emty_position.row, m_emty_position.collumn - 1), playing_field);
@@ -176,7 +180,7 @@ Eight_Puzzle::Playing_Field Eight_Puzzle::assume_action(Playing_Field playing_fi
 		}
 		break;
 	default:
-		std::cerr << "invalid action" << std::endl;
+		std::cerr << std::endl << "invalid action" << std::endl;
 	}
 	return playing_field;
 }
@@ -189,7 +193,7 @@ Eight_Puzzle::State Eight_Puzzle::convert_to_state(const Playing_Field playing_f
 	int i = 0;
 	for (const auto& row : playing_field)
 		for (const auto& field : row)
-			state[i++] = field;
+			state[i++] = static_cast<float>(field);
 	return state;
 }
 
@@ -199,7 +203,7 @@ Eight_Puzzle::Playing_Field Eight_Puzzle::convert_to_playing_field(const State s
 	int i = 0;
 	for (auto& row : field)
 		for (auto& field : row)
-			field = state[i++];
+			field = static_cast<int>(state[i++]);
 	return field;
 }
 
@@ -207,14 +211,15 @@ Eight_Puzzle::Playing_Field Eight_Puzzle::convert_to_playing_field(const State s
 //OBSERVABLE ENVIROMENT
 Eight_Puzzle::Reward Eight_Puzzle::reward(State)
 {
+	//TODO implement manhattan distance
 	if (prove_victory_condition())
 		return 100.0;
 	return 0.0;
 }
 
-std::vector<Action> Eight_Puzzle::possible_actions(State)
+std::vector<Eight_Puzzle::Action> Eight_Puzzle::possible_actions(State)
 {
-	return { Action::U, Action::D, Action::R, Action::L};
+	return { Actions::U, Actions::D, Actions::R, Actions::L};
 }
 
 Eight_Puzzle::State Eight_Puzzle::assume_action(State state, Action action)
@@ -224,11 +229,11 @@ Eight_Puzzle::State Eight_Puzzle::assume_action(State state, Action action)
 	return convert_to_state(new_fiel);
 }
 
-Eight_Puzzle::State Eight_Puzzle::applay_action(State state, Action action)
+Eight_Puzzle::State Eight_Puzzle::apply_action(State state, Action action)
 {
 	auto field    = convert_to_playing_field(state);
-	auto new_fiel = applay_action(field, action);
-	m_game_state = convert_to_state(new_fiel);
+	auto new_fiel = apply_action(field, action);
+	m_game_state  = convert_to_state(new_fiel);
 	return convert_to_state(new_fiel);
 }
 

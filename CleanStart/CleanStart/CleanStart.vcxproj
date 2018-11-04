@@ -158,6 +158,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Eight_Puzzle.h" />
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="I_Observable_Environment.h" />
     <ClInclude Include="Random_Agent.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

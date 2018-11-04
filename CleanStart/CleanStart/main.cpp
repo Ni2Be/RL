@@ -4,7 +4,7 @@
 int main()
 {
 	Eight_Puzzle game(4, 4, 90);
-	//TODO make Arena that holds agents and games
+	//TODO make Scene that holds agents and games
 	Random_Agent rand_agent(game);
 
 	game.run();

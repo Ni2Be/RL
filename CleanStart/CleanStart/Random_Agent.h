@@ -11,10 +11,10 @@ public:
 		Agent(enviroment)
 	{}
 	void learn() {};
-	Action get_next_action()
+	I_Observable_Environment::Action get_next_action()
 	{
-		srand(std::chrono::system_clock::now().time_since_epoch().count());
-		std::vector<Action> possible_actions = m_enviroment->possible_actions(m_enviroment->actual_state());
-		m_enviroment->applay_action(m_enviroment->actual_state(), possible_actions[rand() % possible_actions.size()]);
+		srand(static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count()));
+		std::vector<I_Observable_Environment::Action> possible_actions = m_enviroment->possible_actions(m_enviroment->actual_state());
+		m_enviroment->apply_action(m_enviroment->actual_state(), possible_actions[rand() % possible_actions.size()]);
 	}
 };

@@ -19,6 +19,8 @@ public:
 	void update_drawables(Draw_Container& draw_vec) { std::lock_guard<std::mutex> lock(m_drawables_lock); m_drawables = draw_vec; }
 	const Draw_Container& drawables() { std::lock_guard<std::mutex> lock(m_drawables_lock); return m_drawables; }
 	bool& is_rendering() { return m_is_rendering; }
+
+	sf::Font& arial()    { return m_arial; }
 protected:
 	std::mutex       m_drawables_lock;
 	sf::RenderWindow m_window;

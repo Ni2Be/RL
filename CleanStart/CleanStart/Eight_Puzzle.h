@@ -1,6 +1,5 @@
 #pragma once
 #include "Game.h"
-#include "I_Observable_Environment.h"
 #include "Eight_Puzzle_Graphics.h"
 
 
@@ -8,13 +7,13 @@
 #include <SFML/Graphics.hpp>
 
 
-enum Action
-{
-	U, D, R, L
-};
-class Eight_Puzzle : public Game_Base<Eight_Puzzle_Graphics>, public I_Observable_Environment<Action>
+class Eight_Puzzle : public Game_Base<Eight_Puzzle_Graphics>
 {
 public:
+	enum Actions
+	{
+		U, D, R, L
+	};
 
 	typedef std::vector<std::vector<int>> Playing_Field;
 	Eight_Puzzle(int width = 3, int height = 3, int field_width = 40);
@@ -34,14 +33,14 @@ private:
 	bool is_solvable();
 	void update_game();
 
-	Playing_Field applay_action(Playing_Field, Action);
+	Playing_Field apply_action(Playing_Field, Action);
 	Playing_Field assume_action(Playing_Field, Action);
 	void swap_field_values(Pos p1, Pos p2, Playing_Field& f);
 
 	bool prove_victory_condition();
 
-
 	//Converter
+	using I_Observable_Environment::State;
 	State convert_to_state(const Playing_Field playing_field) const;
 	Playing_Field convert_to_playing_field(const State game_state) const;
 
@@ -50,7 +49,7 @@ public:
 	Reward reward(State);
 	std::vector<Action> possible_actions(State);
 	State assume_action(State, Action);
-	State applay_action(State, Action);
+	State apply_action(State, Action);
 	State actual_state();
 	
 private:
