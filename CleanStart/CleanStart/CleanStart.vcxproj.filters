@@ -15,25 +15,22 @@
     <Filter Include="Game\Eight_Puzzle">
       <UniqueIdentifier>{0273a93b-5e36-4b5c-a3de-6a4ea62ceb36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AI">
-      <UniqueIdentifier>{7b56d0fe-3ca6-4613-933c-7aa24bd1d0f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\Random_Agent">
-      <UniqueIdentifier>{ebb0f106-dc53-4421-bd4f-1f25627d9595}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
+    <Filter Include="Arena">
       <UniqueIdentifier>{78cb0bd3-b513-4a89-8aa0-14b342511b25}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor">
-      <UniqueIdentifier>{01b6c250-4fb7-44c6-b76b-2be4abe407fe}</UniqueIdentifier>
+      <UniqueIdentifier>{06691ec1-2086-4b80-9dc0-a5ea5539ad63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Agent">
+      <UniqueIdentifier>{7b56d0fe-3ca6-4613-933c-7aa24bd1d0f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Agent\Random_Agent">
+      <UniqueIdentifier>{ebb0f106-dc53-4421-bd4f-1f25627d9595}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game_Graphics.cpp">
       <Filter>Game</Filter>
@@ -43,6 +40,15 @@
     </ClCompile>
     <ClCompile Include="Eight_Puzzle_Graphics.cpp">
       <Filter>Game\Eight_Puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="Random_Agent.cpp">
+      <Filter>Actor\Agent\Random_Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Actor\Agent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,16 +68,22 @@
       <Filter>Game\Eight_Puzzle</Filter>
     </ClInclude>
     <ClInclude Include="Random_Agent.h">
-      <Filter>AI\Random_Agent</Filter>
+      <Filter>Actor\Agent\Random_Agent</Filter>
     </ClInclude>
     <ClInclude Include="Agent.h">
-      <Filter>AI</Filter>
+      <Filter>Actor\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene</Filter>
+    <ClInclude Include="Types.h">
+      <Filter>Arena</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Arena.h">
+      <Filter>Arena</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

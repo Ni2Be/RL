@@ -1,13 +1,10 @@
-#include "Eight_Puzzle.h"
-#include "Random_Agent.h"
+#include "Arena.h"
+
 
 int main()
 {
-	Eight_Puzzle game(4, 4, 90);
-	//TODO make Scene that holds agents and games
-	Random_Agent rand_agent(game);
-
-	game.run();
+	Arena arena;
+	arena.run();
 
 	return 0;
 }

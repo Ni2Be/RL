@@ -19,7 +19,7 @@ public:
 	Graphics& graphics() { return *m_graphics; };
 	void      graphics(std::shared_ptr<Graphics> graphics) { m_graphics = graphics; }
 protected:
-	virtual void update_game() = 0;
+	virtual void update() = 0;
 	bool         m_is_running  = true;
 	std::shared_ptr<Graphics> m_graphics;
 };
@@ -54,6 +54,6 @@ void Game_Base<Graphics>::run()
 				m_graphics->is_rendering() = false;
 			}
 		}
-		update_game();
+		update();
 	}
 }

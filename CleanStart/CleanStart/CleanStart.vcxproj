@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Eight_Puzzle.cpp" />
     <ClCompile Include="Eight_Puzzle_Graphics.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game_Graphics.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Random_Agent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -166,7 +168,9 @@
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="I_Observable_Environment.h" />
     <ClInclude Include="Random_Agent.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Arena.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

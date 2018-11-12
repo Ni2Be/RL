@@ -19,7 +19,7 @@ Game_Graphics::~Game_Graphics()
 void Game_Graphics::update()
 {
 	sf::sleep(sf::milliseconds(33)); 
-	std::lock_guard<std::mutex> lock(m_drawables_lock);
+	std::scoped_lock<std::mutex> lock(m_drawables_lock);
 	if (m_window.isOpen())
 	{
 		m_window.clear();
