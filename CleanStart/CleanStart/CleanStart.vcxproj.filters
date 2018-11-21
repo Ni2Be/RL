@@ -5,15 +5,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{53bb9d70-ddb1-4823-be36-c80e4c357ad6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Game\Eight_Puzzle">
-      <UniqueIdentifier>{0273a93b-5e36-4b5c-a3de-6a4ea62ceb36}</UniqueIdentifier>
     </Filter>
     <Filter Include="Arena">
       <UniqueIdentifier>{78cb0bd3-b513-4a89-8aa0-14b342511b25}</UniqueIdentifier>
@@ -27,19 +21,31 @@
     <Filter Include="Actor\Agent\Random_Agent">
       <UniqueIdentifier>{ebb0f106-dc53-4421-bd4f-1f25627d9595}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{53bb9d70-ddb1-4823-be36-c80e4c357ad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment\Eight_Puzzle">
+      <UniqueIdentifier>{0273a93b-5e36-4b5c-a3de-6a4ea62ceb36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{7c9bc6db-3baf-4e9f-9737-b2b9eadbf9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment\Snake">
+      <UniqueIdentifier>{396f19d8-a399-4031-879d-c42218bde956}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="Game_Graphics.cpp">
-      <Filter>Game</Filter>
+      <Filter>Environment</Filter>
     </ClCompile>
     <ClCompile Include="Eight_Puzzle.cpp">
-      <Filter>Game\Eight_Puzzle</Filter>
+      <Filter>Environment\Eight_Puzzle</Filter>
     </ClCompile>
     <ClCompile Include="Eight_Puzzle_Graphics.cpp">
-      <Filter>Game\Eight_Puzzle</Filter>
+      <Filter>Environment\Eight_Puzzle</Filter>
     </ClCompile>
     <ClCompile Include="Random_Agent.cpp">
       <Filter>Actor\Agent\Random_Agent</Filter>
@@ -50,22 +56,43 @@
     <ClCompile Include="Agent.cpp">
       <Filter>Actor\Agent</Filter>
     </ClCompile>
+    <ClCompile Include="Arena.cpp">
+      <Filter>Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="I_Environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake_Entity.cpp">
+      <Filter>Environment\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Multi_Snake.cpp">
+      <Filter>Environment\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Multi_Snake_Graphics.cpp">
+      <Filter>Environment\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake_World.cpp">
+      <Filter>Environment\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Human_Player.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake_Human_Player.cpp">
+      <Filter>Environment\Snake</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
-      <Filter>Game</Filter>
+      <Filter>Environment</Filter>
     </ClInclude>
     <ClInclude Include="Game_Graphics.h">
-      <Filter>Game</Filter>
+      <Filter>Environment</Filter>
     </ClInclude>
     <ClInclude Include="Eight_Puzzle.h">
-      <Filter>Game\Eight_Puzzle</Filter>
-    </ClInclude>
-    <ClInclude Include="I_Observable_Environment.h">
-      <Filter>Game</Filter>
+      <Filter>Environment\Eight_Puzzle</Filter>
     </ClInclude>
     <ClInclude Include="Eight_Puzzle_Graphics.h">
-      <Filter>Game\Eight_Puzzle</Filter>
+      <Filter>Environment\Eight_Puzzle</Filter>
     </ClInclude>
     <ClInclude Include="Random_Agent.h">
       <Filter>Actor\Agent\Random_Agent</Filter>
@@ -73,17 +100,38 @@
     <ClInclude Include="Agent.h">
       <Filter>Actor\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
-      <Filter>Arena</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Arena.h">
       <Filter>Arena</Filter>
     </ClInclude>
+    <ClInclude Include="I_Environment.h">
+      <Filter>Environment</Filter>
+    </ClInclude>
     <ClInclude Include="Utility.h">
-      <Filter>main</Filter>
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Multi_Snake.h">
+      <Filter>Environment\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Multi_Snake_Graphics.h">
+      <Filter>Environment\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake_Entity.h">
+      <Filter>Environment\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake_World.h">
+      <Filter>Environment\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Human_Player.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake_Human_Player.h">
+      <Filter>Environment\Snake</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

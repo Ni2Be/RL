@@ -3,7 +3,9 @@
 
 #include <iostream>
 
-Actor::Actor(std::shared_ptr<I_Observable_Environment> environment)
+using namespace Ai_Arena;
+
+Actor::Actor(std::shared_ptr<I_Environment> environment)
 	:
 	m_environment(environment),
 	m_self_pointer(this)
@@ -14,8 +16,9 @@ Actor::Actor(std::shared_ptr<I_Observable_Environment> environment)
 void Actor::start_actor_thread()
 {
 	m_actor_thread = std::thread([this]() {
+		m_is_running = true;
 		m_is_sleeping = false;
-		while (true)
+		while (m_is_running)
 		{
 			evaluate_action();
 			m_self_pointer->evaluate_action();

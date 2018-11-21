@@ -3,6 +3,7 @@
 
 int main()
 {
+	using namespace Ai_Arena;
 	Arena arena;
 	arena.run();
 

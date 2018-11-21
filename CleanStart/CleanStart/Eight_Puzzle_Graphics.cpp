@@ -1,5 +1,7 @@
 #include "Eight_Puzzle_Graphics.h"
 
+using namespace Ai_Arena;
+
 void Eight_Puzzle_Graphics::update_graphics(const Playing_Field& playing_field)
 {
 	Game_Graphics::Draw_Container drawables;

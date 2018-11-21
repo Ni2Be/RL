@@ -2,11 +2,13 @@
 #include "Agent.h"
 
 
-
-class Random_Agent : public Agent
+namespace Ai_Arena
 {
-public:
-	Random_Agent(std::shared_ptr<I_Observable_Environment> enviroment);
-	void learn();
-	void evaluate_action();
-};
+	class Random_Agent : public Agent
+	{
+	public:
+		Random_Agent(std::shared_ptr<I_Environment> enviroment);
+		void learn();
+		void evaluate_action();
+	};
+}

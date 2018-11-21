@@ -1,6 +1,9 @@
 #include "Game_Graphics.h"
 #include <iostream>
 
+
+using namespace Ai_Arena;
+
 Game_Graphics::Game_Graphics(int width, int height, const std::string title)
 	:
 	m_window(sf::VideoMode(width, height), title)
@@ -16,7 +19,7 @@ Game_Graphics::~Game_Graphics()
 	m_render_thread.join();
 }
 
-void Game_Graphics::update()
+void Game_Graphics::render()
 {
 	sf::sleep(sf::milliseconds(33)); 
 	std::scoped_lock<std::mutex> lock(m_drawables_lock);
@@ -33,6 +36,6 @@ void Game_Graphics::start_rendering_thread()
 {
 	m_window.setActive(true);
 	while (m_is_rendering)
-		update();
+		render();
 	m_window.close();
 }
