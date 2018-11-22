@@ -18,6 +18,7 @@
 9. Jetzt sollte Snake mit Random Agenten starten und spielbar sein
 
 ###Doku
+
 In den Klassen Environment.h und Actor.h habe ich versucht so gut wie möglich 
 zu beschreiben wie die Klassen miteinander arbeiten.
 Der Random_Agent ist ein Beispiel wie ein Agent Aktionen ausführen kann.
