@@ -36,13 +36,13 @@ namespace Ai_Arena
 
 
 		//EIGHT PUZZLE
-			m_enviroment_2 = std::shared_ptr<Environment>(new Eight_Puzzle(3, 3, 90));
-
-			//AGENT
-			m_actors_2.push_back(std::shared_ptr<Actor>(new Random_Agent(m_enviroment_2)));
-			m_enviroment_2->add_actor(m_actors_2[0]);
-			
-			m_enviroment_2->update_interval() = std::chrono::milliseconds(0);
+			//m_enviroment_2 = std::shared_ptr<Environment>(new Eight_Puzzle(3, 3, 90));
+			//
+			////AGENT
+			//m_actors_2.push_back(std::shared_ptr<Actor>(new Random_Agent(m_enviroment_2)));
+			//m_enviroment_2->add_actor(m_actors_2[0]);
+			//
+			//m_enviroment_2->update_interval() = std::chrono::milliseconds(0);
 		}
 
 		void run();
