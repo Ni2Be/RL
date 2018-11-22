@@ -297,7 +297,7 @@ bool Eight_Puzzle::is_final(std::shared_ptr<Actor>, State state) const
 //THREADSAFE
 void Eight_Puzzle::add_actor(std::shared_ptr<Actor> actor)
 {
-	I_Environment::add_actor(std::pair<std::shared_ptr<Actor>, Action>(actor, { Actions::NO_ACTION }));
+	Environment::add_actor(std::pair<std::shared_ptr<Actor>, Action>(actor, { Actions::NO_ACTION }));
 }
 
 void Eight_Puzzle::update()

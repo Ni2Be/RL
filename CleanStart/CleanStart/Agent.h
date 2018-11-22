@@ -6,7 +6,7 @@ namespace Ai_Arena
 	class Agent : public Actor
 	{
 	public:
-		Agent(std::shared_ptr<I_Environment> environment);
+		Agent(std::shared_ptr<Environment> environment);
 		virtual void evaluate_action() = 0;
 		bool is_human() { return false; }
 	protected:

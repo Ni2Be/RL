@@ -6,7 +6,7 @@
 using namespace Ai_Arena;
 
 
-Snake_Human_Player::Snake_Human_Player(std::shared_ptr<I_Environment> enviroment)
+Snake_Human_Player::Snake_Human_Player(std::shared_ptr<Environment> enviroment)
 	:
 	Human_Player(enviroment)
 {}
@@ -31,10 +31,12 @@ void Snake_Human_Player::evaluate_action()
 		}
 		events.pop();
 	}
-	m_environment->apply_action(
-		m_self_pointer,
-		m_last_action
-	);
+
+	set_action(m_last_action);
+	//m_environment->apply_action(
+	//	m_self_pointer,
+	//	m_last_action
+	//);
 
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 

@@ -7,7 +7,7 @@ namespace Ai_Arena
 	class Snake_Human_Player : public Human_Player
 	{
 	public:
-		Snake_Human_Player(std::shared_ptr<I_Environment> enviroment);
+		Snake_Human_Player(std::shared_ptr<Environment> enviroment);
 		void evaluate_action();
 
 	private:

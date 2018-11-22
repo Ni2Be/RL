@@ -7,7 +7,7 @@ namespace Ai_Arena
 	class Random_Agent : public Agent
 	{
 	public:
-		Random_Agent(std::shared_ptr<I_Environment> enviroment);
+		Random_Agent(std::shared_ptr<Environment> enviroment);
 		void learn();
 		void evaluate_action();
 	};

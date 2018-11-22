@@ -8,7 +8,7 @@
 
 using namespace Ai_Arena;
 
-Random_Agent::Random_Agent(std::shared_ptr<I_Environment> enviroment)
+Random_Agent::Random_Agent(std::shared_ptr<Environment> enviroment)
 	:
 	Agent(enviroment)
 {}
@@ -22,9 +22,11 @@ void Random_Agent::evaluate_action()
 			m_self_pointer,
 			m_environment->actual_state(m_self_pointer));
 	
-	m_environment->apply_action(
-		m_self_pointer,
-		possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
+	set_action(possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
+	
+	//m_environment->apply_action(
+	//	m_self_pointer,
+	//	possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
 
 	if (m_environment->is_final(m_self_pointer, m_environment->actual_state(m_self_pointer)))
 	{

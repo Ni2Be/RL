@@ -5,12 +5,11 @@
 
 using namespace Ai_Arena;
 
-Actor::Actor(std::shared_ptr<I_Environment> environment)
+Actor::Actor(std::shared_ptr<Environment> environment)
 	:
 	m_environment(environment),
 	m_self_pointer(this)
-{
-}
+{}
 
 //TODO 
 void Actor::start_actor_thread()
@@ -22,8 +21,19 @@ void Actor::start_actor_thread()
 		{
 			evaluate_action();
 			m_self_pointer->evaluate_action();
+			m_self_pointer->apply_action();
 		}
 	});
+}
+
+void Actor::set_action(Action action)
+{
+	m_next_action = action;
+}
+
+void Actor::apply_action()
+{
+	m_environment->apply_action(m_self_pointer, m_next_action);
 }
 
 bool Actor::is_sleeping() 

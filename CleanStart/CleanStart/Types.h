@@ -47,6 +47,7 @@ namespace Ai_Arena
 	{
 		int  action;
 		bool is_possible;
+		Action() : is_possible(false){}
 		Action(const int action, const bool is_possible = true)
 			:
 			action(action),

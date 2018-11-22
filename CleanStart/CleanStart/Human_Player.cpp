@@ -3,7 +3,7 @@
 
 using namespace Ai_Arena;
 
-Human_Player::Human_Player(std::shared_ptr<I_Environment> enviroment)
+Human_Player::Human_Player(std::shared_ptr<Environment> enviroment)
 	:
 	Actor(enviroment)
 {}

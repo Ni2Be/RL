@@ -4,14 +4,14 @@
 #include <memory>
 #include <thread>
 #include "SFML/Graphics.hpp"
-#include "I_Environment.h"
+#include "Environment.h"
 
 namespace Ai_Arena
 {
 	template<class Graphics>
-	class Game_Base : public I_Environment
+	class Game_Base : public Environment
 	{
-		static_assert(std::is_base_of<Game_Graphics, Graphics>::value, "Game_Base template class must be derived from Game_Graphics");
+		static_assert(std::is_base_of<Game_Graphics, Graphics>::value, "Game_Base template class \"Graphics\" must be derived from Game_Graphics");
 	public:
 		Game_Base();
 		~Game_Base();
@@ -25,15 +25,7 @@ namespace Ai_Arena
 		std::shared_ptr<Graphics>& graphics() { return m_graphics; };
 		void      graphics(std::shared_ptr<Graphics> graphics) { m_graphics = graphics; }
 
-		std::queue<sf::Event> get_events();
 	protected:
-		void set_events(std::queue<sf::Event> events);
-	private:
-		std::queue<sf::Event> m_events;
-		std::mutex            m_event_lock;
-	protected:
-		bool m_is_running = true;
-		
 		std::shared_ptr<Graphics> m_graphics;
 
 		virtual void update() = 0;
@@ -85,30 +77,6 @@ namespace Ai_Arena
 
 				update();
 			}
-		}
-	}
-
-	template<class Graphics>
-	std::queue<sf::Event> Game_Base<Graphics>::get_events()
-	{
-		std::scoped_lock<std::mutex> lock(m_event_lock);
-		std::queue<sf::Event> event_que;
-		while (!m_events.empty())
-		{
-			event_que.push(m_events.front());
-			m_events.pop();
-		}
-		return event_que;
-	}
-
-	template<class Graphics>
-	void Game_Base<Graphics>::set_events(std::queue<sf::Event> events)
-	{
-		std::scoped_lock<std::mutex> lock(m_event_lock);
-		while (!events.empty())
-		{
-			m_events.push(events.front());
-			events.pop();
 		}
 	}
 }

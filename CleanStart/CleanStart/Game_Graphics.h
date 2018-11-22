@@ -18,7 +18,7 @@ namespace Ai_Arena
 		void start_rendering_thread();
 		sf::RenderWindow& window() { return m_window; }
 
-		//should be overloaded and take everythin
+		//should be overloaded and take everythi'''n
 		//needed to update the drawables container
 		virtual void update_graphics() {};
 		typedef std::vector<std::shared_ptr<sf::Drawable>> Draw_Container;

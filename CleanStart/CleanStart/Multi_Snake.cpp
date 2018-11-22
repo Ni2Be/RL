@@ -59,7 +59,7 @@ void Multi_Snake::set_up()
 
 void Multi_Snake::add_actor(std::shared_ptr<Actor> actor)
 {
-	I_Environment::add_actor(std::pair<std::shared_ptr<Actor>, Action>(actor, { Actions::NO_ACTION }));
+	Environment::add_actor(std::pair<std::shared_ptr<Actor>, Action>(actor, { Actions::NO_ACTION }));
 	world.add_snake();
 }
 

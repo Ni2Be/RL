@@ -12,7 +12,7 @@ namespace Ai_Arena
 			AUTO_HOLD_KEY
 		};*/
 
-		Human_Player(std::shared_ptr<I_Environment> enviroment);
+		Human_Player(std::shared_ptr<Environment> enviroment);
 		
 		bool is_human() { return true; }
 		//Input_Mode m_input_mode = AUTO_RELEASE_KEY;
