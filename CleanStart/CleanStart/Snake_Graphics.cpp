@@ -1,15 +1,15 @@
-#include "Multi_Snake_Graphics.h"
+#include "Snake_Graphics.h"
 #include "Snake_World.h"
 
 #include <iostream>
 
 using namespace Ai_Arena;
 
-void Multi_Snake_Graphics::update_graphics(Snake_World world)
+void Snake_Graphics::update_graphics(Snake_World world)
 {
 	Game_Graphics::Draw_Container drawables;
 
-	//TODO background_g
+	//TODO background graphics class
 	for (int x = 0; x < world.playing_field.size(); x++)
 	{
 		for (int y = 0; y < world.playing_field[0].size(); y++)
@@ -48,7 +48,7 @@ void Multi_Snake_Graphics::update_graphics(Snake_World world)
 			break;
 		}
 	}
-	//TODO apple
+	//TODO apple graphics class
 	sf::RectangleShape apple(sf::Vector2f(m_field_pixel, m_field_pixel));
 	apple.setPosition(world.apple.position.x * m_field_pixel, world.apple.position.y * m_field_pixel);
 	apple.setFillColor(sf::Color::Green);
@@ -57,7 +57,7 @@ void Multi_Snake_Graphics::update_graphics(Snake_World world)
 	update_drawables(drawables);
 }
 
-Multi_Snake_Graphics::Snake_Entity_G::Snake_Entity_G(const Snake_Entity& snake, int field_pixel, const sf::Color head_color, const sf::Color color)
+Snake_Graphics::Snake_Entity_G::Snake_Entity_G(const Snake_Entity& snake, int field_pixel, const sf::Color head_color, const sf::Color color)
 	:
 	m_color(color),
 	m_head_color(head_color)
@@ -72,13 +72,13 @@ Multi_Snake_Graphics::Snake_Entity_G::Snake_Entity_G(const Snake_Entity& snake, 
 };
 
 
-void Multi_Snake_Graphics::Snake_Entity_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Snake_Graphics::Snake_Entity_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (auto segment : segments)
 		target.draw(segment, states);
 }
 
-Multi_Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color)
+Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color)
 	:
 	rect(sf::Vector2f(field_pixel, field_pixel))
 {
@@ -95,17 +95,17 @@ Multi_Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segm
 		sf::Vector2f(segment.position().x * field_pixel, segment.position().y * field_pixel));
 }
 
-void Multi_Snake_Graphics::Snake_Segment_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Snake_Graphics::Snake_Segment_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(rect, states);
 }
 
-Multi_Snake_Graphics::Apple_G::Apple_G(const Apple& apple)
+Snake_Graphics::Apple_G::Apple_G(const Apple& apple)
 {
-	//TODO
+	//TODO apple graphics class
 }
 
-void Multi_Snake_Graphics::Apple_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Snake_Graphics::Apple_G::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	//TODO
+	//TODO apple graphics class
 }

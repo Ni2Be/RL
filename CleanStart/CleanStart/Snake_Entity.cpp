@@ -15,20 +15,22 @@ Snake_Entity::Snake_Entity()
 void Snake_Entity::perform_action(Action action)
 {
 	//dont change direction if the snake whould crash in to its own body
-
-	if ((body().size() > 1 && body()[1].position().y < body()[0].position().y && action.action == Actions::U)
+	if (   (body().size() > 1 && body()[1].position().y < body()[0].position().y && action.action == Actions::U)
 		|| (body().size() > 1 && body()[1].position().x > body()[0].position().x && action.action == Actions::R)
 		|| (body().size() > 1 && body()[1].position().y > body()[0].position().y && action.action == Actions::D)
-		|| (body().size() > 1 && body()[1].position().x < body()[0].position().x) && action.action == Actions::L)
+		|| (body().size() > 1 && body()[1].position().x < body()[0].position().x && action.action == Actions::L))
 		action = body()[0].direction();
 
 	//save tail end position / needed if the snake eats an
 	//apple and is extended
-	m_prev_tail_end = body().back().position();
+	m_prev_tail_end = body().back();
 
 	//move all tail parts
 	for (int i = body().size() - 1; i > 0; i--)
+	{
 		body()[i].position() = body()[i - 1].position();
+		body()[i].direction() = body()[i - 1].direction();
+	}
 
 	//move head
 	switch (action.action)
@@ -60,6 +62,12 @@ void Snake_Entity::perform_action(Action action)
 void Snake_Entity::extend()
 {
 	body().push_back(Snake_Segment(m_prev_tail_end));
+	body().back().is_head() = false;
+}
+
+void Snake_Entity::extend(Pos_int pos)
+{
+	body().push_back(Snake_Segment(pos));
 }
 
 void Snake_Entity::respown(Area_int area)
@@ -72,6 +80,13 @@ void Snake_Entity::respown(Area_int area)
 					Utility::random_int_ts(area.upper_left.x, area.lower_right.x),
 					Utility::random_int_ts(area.upper_left.y, area.lower_right.y)));
 	body()[0].is_head() = true;
+}
+
+
+void Snake_Entity::game_over()
+{
+	body().clear();
+	has_lost() = true;
 }
 
 Pos_int Snake_Entity::position()

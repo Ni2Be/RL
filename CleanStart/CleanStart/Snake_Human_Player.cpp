@@ -1,6 +1,6 @@
 #include "Snake_Human_Player.h"
 #include "Game.h"
-#include "Multi_Snake_Graphics.h"
+//#include "Snake_Graphics.h"
 #include <SFML/Graphics.hpp>
 #include <queue>
 using namespace Ai_Arena;
@@ -33,12 +33,6 @@ void Snake_Human_Player::evaluate_action()
 	}
 
 	set_action(m_last_action);
-	//m_environment->apply_action(
-	//	m_self_pointer,
-	//	m_last_action
-	//);
-
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	if (m_environment->is_final(m_self_pointer, m_environment->actual_state(m_self_pointer)))
 	{

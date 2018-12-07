@@ -9,10 +9,10 @@ namespace Ai_Arena
 	class Apple;
 	class Playing_Field;
 
-	class Multi_Snake_Graphics : public Game_Graphics
+	class Snake_Graphics : public Game_Graphics
 	{
 	public:
-		Multi_Snake_Graphics(int fields, const std::string title, int field_pixel)
+		Snake_Graphics(int fields, const std::string title, int field_pixel)
 			:
 			m_field_pixel(field_pixel),
 			Game_Graphics(fields * field_pixel, fields * field_pixel, title)

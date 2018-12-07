@@ -29,7 +29,7 @@ namespace Ai_Arena
 	private:
 		bool m_is_head = false;
 		Pos_int m_position;
-		Actions m_direction;
+		Actions m_direction = NO_ACTION;
 	};
 
 	class Snake_Entity
@@ -42,9 +42,10 @@ namespace Ai_Arena
 
 		Pos_int position();
 
-		bool has_lost();
 		//grow the snake
 		void extend();
+		void extend(Pos_int pos);
+
 		// placed on a random position in the given range
 		void respown(Area_int area);
 
@@ -55,27 +56,34 @@ namespace Ai_Arena
 		void game_over();
 
 		//get/set
-		int& speed() { return m_speed; }
 		bool& is_crashed() { return m_is_crashed; }
-		const int& speed() const { return m_speed; }
 		const bool& is_crashed() const { return m_is_crashed; }
 
 		inline std::vector<Snake_Segment>& body() { return m_body; }
 		inline const std::vector<Snake_Segment>& body() const { return m_body; }
 
 		inline const Pos_int& head_position() const { return body()[0].position(); }
+
+		inline int& lives() { return m_lives; }
+		inline const int lives() const { return m_lives; }
+		inline int& score() { return m_score; }
+		inline const int score() const { return m_score; }
+
+
+		inline bool& has_lost() { return m_has_lost; };
+		inline const bool has_lost() const { return m_has_lost; };
 	private:
 
 		std::vector<Snake_Segment> m_body;
 
 		
-		Pos_int m_prev_tail_end = {0,0};
-		Action m_current_action = Actions::NO_ACTION;
-		int  m_speed = 1;
+		Snake_Segment m_prev_tail_end = {0,0};
+		Action  m_current_action = Actions::NO_ACTION;
+
 		int  m_lives = 3;
 		int  m_score = 0;
-		bool m_lost = false;
+		bool m_has_lost = false;
 
-		bool m_is_crashed;
+		bool m_is_crashed = false;
 	};
 }

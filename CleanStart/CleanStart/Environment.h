@@ -41,21 +41,35 @@ bool is_final(std::shared_ptr<Actor>, State)
 
 //ACTOR GENERAL
 
+struct Actor_Representation
+{
+	std::shared_ptr<Actor>
+	Action
+	bool state_is_final
+}
+	Representiert den Actor im Environment. Es enthält daten die dem Actor nicht
+	bekannt sind, die aber auf ihn zutreffen. Hier wird zu jedem Actor die Action
+	gespeichert die im nächsten schritt ausgeführt wird. Außerdem wird hier vermerkt
+	ob sich der Actor in einem final state befindet.
+
 void add_actor(std::shared_ptr<Actor>)
 	Sollte überschrieben werden damit dem environment ein actor 
 	hinzugefügt werden kann. Für jeden geaddeten Actor sollte
 	eine steuerbare Entity erstellt werden etc.
 	Danach sollte die Funktion 
-	add_actor(std::pair<std::shared_ptr<Actor>, Action> actor_action)
+	add_actor(Actor_Representation, Action> actor_action)
 	aufgerufen werden.
 
-void add_actor(std::pair<std::shared_ptr<Actor>, Action> actor_action)
+void add_actor(Actor_Representation, Action> actor_action)
 	Fügt dem environment einen Actor hinzu. Jeder Actor erhält eine id die
 	mit Actor.id() abgefragt werden kann.
 
-std::vector<std::pair<std::shared_ptr<Actor>, Action>> actors()
+std::vector<Actor_Representation, Action>> actors()
 	Returnd threadsafe eine Kopie aller Actors mit den Aktionen die sie 
 	ausführen möchten.
+
+void set_state_is_final(std::shared_ptr<Actor> actor, bool state_is_final)
+	Elaubt es threadsafe den State des actors zu verändern.
 
 Action exchange_action(std::shared_ptr<Actor> actor, Action new_action)
 	Tauscht die aktuelle Aktion des Actors mit einer neuen aus und gibt die 
@@ -64,6 +78,12 @@ Action exchange_action(std::shared_ptr<Actor> actor, Action new_action)
 int m_human_actors
 int human_actors()
 	Liefert die Anzahl an menschlichen Actors zurück.
+
+int m_active_actors
+int active_actors()
+	Liefert die Anzahl an Actors von denen eine Action zu erwarten ist.
+	Kann z.B. benutzt werden um den Actor schlafen zu schicken, falls die 
+	kontorllierte Entity des Actors nicht mehr existiert.
 
 State m_environment_state
 	Der State des Environment. Diese variable kann benutzt werden um den
@@ -108,8 +128,8 @@ void update()
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 
 	//wait for all Agents to place an action
-	if (actors().size() - human_actors() > 0)
-		m_environment_condition.wait(lock, [this]() {return m_unexecuted_actions == actors().size() - human_actors(); });
+	if (active_actors() - human_actors() > 0)
+		m_environment_condition.wait(lock, [this]() {return m_unexecuted_actions == active_actors() - human_actors(); });
 
 	execute_actions();
 
@@ -124,7 +144,7 @@ void apply_action(std::shared_ptr<Actor> actor, Action action)
 
 	//wait for last action to be executed
 	if (!actor->is_human())
-		m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions < actors().size() - human_actors(); });
+		m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions < active_actors() - human_actors(); });
 
 	//assign action to actor
 	exchange_action(actor, action);
@@ -223,6 +243,9 @@ namespace Ai_Arena
 
 		/*prooves if a state is a final state*/
 		virtual bool   is_final(std::shared_ptr<Actor>, State) const = 0;
+		/*prooves if the current state is a final state*/
+		virtual bool   is_final(std::shared_ptr<Actor> actor) const
+		{ return is_final(actor, actual_state(actor)); };
 
 
 	//ACTOR GENERAL
@@ -231,6 +254,9 @@ namespace Ai_Arena
 		virtual void add_actor(std::shared_ptr<Actor>) = 0;
 		/*returns the number of humen actors*/
 		const int human_actors() const { std::unique_lock<std::mutex>(m_actor_lock); return m_human_actors; }
+		/*retruns the number of active actors*/
+		int& active_actors() { std::unique_lock<std::mutex>(m_actor_lock); return m_active_actors; }
+		const int active_actors() const { std::unique_lock<std::mutex>(m_actor_lock); return m_active_actors; }
 
 
 	//GENERAL
@@ -262,6 +288,16 @@ namespace Ai_Arena
 		mutable std::condition_variable m_actors_condition;
 		mutable int m_unexecuted_actions = 0;
 
+		//represents the actor in the environment
+		struct Actor_Representation
+		{
+			Actor_Representation(std::shared_ptr<Actor> actor, Action action, bool state_is_final = false)
+				: actor(actor), action(action), state_is_final(state_is_final) {}
+			std::shared_ptr<Actor> actor;
+			Action action;
+			bool state_is_final;
+		};
+
 	//GET/SET
 		//THREADSAFE
 		void set_environment_state(const State& new_state) {
@@ -275,16 +311,21 @@ namespace Ai_Arena
 		}
 
 		//THREADSAFE
-		const std::vector<std::pair<std::shared_ptr<Actor>, Action>> actors() const {
+		const std::vector<Actor_Representation> actors() const {
 			std::scoped_lock<std::mutex> lock(m_actor_lock);
-			return std::vector<std::pair<std::shared_ptr<Actor>, Action>>(m_actors);
+			return std::vector<Actor_Representation>(m_actors);
 		}
+		void set_actor_state(std::shared_ptr<Actor> actor, bool state_is_final);
 		//THREADSAFE returns the old action
 		Action exchange_action(std::shared_ptr<Actor> actor, Action new_action);
-		//THREADSAFE
-		void add_actor(std::pair<std::shared_ptr<Actor>, Action> actor_action);
+		//THREADSAFE will count +1 to active_actors
+		void add_actor(Actor_Representation actor_action);
 
 		Environment() {};
+
+
+
+
 	private:
 		std::queue<sf::Event> m_events;
 		std::mutex            m_event_lock;
@@ -292,7 +333,9 @@ namespace Ai_Arena
 		mutable std::mutex m_state_lock;
 		State m_environment_state;
 
-		std::vector<std::pair<std::shared_ptr<Actor>, Action>> m_actors;
+
+		std::vector<Actor_Representation> m_actors;
 		int m_human_actors;
+		int m_active_actors;
 	};
 }

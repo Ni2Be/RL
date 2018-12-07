@@ -65,12 +65,6 @@
     <ClCompile Include="Snake_Entity.cpp">
       <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
-    <ClCompile Include="Multi_Snake.cpp">
-      <Filter>Environment\Games\Snake</Filter>
-    </ClCompile>
-    <ClCompile Include="Multi_Snake_Graphics.cpp">
-      <Filter>Environment\Games\Snake</Filter>
-    </ClCompile>
     <ClCompile Include="Snake_World.cpp">
       <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
@@ -85,6 +79,12 @@
     </ClCompile>
     <ClCompile Include="Game_Graphics.cpp">
       <Filter>Environment\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake_Game.cpp">
+      <Filter>Environment\Games\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake_Graphics.cpp">
+      <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,12 +112,6 @@
     <ClInclude Include="Types.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Multi_Snake.h">
-      <Filter>Environment\Games\Snake</Filter>
-    </ClInclude>
-    <ClInclude Include="Multi_Snake_Graphics.h">
-      <Filter>Environment\Games\Snake</Filter>
-    </ClInclude>
     <ClInclude Include="Snake_Entity.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
@@ -138,6 +132,12 @@
     </ClInclude>
     <ClInclude Include="Game_Graphics.h">
       <Filter>Environment\Games</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake_Game.h">
+      <Filter>Environment\Games\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake_Graphics.h">
+      <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

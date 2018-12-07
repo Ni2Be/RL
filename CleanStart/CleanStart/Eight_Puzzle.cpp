@@ -146,12 +146,12 @@ void Eight_Puzzle::execute_actions()
 {
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 	//wait for all actors to place an action
-	m_environment_condition.wait(lock, [this]() {return m_unexecuted_actions == actors().size(); });
+	m_environment_condition.wait(lock, [this]() {return m_unexecuted_actions == active_actors(); });
 
 	//execute all actions
 	for (auto& actor_action_pair : actors())
 	{
-		m_playing_field = execute_action(m_playing_field, actor_action_pair.second);// exchange_action(actor_action_pair.first, NON));
+		m_playing_field = execute_action(m_playing_field, actor_action_pair.action);// exchange_action(actor_action_pair.first, NON));
 		set_environment_state(convert_to_state(m_playing_field));
 		m_unexecuted_actions--;
 	}
@@ -261,7 +261,7 @@ void Eight_Puzzle::apply_action(std::shared_ptr<Actor> actor, Action action)
 {
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 	//wait for last action to be executed
-	m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions < actors().size(); });
+	m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions < active_actors(); });
 
 	//assign action to actor
 	exchange_action(actor, action);
@@ -297,12 +297,12 @@ bool Eight_Puzzle::is_final(std::shared_ptr<Actor>, State state) const
 //THREADSAFE
 void Eight_Puzzle::add_actor(std::shared_ptr<Actor> actor)
 {
-	Environment::add_actor(std::pair<std::shared_ptr<Actor>, Action>(actor, { Actions::NO_ACTION }));
+	Environment::add_actor(Actor_Representation(actor, { Actions::NO_ACTION }));
 }
 
 void Eight_Puzzle::update()
 {
-	actors()[0].first->wake_up();
+	actors()[0].actor->wake_up();
 	update_puzzle();
 }
 

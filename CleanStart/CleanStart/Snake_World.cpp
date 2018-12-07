@@ -3,6 +3,22 @@
 
 using namespace Ai_Arena;
 
+Snake_World::Snake_World(int fields)
+	:
+	playing_field(fields, std::vector<int>(fields, Playing_Field::EMPTY))
+{
+	std::fill(std::begin(playing_field[0]), std::end(playing_field[0]), Playing_Field::WALL);
+	std::fill(std::begin(playing_field[fields - 1]), std::end(playing_field[fields - 1]), Playing_Field::WALL);
+	for (auto& field_vec : playing_field)
+	{
+		field_vec[0] = Playing_Field::WALL;
+		field_vec[fields - 1] = Playing_Field::WALL;
+	}
+
+	apple.respawn({ {fields / 2, fields / 2},{fields / 2, fields / 2} });
+}
+
+
 void Snake_World::Apple::respawn(Area_int area)
 {
 	position = {
@@ -16,11 +32,11 @@ void Snake_World::check_events()
 	std::vector<std::pair<Snake_Entity*, Events>> snake_events;
 	for (auto& snake : snakes)
 	{
-		//ate
+		//ate?
 		if (snake.head_position() == apple.position)
 			snake_events.push_back({ &snake, Events::ATE });
 
-		//crashed in other snake or itselfe
+		//crashed in other snake or itselfe?
 		for (auto& other : snakes)
 		{
 			for (int i = 0; i < other.body().size(); i++)
@@ -37,7 +53,7 @@ void Snake_World::check_events()
 			}
 		}
 
-		//crashed in wall
+		//crashed in wall?
 		if (playing_field[snake.head_position().x][snake.head_position().y] == Playing_Field::WALL)
 			snake_events.push_back({ &snake, Events::CRASHED });
 	}
@@ -50,7 +66,7 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 	for (int i = 0; i < snake_events.size(); i++)
 	{
 		//if more than one snake is crashed it must be checked if two
-		//snakes heads crashed, and only the smaller one crashes
+		//snake heads crashed, only the smaller one crashes
 		//(or both if of equal size) and the bigger eats
 		if (snake_events[i].second == Events::CRASHED)
 		{
@@ -87,11 +103,17 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 		{
 		case Events::ATE:
 			snake_event_pair.first->extend();
+			snake_event_pair.first->score()++;
 			apple.is_eaten = true;
 			break;
 		case Events::CRASHED:
-			//TODO to find a fair new sporning point
-			snake_event_pair.first->respown(find_spawn_area());
+			//only respown if lives left
+			snake_event_pair.first->lives()--;
+			snake_event_pair.first->score()--;
+			if (snake_event_pair.first->lives()-- < 0)
+				snake_event_pair.first->game_over();
+			else
+				snake_event_pair.first->respown(find_spawn_area());
 			break;
 		case Events::NO_EVENT:
 			break;
@@ -124,7 +146,7 @@ Area_int Snake_World::find_spawn_area()
 
 bool Snake_World::is_empty(Area_int area)
 {
-	//is a snake part in the area?
+	//is a snake segment in the area?
 	for (const auto& snake : snakes)
 	{
 		for (const auto& segment : snake.body())

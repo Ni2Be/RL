@@ -15,9 +15,7 @@ Game_Graphics::Game_Graphics(int width, int height, const std::string title)
 
 
 Game_Graphics::~Game_Graphics()
-{
-	m_render_thread.join();
-}
+{}
 
 void Game_Graphics::render()
 {
@@ -37,5 +35,7 @@ void Game_Graphics::start_rendering_thread()
 	m_window.setActive(true);
 	while (m_is_rendering)
 		render();
+
+	m_window.setVisible(false);
 	m_window.close();
 }

@@ -50,13 +50,16 @@ namespace Ai_Arena
 	template<class Graphics>
 	void Game_Base<Graphics>::run()
 	{
+		//call the possibly overwriten set up function
 		set_up();
 
+		//set the end time when the game will be updated
 		auto start_time = std::chrono::system_clock::now();
 		auto end_time   = start_time + update_interval();
 
 		while (m_is_running)
 		{
+			//get all input events
 			sf::Event event;
 			std::queue<sf::Event> events;
 			while (m_graphics->window().pollEvent(event))
@@ -70,13 +73,19 @@ namespace Ai_Arena
 			}
 			set_events(events);
 			
+			//if one update_interval is passed, update the physics
 			if (std::chrono::system_clock::now() > end_time)
 			{
+				//set the new end time for the game update
 				start_time = std::chrono::system_clock::now();
 				end_time   = start_time + update_interval();
 
 				update();
 			}
 		}
+		
+		//when the game is finished shut down the actor threads
+		for (auto& actor : actors())
+			actor.actor->shut_down();
 	}
 }
