@@ -23,6 +23,7 @@ namespace Ai_Arena
 		static int random_int_ts(const int& min, const int& max)
 		{
 			static __declspec(thread) std::mt19937 generator;
+			generator.discard(700000);
 			std::uniform_int_distribution<int> distribution(min, max);
 			return distribution(generator);
 		}
@@ -31,6 +32,7 @@ namespace Ai_Arena
 		static float random_float_ts(const float& min, const float& max)
 		{
 			static __declspec(thread) std::mt19937 generator;
+			generator.discard(700000);
 			std::uniform_real_distribution<float> distribution(min, max);
 			return distribution(generator);
 		}

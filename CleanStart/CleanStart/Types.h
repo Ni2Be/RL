@@ -41,18 +41,15 @@ Area<T>
 namespace Ai_Arena
 {
 
-	using State  = std::vector<float>;
 	using Reward = float;
 
 
-	struct Debug_state
+	enum Sensor
 	{
-		int id = 23;
+		SEE_THE_WHOLE_STATE
 	};
-
-
-	//TODO
-	using State_Type = std::vector<float>;
+	
+	using Perception = std::vector<float>;
 
 	struct Action
 	{

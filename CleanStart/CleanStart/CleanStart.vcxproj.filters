@@ -39,6 +39,9 @@
     <Filter Include="Environment\Games\Snake">
       <UniqueIdentifier>{396f19d8-a399-4031-879d-c42218bde956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Agent\Reflex_Agent">
+      <UniqueIdentifier>{877f290a-8ad7-477e-91c8-9563624b1ff0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,14 +83,14 @@
     <ClCompile Include="Snake_Graphics.cpp">
       <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
-    <ClCompile Include="Actor_def.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment_def.cpp">
-      <Filter>Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Environment\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Reflex_Agent.cpp">
+      <Filter>Actor\Agent\Reflex_Agent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,17 +139,14 @@
     <ClInclude Include="Snake_Graphics.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
-    <ClInclude Include="Actor_def.h">
-      <Filter>Actor</Filter>
+    <ClInclude Include="Environment.h">
+      <Filter>Environment</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Environment_def.h">
-      <Filter>Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Environment.h">
-      <Filter>Environment</Filter>
+    <ClInclude Include="Reflex_Agent.h">
+      <Filter>Actor\Agent\Reflex_Agent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

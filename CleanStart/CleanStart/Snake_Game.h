@@ -18,7 +18,7 @@ class Multi_Snake:
 
 namespace Ai_Arena
 {
-	class Snake_Game : public Game_Base<Snake_Graphics, State_Type>
+	class Snake_Game : public Game_Base<Snake_Graphics, Snake_World>
 	{
 	public:
 		Snake_Game(int fields_width_count, int field_pixel);
@@ -28,7 +28,7 @@ namespace Ai_Arena
 		//sets the state the first time, wakes up the actors
 		void set_up();
 	private:
-		Snake_World world;
+		Snake_World  world;
 		int         m_fields_width_count;
 
 		void execute_actions();
@@ -36,13 +36,17 @@ namespace Ai_Arena
 		//I_Environment
 
 		//TODO not int
-		std::vector<Action> possible_actions(std::shared_ptr<Actor<State_Type>>, State_Type) const;
-		std::vector<State_Type>  assume_action(std::shared_ptr<Actor<State_Type>>, State_Type, Action) const;
-		void   apply_action(std::shared_ptr<Actor<State_Type>>, Action);
-		State_Type  actual_state(std::shared_ptr<Actor<State_Type>>) const;
-		Reward reward(std::shared_ptr<Actor<State_Type>>, State_Type) const;
-		bool   is_final(std::shared_ptr<Actor<State_Type>>, State_Type) const;
-		void add_actor(std::shared_ptr<Actor<State_Type>>);
+		std::vector<Action> possible_actions(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
+		std::vector<Snake_World>  assume_action(std::shared_ptr<Actor<Snake_World>>, Snake_World, Action) const;
+		void   apply_action(std::shared_ptr<Actor<Snake_World>>, Action);
+		Snake_World  actual_state(std::shared_ptr<Actor<Snake_World>>) const;
+
+		Perception get_perception(std::shared_ptr<Actor<Snake_World>>, Sensor) const;
+		Perception get_perception(std::shared_ptr<Actor<Snake_World>>, Sensor, Snake_World) const;
+
+		Reward reward(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
+		bool   is_final(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
+		void add_actor(std::shared_ptr<Actor<Snake_World>>);
 		void update();
 
 		////DEBUG
@@ -51,8 +55,7 @@ namespace Ai_Arena
 
 	private:
 		////I_Environment helper
-		//const State convert_to_state(Actor_Representation percepting_actor, const Snake_World& world) const;
-		//const Snake_World convert_to_world(const State& state) const;
+		const Perception convert_to_perception(Actor_Representation perceiving_actor, const Snake_World& world) const;
 		std::vector<Snake_World::Events> m_actor_events;
 
 		const int C_WALL = 1;

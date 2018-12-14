@@ -5,7 +5,7 @@
 #include <thread>
 #include "SFML/Graphics.hpp"
 #include "Environment.h"
-#include "Environment_def.cpp"
+#include "Environment.cpp"
 
 namespace Ai_Arena
 {

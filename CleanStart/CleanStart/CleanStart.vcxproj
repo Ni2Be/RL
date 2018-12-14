@@ -149,9 +149,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\lib\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>del $(IntermediateOutputPath)Reflex_Agent.obj</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Actor_def.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Eight_Puzzle.cpp" />
@@ -159,8 +161,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game_Graphics.cpp" />
     <ClCompile Include="Human_Player.cpp" />
-    <ClCompile Include="Environment_def.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Reflex_Agent.cpp" />
     <ClCompile Include="Snake_Game.cpp" />
     <ClCompile Include="Random_Agent.cpp" />
     <ClCompile Include="Snake_Entity.cpp" />
@@ -170,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="Actor_def.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Eight_Puzzle.h" />
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
@@ -178,7 +180,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="Human_Player.h" />
-    <ClInclude Include="Environment_def.h" />
+    <ClInclude Include="Reflex_Agent.h" />
     <ClInclude Include="Snake_Graphics.h" />
     <ClInclude Include="Random_Agent.h" />
     <ClInclude Include="Arena.h" />
