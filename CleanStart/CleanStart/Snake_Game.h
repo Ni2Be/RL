@@ -11,12 +11,14 @@ class Multi_Snake:
 
 #pragma once
 #include "Game.h"
+#include "Game.cpp"
 #include "Snake_World.h"
 #include "Snake_Graphics.h"
 
+
 namespace Ai_Arena
 {
-	class Snake_Game : public Game_Base<Snake_Graphics>
+	class Snake_Game : public Game_Base<Snake_Graphics, State_Type>
 	{
 	public:
 		Snake_Game(int fields_width_count, int field_pixel);
@@ -32,23 +34,25 @@ namespace Ai_Arena
 		void execute_actions();
 	public:
 		//I_Environment
-		std::vector<Action> possible_actions(std::shared_ptr<Actor>, State) const;
-		std::vector<State>  assume_action(std::shared_ptr<Actor>, State, Action) const;
-		void   apply_action(std::shared_ptr<Actor>, Action);
-		State  actual_state(std::shared_ptr<Actor>) const;
-		Reward reward(std::shared_ptr<Actor>, State) const;
-		bool   is_final(std::shared_ptr<Actor>, State) const;
-		void add_actor(std::shared_ptr<Actor>);
+
+		//TODO not int
+		std::vector<Action> possible_actions(std::shared_ptr<Actor<State_Type>>, State_Type) const;
+		std::vector<State_Type>  assume_action(std::shared_ptr<Actor<State_Type>>, State_Type, Action) const;
+		void   apply_action(std::shared_ptr<Actor<State_Type>>, Action);
+		State_Type  actual_state(std::shared_ptr<Actor<State_Type>>) const;
+		Reward reward(std::shared_ptr<Actor<State_Type>>, State_Type) const;
+		bool   is_final(std::shared_ptr<Actor<State_Type>>, State_Type) const;
+		void add_actor(std::shared_ptr<Actor<State_Type>>);
 		void update();
 
-		//DEBUG
-		void console_print(State);// const;
-		void console_print(State) const;
+		////DEBUG
+		//void console_print(State);// const;
+		//void console_print(State) const;
 
 	private:
-		//I_Environment helper
-		const State convert_to_state(Actor_Representation percepting_actor, const Snake_World& world) const;
-		const Snake_World convert_to_world(const State& state) const;
+		////I_Environment helper
+		//const State convert_to_state(Actor_Representation percepting_actor, const Snake_World& world) const;
+		//const Snake_World convert_to_world(const State& state) const;
 		std::vector<Snake_World::Events> m_actor_events;
 
 		const int C_WALL = 1;

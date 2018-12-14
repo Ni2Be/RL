@@ -1,6 +1,9 @@
 #pragma once
 #include "Utility.h"
+#include "Types.h"
 #include "Snake_Entity.h"
+
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -11,6 +14,9 @@ namespace Ai_Arena
 	class Snake_World
 	{
 	public:
+		Snake_World(){}
+
+
 
 		//apple represents the eatable item
 		struct Apple

@@ -151,14 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Actor_def.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Eight_Puzzle.cpp" />
     <ClCompile Include="Eight_Puzzle_Graphics.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game_Graphics.cpp" />
     <ClCompile Include="Human_Player.cpp" />
-    <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="Environment_def.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Snake_Game.cpp" />
     <ClCompile Include="Random_Agent.cpp" />
@@ -169,13 +170,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Actor_def.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Eight_Puzzle.h" />
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="Human_Player.h" />
-    <ClInclude Include="Environment.h" />
+    <ClInclude Include="Environment_def.h" />
     <ClInclude Include="Snake_Graphics.h" />
     <ClInclude Include="Random_Agent.h" />
     <ClInclude Include="Arena.h" />

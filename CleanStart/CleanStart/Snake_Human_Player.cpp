@@ -6,14 +6,16 @@
 using namespace Ai_Arena;
 
 
-Snake_Human_Player::Snake_Human_Player(std::shared_ptr<Environment> enviroment)
+template <class State_T>
+Snake_Human_Player<State_T>::Snake_Human_Player(std::shared_ptr<Environment<State_T>> enviroment)
 	:
-	Human_Player(enviroment)
+	Human_Player<State_T>(enviroment)
 {}
 
-void Snake_Human_Player::evaluate_action()
+template <class State_T>
+void Snake_Human_Player<State_T>::evaluate_action()
 {
-	auto events = m_environment->get_events();
+	auto events = Human_Player<State_T>::m_environment->get_events();
 
 	while (!events.empty())
 	{
@@ -32,10 +34,10 @@ void Snake_Human_Player::evaluate_action()
 		events.pop();
 	}
 
-	set_action(m_last_action);
+	Human_Player<State_T>::set_action(m_last_action);
 
-	if (m_environment->is_final(m_self_pointer, m_environment->actual_state(m_self_pointer)))
+	if (Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->actual_state(Human_Player<State_T>::m_self_pointer)))
 	{
-		sleep();
+		Human_Player<State_T>::sleep();
 	}
 }

@@ -3,7 +3,8 @@
 
 using namespace Ai_Arena;
 
-Human_Player::Human_Player(std::shared_ptr<Environment> enviroment)
+template <class State_T>
+Human_Player<State_T>::Human_Player(std::shared_ptr<Environment<State_T>> enviroment)
 	:
-	Actor(enviroment)
+	Actor<State_T>(enviroment)
 {}

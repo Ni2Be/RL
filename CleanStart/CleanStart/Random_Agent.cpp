@@ -8,27 +8,29 @@
 
 using namespace Ai_Arena;
 
-Random_Agent::Random_Agent(std::shared_ptr<Environment> enviroment)
+template <class State_T>
+Random_Agent<State_T>::Random_Agent(std::shared_ptr<Environment<State_T>> enviroment)
 	:
-	Agent(enviroment)
+	Agent<State_T>::Agent(enviroment)
 {}
 
-void Random_Agent::learn() {};
+template <class State_T>
+void Random_Agent<State_T>::learn() {};
 
-void Random_Agent::evaluate_action()
+template <class State_T>
+void Random_Agent<State_T>::evaluate_action()
 {
-	if (!m_environment->is_final(m_self_pointer))
+	if (!Agent<State_T>::m_environment->is_final(Agent<State_T>::m_self_pointer))
 	{
 		std::vector<Action> possible_actions =
-			m_environment->possible_actions(
-				m_self_pointer);
-
-		set_action(possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
+			Agent<State_T>::m_environment->possible_actions(
+				Agent<State_T>::m_self_pointer);
+		Agent<State_T>::set_action(possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
 	}
 	else 
 	{
-		std::cout << "actor " << id() << " sleeping\n";
-		sleep();
+		std::cout << "actor " << Agent<State_T>::id() << " sleeping\n";
+		Agent<State_T>::sleep();
 		//TODO
 		//chould do things like save his learnig progress (if learning agent)
 	}

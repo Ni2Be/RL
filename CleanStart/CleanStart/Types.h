@@ -40,12 +40,23 @@ Area<T>
 
 namespace Ai_Arena
 {
+
 	using State  = std::vector<float>;
 	using Reward = float;
 
+
+	struct Debug_state
+	{
+		int id = 23;
+	};
+
+
+	//TODO
+	using State_Type = std::vector<float>;
+
 	struct Action
 	{
-		int  action;
+		int  action = 0;
 		bool is_possible;
 		Action() : is_possible(false){}
 		Action(const int action, const bool is_possible = true)

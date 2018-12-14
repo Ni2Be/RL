@@ -1,13 +1,15 @@
 #pragma once
 #include "Human_Player.h"
+#include "Human_Player.cpp"
 #include "Snake_Entity.h"
 
 namespace Ai_Arena
 {
-	class Snake_Human_Player : public Human_Player
+	template <class State_T>
+	class Snake_Human_Player : public Human_Player<State_T>
 	{
 	public:
-		Snake_Human_Player(std::shared_ptr<Environment> enviroment);
+		Snake_Human_Player(std::shared_ptr<Environment<State_T>> enviroment);
 		void evaluate_action();
 
 	private:

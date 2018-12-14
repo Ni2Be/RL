@@ -53,9 +53,6 @@
     <ClCompile Include="Random_Agent.cpp">
       <Filter>Actor\Agent\Random_Agent</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Agent.cpp">
       <Filter>Actor\Agent</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
     <ClCompile Include="Snake_Human_Player.cpp">
       <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Human_Player.cpp">
       <Filter>Actor\Human_Player</Filter>
     </ClCompile>
@@ -85,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="Snake_Graphics.cpp">
       <Filter>Environment\Games\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor_def.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment_def.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Environment\Games</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="Agent.h">
       <Filter>Actor\Agent</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Arena.h">
       <Filter>Arena</Filter>
@@ -121,9 +121,6 @@
     <ClInclude Include="Snake_Human_Player.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
-    <ClInclude Include="Environment.h">
-      <Filter>Environment</Filter>
-    </ClInclude>
     <ClInclude Include="Human_Player.h">
       <Filter>Actor\Human_Player</Filter>
     </ClInclude>
@@ -138,6 +135,18 @@
     </ClInclude>
     <ClInclude Include="Snake_Graphics.h">
       <Filter>Environment\Games\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor_def.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment_def.h">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
