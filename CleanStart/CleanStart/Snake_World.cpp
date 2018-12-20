@@ -21,6 +21,11 @@ Snake_World::Snake_World(int fields)
 
 void Snake_World::Apple::respawn(Area_int area)
 {
+	if (area.lower_right.x == -1)
+	{
+		std::cout << "game over";
+		return;
+	}
 	position = {
 			Utility::random_int_ts(area.upper_left.x, area.lower_right.x),
 			Utility::random_int_ts(area.upper_left.y, area.lower_right.y) };
@@ -131,16 +136,19 @@ Area_int Snake_World::find_spawn_area()
 {
 	int area_size = 3;
 	int trys = 0;
-	while (true)
+	while (trys < 1000)
 	{
 		int x = Utility::random_int_ts(0, playing_field[0].size() - 1 - area_size);
 		int y = Utility::random_int_ts(0, playing_field.size() - 1 - area_size);
 		if (is_empty(Area_int({ x, y }, { x + area_size, y + area_size})))
 			return Area_int({ x, y }, { x + area_size, y + area_size});
 
-		if (trys % 20 == 0 && area_size > 0)
+		if (trys++ % 20 == 0 && area_size > 0)
 			area_size--;
 	}
+	game_over = true;
+	return Area_int({ -1, -1 }, { -1, -1 });
+
 }
 
 

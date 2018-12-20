@@ -15,29 +15,35 @@ Snake_Human_Player<State_T>::Snake_Human_Player(std::shared_ptr<Environment<Stat
 template <class State_T>
 void Snake_Human_Player<State_T>::evaluate_action()
 {
-	auto events = Human_Player<State_T>::m_environment->get_events();
-
-	while (!events.empty())
+	if (!Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->actual_state(Human_Player<State_T>::m_self_pointer)))
 	{
-		using namespace Snake;
-		if (events.front().type == sf::Event::KeyPressed)
+		auto events = Human_Player<State_T>::m_environment->get_events();
+
+		while (!events.empty())
 		{
-			if (events.front().key.code == sf::Keyboard::Up)
-				m_last_action = Actions::U;
-			else if (events.front().key.code == sf::Keyboard::Down)
-				m_last_action = Actions::D;
-			else if (events.front().key.code == sf::Keyboard::Left)
-				m_last_action = Actions::L;
-			else if (events.front().key.code == sf::Keyboard::Right)
-				m_last_action = Actions::R;
+			using namespace Snake;
+			if (events.front().type == sf::Event::KeyPressed)
+			{
+				if (events.front().key.code == sf::Keyboard::Up)
+					m_last_action = Actions::U;
+				else if (events.front().key.code == sf::Keyboard::Down)
+					m_last_action = Actions::D;
+				else if (events.front().key.code == sf::Keyboard::Left)
+					m_last_action = Actions::L;
+				else if (events.front().key.code == sf::Keyboard::Right)
+					m_last_action = Actions::R;
+			}
+			events.pop();
 		}
-		events.pop();
+
+		Human_Player<State_T>::m_environment->apply_action(Human_Player<State_T>::m_self_pointer, m_last_action);
+
+
 	}
-
-	Human_Player<State_T>::set_action(m_last_action);
-
-	if (Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->actual_state(Human_Player<State_T>::m_self_pointer)))
+	else
 	{
-		Human_Player<State_T>::sleep();
+		std::cout << "human player sleeping!\n";
+		Human_Player<State_T>::m_environment->apply_action(Human_Player<State_T>::m_self_pointer, Actions::NO_ACTION);
+		//Human_Player<State_T>::sleep();
 	}
 }

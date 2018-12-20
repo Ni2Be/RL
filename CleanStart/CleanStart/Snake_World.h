@@ -93,6 +93,10 @@ namespace Ai_Arena
 		Apple apple;
 		std::vector<Snake_Entity> snakes;
 
+
+		bool game_over = false;
+		
+
 		Playing_Field playing_field;
 	};
 }

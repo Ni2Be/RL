@@ -23,7 +23,7 @@ namespace Ai_Arena
 		static int random_int_ts(const int& min, const int& max)
 		{
 			static __declspec(thread) std::mt19937 generator;
-			generator.discard(700000);
+			//generator.discard(700000);
 			std::uniform_int_distribution<int> distribution(min, max);
 			return distribution(generator);
 		}

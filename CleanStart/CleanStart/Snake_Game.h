@@ -35,7 +35,7 @@ namespace Ai_Arena
 	public:
 		//I_Environment
 
-		//TODO not int
+
 		std::vector<Action> possible_actions(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
 		std::vector<Snake_World>  assume_action(std::shared_ptr<Actor<Snake_World>>, Snake_World, Action) const;
 		void   apply_action(std::shared_ptr<Actor<Snake_World>>, Action);

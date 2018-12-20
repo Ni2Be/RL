@@ -271,9 +271,9 @@ namespace Ai_Arena
 		/*returns the number of humen actors*/
 		const int human_actors() const;
 		/*retruns the number of active actors*/
-		int& active_actors();
 		const int& active_actors() const;
-
+		const int& active_human_actors() const;
+		int m_active_actors = 0;
 
 		//GENERAL
 
@@ -343,6 +343,5 @@ namespace Ai_Arena
 
 		std::vector<Actor_Representation> m_actors;
 		int m_human_actors;
-		int m_active_actors;
 	};
 }

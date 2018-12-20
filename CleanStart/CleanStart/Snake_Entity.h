@@ -9,7 +9,7 @@ namespace Ai_Arena
 	{
 		enum Actions
 		{
-			U, D, R, L, NO_ACTION
+			U, D, L, R, NO_ACTION
 		};
 	}
 	using namespace Snake;

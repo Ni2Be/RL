@@ -25,7 +25,11 @@ void Random_Agent<State_T>::evaluate_action()
 		std::vector<Action> possible_actions =
 			Agent<State_T>::m_environment->possible_actions(
 				Agent<State_T>::m_self_pointer);
-		Agent<State_T>::set_action(possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
+
+
+		Agent<State_T>::m_environment->apply_action(Agent<State_T>::m_self_pointer, possible_actions[Utility::random_int_ts(0, possible_actions.size() - 1)]);
+
+
 	}
 	else 
 	{

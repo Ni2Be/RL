@@ -90,9 +90,30 @@ template <class State_T>
 const int Environment<State_T>::human_actors() const { std::unique_lock<std::mutex>(m_actor_lock); return m_human_actors; }
 /*retruns the number of active actors*/
 template <class State_T>
-int& Environment<State_T>::active_actors() { std::unique_lock<std::mutex>(m_actor_lock); return m_active_actors; }
+const int& Environment<State_T>::active_actors() const 
+{
+	//std::unique_lock<std::mutex>(m_actor_lock);
+	//int active_actors_counter = 0;
+	//for (const auto& actor : m_actors)
+	//	if (!actor.actor->is_sleeping())
+	//		active_actors_counter++;
+	//return active_actors_counter;
+	return m_active_actors;
+}
+/*retruns the number of active human actors*/
 template <class State_T>
-const int& Environment<State_T>::active_actors() const { std::unique_lock<std::mutex>(m_actor_lock); return m_active_actors; }
+const int& Environment<State_T>::active_human_actors() const
+{
+	//std::unique_lock<std::mutex>(m_actor_lock);
+	int active_humans_counter = 0;
+	for (const auto& actor : m_actors)
+		if (!actor.actor->is_sleeping() && actor.actor->is_human())
+			active_humans_counter++;
+	return active_humans_counter;
+	return m_active_actors;
+}
+
+
 
 //GET/SET
 	/*returns the update interval of the environment*/

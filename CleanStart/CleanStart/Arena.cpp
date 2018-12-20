@@ -5,7 +5,7 @@ using namespace Ai_Arena;
 void Arena::run()
 {
 	//SNAKE
-	m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(15, 40));
+	m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(10, 40));
 
 
 	//HUMAN
@@ -15,8 +15,8 @@ void Arena::run()
 	//AGENTS
 	m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
 	m_enviroment->add_actor(m_actors[0]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[2]);
+	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
+	//m_enviroment->add_actor(m_actors[1]);
 
 	m_enviroment->update_interval() = std::chrono::milliseconds(200);
 

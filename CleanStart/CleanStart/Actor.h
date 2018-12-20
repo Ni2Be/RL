@@ -104,13 +104,9 @@ namespace Ai_Arena
 		virtual bool is_human() = 0;
 	protected:
 		int    m_id;
-		Action m_next_action;
-
 
 		virtual void set_up() {};
 		virtual void evaluate_action() = 0;
-		virtual void set_action(Action);
-		virtual void apply_action();
 
 
 		std::shared_ptr<Actor> m_self_pointer;
@@ -146,22 +142,8 @@ void Actor<State_T>::start_actor_thread()
 		while (m_is_running)
 		{
 			evaluate_action();
-			m_self_pointer->evaluate_action();
-			m_self_pointer->apply_action();
 		}
 	});
-}
-
-template <class State_T>
-void Actor<State_T>::set_action(Action action)
-{
-	m_next_action = action;
-}
-
-template <class State_T>
-void Actor<State_T>::apply_action()
-{
-	m_environment->apply_action(m_self_pointer, m_next_action);
 }
 
 template <class State_T>
