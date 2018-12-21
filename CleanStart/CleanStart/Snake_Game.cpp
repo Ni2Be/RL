@@ -228,7 +228,7 @@ Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor,
 	Perception perception;
 	if (sensor == Sensor::SEE_THE_WHOLE_STATE)
 	{
-		perception = convert_to_perception(actors()[actor->id()], state);
+		perception = convert_to_SEE_THE_WHOLE_STATE(actors()[actor->id()], state);
 	}
 	return perception;
 }
@@ -282,7 +282,7 @@ std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_W
 
 //I_Environment helper
 
-const Perception Snake_Game::convert_to_perception(Actor_Representation perceiving_actor, const Snake_World& world) const
+const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const
 {
 	//TODO find good state representation
 

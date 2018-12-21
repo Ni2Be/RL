@@ -8,6 +8,9 @@ Actor.h
 	Funktion evaluate_action() aufruft.
 
 
+________________________________________________________________
+ANLEITUNG:
+
 !!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!
 	Es sollte nicht direkt von Actor geerbt werden!
 	Stattdessen sollte die passende Klasse 
@@ -15,6 +18,27 @@ Actor.h
 	verwendet werden.
 !!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!
 	
+	Sollte ein eigener Actor implementiert werden bietet
+	es sich an dort im header die folgenden variablen und
+	funktionen bekannt zu machen (einfach rein kopieren):
+		
+		using Actor<State_T>::m_self_pointer;
+		using Actor<State_T>::m_environment;
+		using Actor<State_T>::start_actor_thread;
+		using Actor<State_T>::is_sleeping;
+		using Actor<State_T>::sleep;
+		using Actor<State_T>::wake_up;
+		using Actor<State_T>::id;
+		using Actor<State_T>::is_human;
+		using Actor<State_T>::m_id;
+		using Actor<State_T>::m_is_sleeping;
+		using Actor<State_T>::m_is_running;
+
+	Es bietet sich außerdem an Environment.h zu includen und
+	einen State_T type (z.B. int) vorzugeben damit IntelliSense
+	richtig arbeitet und man die environment funktionen nicht 
+	von hand eingeben muss.
+________________________________________________________________
 
 void evaluate_action()
 	Sollte überschrieben werden und alles beinhalten was

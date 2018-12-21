@@ -7,6 +7,7 @@
 
 using namespace Ai_Arena;
 
+
 template <class State_T>
 Reflex_Agent<State_T>::Reflex_Agent(std::shared_ptr<Environment<State_T>> enviroment)
 	:
@@ -35,7 +36,10 @@ void Reflex_Agent<State_T>::evaluate_action()
 		std::vector<Action> possible_actions =
 			m_environment->possible_actions(
 				m_self_pointer);
-
+		
+		auto perc = m_environment->get_perception(m_self_pointer, SEE_THE_WHOLE_STATE);
+		
+		
 		const auto actual_state = m_environment->actual_state(m_self_pointer);
 
 		//randomly choose one action
