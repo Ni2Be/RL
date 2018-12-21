@@ -75,3 +75,12 @@ void Reflex_Agent<State_T>::evaluate_action()
 	}
 
 }
+
+template <class State_T>
+void Reflex_Agent<State_T>::shut_down()
+{
+	//TODO save to file
+
+
+	Agent<State_T>::m_is_running = false;
+}

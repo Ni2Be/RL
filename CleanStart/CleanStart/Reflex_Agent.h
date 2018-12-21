@@ -12,5 +12,7 @@ namespace Ai_Arena
 		void learn();
 		void evaluate_action();
 		void set_up();
+		void shut_down();
+
 	};
 }
