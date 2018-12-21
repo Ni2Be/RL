@@ -150,7 +150,7 @@
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>del $(IntermediateOutputPath)Reflex_Agent.obj</Command>
+      <Command>del $(IntermediateOutputPath)Arena.obj</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

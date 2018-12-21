@@ -96,6 +96,7 @@ namespace Ai_Arena
 		bool is_sleeping();
 		void sleep();
 		void wake_up();
+		
 		virtual void shut_down() { m_is_running = false; };
 		
 
