@@ -27,7 +27,7 @@ void Environment<State_T>::add_actor(Actor_Representation actor_action)
 	m_actors.push_back(actor_action);
 	if (actor_action.actor->is_human())
 		m_human_actors++;
-	m_active_actors++;
+
 }
 
 
@@ -55,7 +55,18 @@ void Environment<State_T>::set_events(std::queue<sf::Event> events)
 	}
 }
 
-
+template <class State_T>
+std::chrono::system_clock::time_point Environment<State_T>::next_execution_time() const
+{ 
+	std::scoped_lock<std::mutex> lock(m_next_execution_time_lock);
+	return m_next_execution_time; 
+}
+template <class State_T>
+void Environment<State_T>::set_next_execution_time(std::chrono::system_clock::time_point time) 
+{
+	std::scoped_lock<std::mutex> lock(m_next_execution_time_lock);
+	m_next_execution_time = time; 
+}
 
 
 
@@ -87,31 +98,19 @@ bool   Environment<State_T>::is_final(std::shared_ptr<Actor<State_T>> actor) con
 
 /*returns the number of humen actors*/
 template <class State_T>
-const int Environment<State_T>::human_actors() const { std::unique_lock<std::mutex>(m_actor_lock); return m_human_actors; }
+const int Environment<State_T>::human_actors() const { std::unique_lock<std::mutex>(m_human_actor_lock); return m_human_actors; }
 /*retruns the number of active actors*/
 template <class State_T>
 const int& Environment<State_T>::active_actors() const 
 {
-	//std::unique_lock<std::mutex>(m_actor_lock);
-	//int active_actors_counter = 0;
-	//for (const auto& actor : m_actors)
-	//	if (!actor.actor->is_sleeping())
-	//		active_actors_counter++;
-	//return active_actors_counter;
-	return m_active_actors;
-}
-/*retruns the number of active human actors*/
-template <class State_T>
-const int& Environment<State_T>::active_human_actors() const
-{
-	//std::unique_lock<std::mutex>(m_actor_lock);
-	int active_humans_counter = 0;
+	std::unique_lock<std::mutex>(m_actor_lock);
+	int active_actors_counter = 0;
 	for (const auto& actor : m_actors)
-		if (!actor.actor->is_sleeping() && actor.actor->is_human())
-			active_humans_counter++;
-	return active_humans_counter;
-	return m_active_actors;
+		if (actor.actor->is_active())
+			active_actors_counter++;
+	return active_actors_counter;
 }
+
 
 
 

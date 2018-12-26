@@ -24,8 +24,8 @@ void Game_Base<Graphics, State_T>::run()
 
 	//set the end time when the game will be updated
 	auto start_time = std::chrono::system_clock::now();
-	auto end_time = start_time + Environment<State_T>::update_interval();
-
+	this->set_next_execution_time(start_time + Environment<State_T>::update_interval());
+	
 	while (Environment<State_T>::m_is_running)
 	{
 		//get all input events
@@ -43,11 +43,11 @@ void Game_Base<Graphics, State_T>::run()
 		Environment<State_T>::set_events(events);
 
 		//if one update_interval is passed, update the physics
-		if (std::chrono::system_clock::now() > end_time)
+		if (std::chrono::system_clock::now() > this->next_execution_time())
 		{
 			//set the new end time for the game update
 			start_time = std::chrono::system_clock::now();
-			end_time = start_time + Environment<State_T>::update_interval();
+			this->set_next_execution_time(start_time + Environment<State_T>::update_interval());
 
 			update();
 		}

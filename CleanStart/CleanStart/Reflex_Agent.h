@@ -31,6 +31,9 @@ namespace Ai_Arena
 		using Actor<State_T>::m_id;
 		using Actor<State_T>::m_is_sleeping;
 		using Actor<State_T>::m_is_running;
+		using Actor<State_T>::is_active;
+		using Actor<State_T>::activate;
+		using Actor<State_T>::deactivate;
 
 	};
 }

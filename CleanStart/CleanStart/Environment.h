@@ -272,9 +272,7 @@ namespace Ai_Arena
 		const int human_actors() const;
 		/*retruns the number of active actors*/
 		const int& active_actors() const;
-		const int& active_human_actors() const;
-		int m_active_actors = 0;
-
+		
 		//GENERAL
 
 			/*starts the environment*/
@@ -287,6 +285,11 @@ namespace Ai_Arena
 		std::chrono::milliseconds& update_interval();
 		std::chrono::milliseconds  update_interval() const;
 
+		std::chrono::system_clock::time_point next_execution_time() const;
+		void set_next_execution_time(std::chrono::system_clock::time_point time);
+		std::chrono::system_clock::time_point m_next_execution_time;
+		mutable std::mutex m_next_execution_time_lock;
+
 		/*returns all Events like key/mouse input and emptys the queue*/
 		virtual std::queue<sf::Event> get_events();
 	protected:
@@ -297,12 +300,13 @@ namespace Ai_Arena
 		/*the time interval the environments physics are updated*/
 		std::chrono::milliseconds m_update_interval;
 		mutable std::mutex m_actor_lock;
+		mutable std::mutex m_human_actor_lock;
 		std::thread m_environment_thread;
 
 		mutable std::mutex m_execution_lock;
 		mutable std::condition_variable m_environment_condition;
 		mutable std::condition_variable m_actors_condition;
-		mutable int m_unexecuted_actions = 0;
+		mutable std::atomic<int> m_unexecuted_actions = 0;
 
 		//represents the actor in the environment
 		struct Actor_Representation

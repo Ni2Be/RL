@@ -33,6 +33,9 @@ ANLEITUNG:
 		using Actor<State_T>::m_id;
 		using Actor<State_T>::m_is_sleeping;
 		using Actor<State_T>::m_is_running;
+		using Actor<State_T>::is_active;
+		using Actor<State_T>::activate;
+		using Actor<State_T>::deactivate;
 
 	Es bietet sich auﬂerdem an Environment.h zu includen und
 	einen State_T type (z.B. int) vorzugeben damit IntelliSense
@@ -120,7 +123,11 @@ namespace Ai_Arena
 		bool is_sleeping();
 		void sleep();
 		void wake_up();
-		
+
+		bool is_active();
+		void activate();
+		void deactivate();
+
 		virtual void shut_down() { m_is_running = false; };
 		
 
@@ -141,6 +148,7 @@ namespace Ai_Arena
 		std::thread m_actor_thread;
 		std::condition_variable m_actor_condition;
 		std::atomic<bool> m_is_sleeping = true;
+		std::atomic<bool> m_is_active = true;
 		std::atomic<bool> m_is_running = false;
 	};
 }
@@ -161,12 +169,14 @@ void Actor<State_T>::start_actor_thread()
 {
 	m_actor_thread = std::thread([this]() {
 		m_is_running = true;
-		m_is_sleeping = false;
 
 		set_up();
+		//sleep();
 		while (m_is_running)
 		{
+			//std::cout << "eval, actor: " << id() << std::endl;
 			evaluate_action();
+			//std::cout << "end eval, actor: " << id() << std::endl;
 		}
 	});
 }
@@ -182,9 +192,32 @@ void Actor<State_T>::wake_up()
 {
 	std::unique_lock<std::mutex> lock(m_actor_lock);
 	m_is_sleeping = false;
-	//std::cout << std::endl << "wakeup" << std::endl;
+	//std::cout << std::endl << "wakeup, actor: " << id() << std::endl;
 	m_actor_condition.notify_one();
 	lock.unlock();
+};
+
+
+template <class State_T>
+bool Actor<State_T>::is_active()
+{
+	return m_is_active;
+};
+
+template <class State_T>
+void Actor<State_T>::activate()
+{
+	std::scoped_lock<std::mutex> lock(m_actor_lock);
+	m_is_active = true;
+	//std::cout << std::endl << "active, actor: " << id() << std::endl;
+};
+
+template <class State_T>
+void Actor<State_T>::deactivate()
+{
+	std::scoped_lock<std::mutex> lock(m_actor_lock);
+	m_is_active = false;
+	//std::cout << std::endl << "deactive, actor: " << id() << std::endl;
 };
 
 template <class State_T>

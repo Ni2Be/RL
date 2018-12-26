@@ -29,6 +29,7 @@ namespace Ai_Arena
 		void set_up();
 	private:
 		Snake_World  world;
+		mutable std::mutex m_world_lock;
 		int         m_fields_width_count;
 
 		void execute_actions();
@@ -57,6 +58,10 @@ namespace Ai_Arena
 		////I_Environment helper
 		const Perception convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const;
 		std::vector<Snake_World::Events> m_actor_events;
+
+
+		int m_old_lives = 0;
+
 
 		const int C_WALL = 1;
 		const int C_APPLE = 2;

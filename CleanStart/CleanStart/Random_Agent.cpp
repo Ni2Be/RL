@@ -33,8 +33,9 @@ void Random_Agent<State_T>::evaluate_action()
 	}
 	else 
 	{
-		std::cout << "actor " << Agent<State_T>::id() << " sleeping\n";
-		Agent<State_T>::sleep();
+		std::cout << "actor " << Agent<State_T>::id() << " deactivated\n";
+		deactivate();
+		sleep();
 		//TODO
 		//chould do things like save his learnig progress (if learning agent)
 	}

@@ -24,50 +24,42 @@ Snake_Game::Snake_Game(int fields, int field_pixel)
 
 void Snake_Game::update_world()
 {
-	std::unique_lock<std::mutex> lock(m_execution_lock);
-
 	//std::cout << "update_world\n";
 
-	int really_active_actors = 0;
-	for (auto actor : actors())
-	{
-		if (!actor.actor->is_sleeping())
-			really_active_actors++;
-	}
-	if (really_active_actors == 0)
-	{
-		m_is_running = false;
-		return;
-	}
 	if (active_actors() == 0)
 	{
 		m_is_running = false;
 		return;
 	}
-	//std::cout << "active: " << really_active_actors << ", human: " << human_actors() << "\n";
-	//std::cout << "unexecuted: " << m_unexecuted_actions << "\n";
-	//TODO
+	
 
+	std::unique_lock<std::mutex> lock(m_execution_lock);
 	//wait for all actors to place an action
-	if (active_actors() > 0)
+	m_environment_condition.wait(lock, [this]() 
 	{
-		m_environment_condition.wait(lock, [this]() {return (m_unexecuted_actions == (active_actors() - human_actors())); });
-	}
+		//std::cout << "update_world: got notified m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << "\n";
+		return (m_unexecuted_actions == active_actors());
+	});
 
-	//std::cout << "update_world after waiting\n";
-
-
+	//std::cout << "update_world: after waiting\n";
+	
 	//Do everything that changes the state
 	execute_actions();
 
-	////set environment state, represented by the state actor 1 whould see it
-	//set_environment_state(convert_to_state(actors()[0], world));
 
-	////DEBUG
-	//console_print(environment_state());
+	//wait untill all actors sleep
+	for (auto& actor : actors())
+		while (!actor.actor->is_sleeping());
 
-	//wakeup the actors
-	m_actors_condition.notify_all();
+	//wakeup the active actors
+	for (auto& actor : actors())
+	{
+		if (actor.actor->is_active())
+			actor.actor->wake_up();
+	}
+
+
+	//m_actors_condition.notify_all();
 	lock.unlock();
 }
 
@@ -75,9 +67,15 @@ void Snake_Game::set_up()
 {
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 
+	//save for learning debug
+	world.snakes[0].lives() = 200;
+	m_old_lives = world.snakes[0].lives();
+
 	for (auto& actor : actors())
+	{
+		actor.actor->activate();
 		actor.actor->wake_up();
-	std::this_thread::sleep_for(std::chrono::milliseconds(600));
+	}
 }
 
 
@@ -98,54 +96,36 @@ void Snake_Game::execute_actions()
 			set_actor_state(actor_representation.actor, true);
 
 
-		if (!actor_representation.actor->is_sleeping())
+		if (actor_representation.actor->is_active())
 		{
 			//the actor Id should allways be the position of the snake in this array
 			Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
 
-			if(!controlled_snake->has_lost())
+			if (!controlled_snake->has_lost())
 				controlled_snake->perform_action(actor_representation.action.action);
-
-			//std::cout << "perform action: " << actor_representation.action.action << "\n";
-
-			if (!actor_representation.actor->is_human())
-				m_unexecuted_actions--;
+			else
+				actor_representation.actor->deactivate();
+			
+			m_unexecuted_actions--;
 		}
 	}
-
-	//save old scores
-	//std::vector<int> snake_old_scores;
-	//for (auto actor_representation : actors())
-	//{
-	//	Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
-	//	snake_old_scores.push_back(controlled_snake->score());
-	//}
-
+	
 	//handle events like ate apple or crashed
 	world.check_events();
 
 	if (world.game_over)
 		m_is_running = false;
-
-
-	//TODO should not be programmed like this
-	//update actor scores and set event if score has changed
-	//for (auto actor_representation : actors())
-	//{
-	//	Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
-	//	if (snake_old_scores[actor_representation.actor->id()] < controlled_snake->score())
-	//		m_actor_events[actor_representation.actor->id()] = Snake_World::Events::ATE;
-	//	else if (snake_old_scores[actor_representation.actor->id()] > controlled_snake->score())
-	//		m_actor_events[actor_representation.actor->id()] = Snake_World::Events::CRASHED;
-	//	else
-	//		m_actor_events[actor_representation.actor->id()] = Snake_World::Events::NO_EVENT;
-	//}
 }
 
 void Snake_Game::update()
 {
 	update_world();
 
+	if (m_old_lives != world.snakes[0].lives())
+	{
+		m_old_lives = world.snakes[0].lives();
+		std::cout << "lives: " << m_old_lives << "\n";
+	}
 	//only update graphics in play mode
 	//if(needed)
 	graphics()->update_graphics(world);
@@ -172,8 +152,6 @@ std::vector<Action> Snake_Game::possible_actions(std::shared_ptr<Actor<Snake_Wor
 
 bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
 {
-	std::scoped_lock<std::mutex> lock(m_actor_lock);
-
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 
 	return controlled_snake->has_lost();
@@ -182,8 +160,6 @@ bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 
 Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
 { 
-	std::scoped_lock<std::mutex> lock(m_actor_lock);
-
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 	
 	return controlled_snake->score();
@@ -192,16 +168,8 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 
 Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) const
 {
-	std::unique_lock<std::mutex> lock(m_execution_lock);	
-	
-	//wait for actual state
-	if (!actor->is_human())
-	{
-		//std::cout << "actual_state: m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << "\n";
-		//wait for last action to be executed
-		m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions == 0; });
-	}
 	Snake_World actual_world = world;
+
 	return actual_world;
 }
 
@@ -210,16 +178,8 @@ Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) 
 
 Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor, Sensor sensor) const
 {
-	std::unique_lock<std::mutex> lock(m_execution_lock);
-
-	//wait for actual state
-	if (!actor->is_human())
-	{
-		//std::cout << "actual_state: m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << "\n";
-		//wait for last action to be executed
-		m_actors_condition.wait(lock, [this]() {return m_unexecuted_actions == 0; });
-	}
 	Snake_World actual_world = world;
+	
 	return get_perception(actor, sensor, actual_world);
 }
 
@@ -237,26 +197,36 @@ Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor,
 
 void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action action)
 {
-	std::unique_lock<std::mutex> lock(m_execution_lock);
-	if (!actor->is_human())
-	{
-		//wait for last action to be executed
-		m_actors_condition.wait(lock, [this]() {return (m_unexecuted_actions < (active_actors() - human_actors())); });
-	}
-	//std::cout << "apply_action: " << action.action << "\n";
+
+	
+	
+	//wait for last action to be executed
+	//m_actors_condition.wait(lock, [this, actor]() 
+	//{ 
+	//	std::cout << "apply action got notifyed: m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << 
+	//		", actor: " << actor->id() << "\n";
+	//
+	//
+	//	//TODO hier darf/muss nur die aktion des agenten schon ausgeführt worden sein, sonst blockt es
+	//	return(m_unexecuted_actions == 0); 
+	//});
 
 	//assign action to actor
 	exchange_action(actor, action);
 
-	if (!actor->is_human())
-	{
-		m_unexecuted_actions++;
+	std::unique_lock<std::mutex> lock(m_execution_lock);
+	m_unexecuted_actions++;
 
-		//notify the environment that all actors could be finished
-		m_environment_condition.notify_all();
-		//std::cout << "apply_action: notify m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << "\n";
-		lock.unlock();
-	}
+	//notify the environment that all actors could be finished
+	m_environment_condition.notify_all();
+	
+	lock.unlock();
+	//std::cout << "apply_action: notify m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() 
+	//	<< ", actor: " << actor->id() << "\n";
+
+	actor->sleep();
+	//lock.unlock();
+	
 }
 
 //TODO

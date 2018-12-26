@@ -18,7 +18,7 @@ void Arena::run()
 	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
 	//m_enviroment->add_actor(m_actors[1]);
 
-	m_enviroment->update_interval() = std::chrono::milliseconds(200);
+	m_enviroment->update_interval() = std::chrono::milliseconds(100);
 
 
 	for (auto& actor : m_actors)
