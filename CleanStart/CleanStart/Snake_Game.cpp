@@ -24,29 +24,21 @@ Snake_Game::Snake_Game(int fields, int field_pixel)
 
 void Snake_Game::update_world()
 {
-	//std::cout << "update_world\n";
-
 	if (active_actors() == 0)
 	{
 		m_is_running = false;
 		return;
 	}
-	
 
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 	//wait for all actors to place an action
 	m_environment_condition.wait(lock, [this]() 
 	{
-		//std::cout << "update_world: got notified m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << "\n";
 		return (m_unexecuted_actions == active_actors());
 	});
 
-	//std::cout << "update_world: after waiting\n";
-	
 	//Do everything that changes the state
 	execute_actions();
-
-
 	//wait untill all actors sleep
 	for (auto& actor : actors())
 		while (!actor.actor->is_sleeping());
@@ -57,9 +49,6 @@ void Snake_Game::update_world()
 		if (actor.actor->is_active())
 			actor.actor->wake_up();
 	}
-
-
-	//m_actors_condition.notify_all();
 	lock.unlock();
 }
 
@@ -68,13 +57,11 @@ void Snake_Game::set_up()
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 
 	//save for learning debug
-	world.snakes[0].lives() = 200;
 	m_old_lives = world.snakes[0].lives();
 
 	for (auto& actor : actors())
 	{
 		actor.actor->activate();
-		actor.actor->wake_up();
 	}
 }
 
@@ -94,9 +81,7 @@ void Snake_Game::execute_actions()
 
 		if(world.snakes[actor_representation.actor->id()].has_lost())
 			set_actor_state(actor_representation.actor, true);
-
-
-		if (actor_representation.actor->is_active())
+		else if (actor_representation.actor->is_active())
 		{
 			//the actor Id should allways be the position of the snake in this array
 			Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
@@ -113,8 +98,6 @@ void Snake_Game::execute_actions()
 	//handle events like ate apple or crashed
 	world.check_events();
 
-	if (world.game_over)
-		m_is_running = false;
 }
 
 void Snake_Game::update()
@@ -124,7 +107,7 @@ void Snake_Game::update()
 	if (m_old_lives != world.snakes[0].lives())
 	{
 		m_old_lives = world.snakes[0].lives();
-		std::cout << "lives: " << m_old_lives << "\n";
+		std::cout << "p1 lives: " << m_old_lives << "\n\n";
 	}
 	//only update graphics in play mode
 	//if(needed)
@@ -136,13 +119,14 @@ void Snake_Game::update()
 //I_ENVIRONMENT
 std::vector<Action> Snake_Game::possible_actions(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
 {
-	
+	//TODO richtige richtungen seden
 	std::vector<Action> all_actions = {
 		Actions::U,
 		Actions::D,
 		Actions::L,
 		Actions::R,
-		Actions::NO_ACTION };
+	//	Actions::NO_ACTION 
+	};
 
 
 
@@ -150,10 +134,16 @@ std::vector<Action> Snake_Game::possible_actions(std::shared_ptr<Actor<Snake_Wor
 }
 
 
-bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
+bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state, bool is_simulation) const
 {
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
-
+	//TODO should be handled differently
+	if (controlled_snake->has_lost() && !is_simulation)
+	{
+		actor->deactivate();
+		//notify the environment that all actors could be finished
+		m_environment_condition.notify_all();
+	}
 	return controlled_snake->has_lost();
 };
 
@@ -162,7 +152,16 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 { 
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 	
-	return controlled_snake->score();
+	Reward reward = -1.0f;
+
+	if (controlled_snake->score() < controlled_snake->last_score())
+		reward = 0.0001f;
+	else if (controlled_snake->score() > controlled_snake->last_score())
+		reward = 1.0f;
+	else
+		reward = 0.002f;
+
+	return reward;
 }
 
 
@@ -197,20 +196,6 @@ Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor,
 
 void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action action)
 {
-
-	
-	
-	//wait for last action to be executed
-	//m_actors_condition.wait(lock, [this, actor]() 
-	//{ 
-	//	std::cout << "apply action got notifyed: m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() << 
-	//		", actor: " << actor->id() << "\n";
-	//
-	//
-	//	//TODO hier darf/muss nur die aktion des agenten schon ausgeführt worden sein, sonst blockt es
-	//	return(m_unexecuted_actions == 0); 
-	//});
-
 	//assign action to actor
 	exchange_action(actor, action);
 
@@ -219,34 +204,27 @@ void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action 
 
 	//notify the environment that all actors could be finished
 	m_environment_condition.notify_all();
-	
+
 	lock.unlock();
-	//std::cout << "apply_action: notify m_unexecuted_actions: " << m_unexecuted_actions << ", active_actors: " << active_actors() 
-	//	<< ", actor: " << actor->id() << "\n";
 
 	actor->sleep();
-	//lock.unlock();
-	
 }
 
 //TODO
 //converts the state to the following state but acts as if the other snakes can't move
-//and as if it whould know where the apple will sporn
+//and as if the apple whould sporn at the same position as it currently is
 std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state, Action action) const
-{ 
-
+{
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
+
 	controlled_snake->perform_action(action.action);
 
+	//replace apple
+	state.apple.position = world.apple.position;
 
 	////handle events like ate apple or crashed
 	state.check_events();
 
-	////DEBUG
-	////std::cout << "--------------------------------------------------------------------------------\n";
-	//std::cout << "actor: action: " << action.action << ", score: " << controlled_snake->score() << "\n";
-	////std::cout << "--------------------------------------------------------------------------------\n";
-	//
 	return { state };
 };
 
@@ -402,52 +380,3 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 
 
 
-////DEBUG
-////TODO make const again
-//void Snake_Game::console_print(State state) //const
-//{
-//	if (state.back())
-//	{
-//		for (int i = 0; i < state.size() - 2; i += 2)
-//		{
-//			if (i % (world.playing_field.size() * 2) == 0)
-//				std::cout << std::endl << std::endl;
-//			std::cout << "[" << state[i] << ", " << state[i + 1] << "] ";
-//		}
-//
-//		std::cout << "\nis crashed: " << state[state.size() - 2] << ", has eaten: " << state[state.size() - 1];
-//		std::cout << std::endl;
-//
-//
-//		//DEBUG
-//		std::cout << "\n2 Sekunden bis crash!!!\n";
-//		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-//
-//		world = convert_to_world(state);
-//
-//
-//		std::cout << "\nconverted!!!\n";
-//		//END DEBUG
-//	}
-//}
-//void Snake_Game::console_print(State state) const
-//{
-//	for (int i = 0; i < state.size() - 2; i += 2)
-//	{
-//		if (i % (world.playing_field.size() * 2) == 0)
-//			std::cout << std::endl << std::endl;
-//		std::cout << "[" << state[i] << ", " << state[i + 1] << "] ";
-//	}
-//
-//	std::cout << "\nis crashed: " << state[state.size() - 2] << ", has eaten: " << state[state.size() - 1];
-//	std::cout << std::endl;
-//
-//
-//	//DEBUG
-//	std::cout << "\n2 Sekunden bis crash!!!\n";
-//	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-//
-//
-//	std::cout << "\nconverted!!!\n";
-//	//END DEBUG
-//}

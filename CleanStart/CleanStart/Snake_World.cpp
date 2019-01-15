@@ -23,7 +23,6 @@ void Snake_World::Apple::respawn(Area_int area)
 {
 	if (area.lower_right.x == -1)
 	{
-		std::cout << "game over";
 		return;
 	}
 	position = {
@@ -37,30 +36,38 @@ void Snake_World::check_events()
 	std::vector<std::pair<Snake_Entity*, Events>> snake_events;
 	for (auto& snake : snakes)
 	{
-		//ate?
-		if (snake.head_position() == apple.position)
-			snake_events.push_back({ &snake, Events::ATE });
-
-		//crashed in other snake or itselfe?
-		for (auto& other : snakes)
+		if (!snake.has_lost())
 		{
-			for (int i = 0; i < other.body().size(); i++)
+			//save old score
+			snake.last_score() = snake.score();
+
+			//ate?
+			if (snake.head_position() == apple.position)
 			{
-				//skip own head
-				if (&snake == &other && i == 0)
-					i++;
-				if ((&snake == &other) && (snake.body().size() == 1))
-					break;
-
-				//check all body segments
-				if (snake.head_position() == other.body()[i].position())
-					snake_events.push_back({ &snake, Events::CRASHED });
+				apple.is_eaten = true;
+				snake_events.push_back({ &snake, Events::ATE });
 			}
-		}
+			//crashed in other snake or itselfe?
+			for (auto& other : snakes)
+			{
+				for (int i = 0; i < other.body().size(); i++)
+				{
+					//skip own head
+					if (&snake == &other && i == 0)
+						i++;
+					if ((&snake == &other) && (snake.body().size() == 1))
+						break;
 
-		//crashed in wall?
-		if (playing_field[snake.head_position().x][snake.head_position().y] == Playing_Field::WALL)
-			snake_events.push_back({ &snake, Events::CRASHED });
+					//check all body segments
+					if (snake.head_position() == other.body()[i].position())
+						snake_events.push_back({ &snake, Events::CRASHED });
+				}
+			}
+
+			//crashed in wall?
+			if (playing_field[snake.head_position().x][snake.head_position().y] == Playing_Field::WALL)
+				snake_events.push_back({ &snake, Events::CRASHED });
+		}
 	}
 
 	handle_events(snake_events);
@@ -109,7 +116,6 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 		case Events::ATE:
 			snake_event_pair.first->extend();
 			snake_event_pair.first->score()++;
-			apple.is_eaten = true;
 			break;
 		case Events::CRASHED:
 			//only respown if lives left

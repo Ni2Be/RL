@@ -46,7 +46,7 @@ namespace Ai_Arena
 		Perception get_perception(std::shared_ptr<Actor<Snake_World>>, Sensor, Snake_World) const;
 
 		Reward reward(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
-		bool   is_final(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
+		bool is_final(std::shared_ptr<Actor<Snake_World>>, Snake_World, bool is_simulation = false) const;
 		void add_actor(std::shared_ptr<Actor<Snake_World>>);
 		void update();
 

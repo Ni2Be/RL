@@ -13,7 +13,7 @@ Snake_Human_Player<State_T>::Snake_Human_Player(std::shared_ptr<Environment<Stat
 {}
 
 template <class State_T>
-void Snake_Human_Player<State_T>::evaluate_action()
+void Snake_Human_Player<State_T>::set_action()
 {
 	if (!Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->actual_state(Human_Player<State_T>::m_self_pointer)))
 	{
@@ -36,14 +36,11 @@ void Snake_Human_Player<State_T>::evaluate_action()
 			events.pop();
 		}
 
-		Human_Player<State_T>::m_environment->apply_action(Human_Player<State_T>::m_self_pointer, m_last_action);
-
-
+		m_next_action = m_last_action;
 	}
 	else
 	{
 		std::cout << "human player sleeping!\n";
-		Human_Player<State_T>::m_environment->apply_action(Human_Player<State_T>::m_self_pointer, Actions::NO_ACTION);
-		//Human_Player<State_T>::sleep();
+		Human_Player<State_T>::sleep();
 	}
 }

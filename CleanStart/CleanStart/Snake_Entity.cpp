@@ -14,6 +14,9 @@ Snake_Entity::Snake_Entity()
 
 void Snake_Entity::perform_action(Action action)
 {
+	if (has_lost())
+		return;
+
 	//dont change direction if the snake whould crash in to its own body
 	if (   (body().size() > 1 && body()[1].position().y < body()[0].position().y && action.action == Actions::U)
 		|| (body().size() > 1 && body()[1].position().x > body()[0].position().x && action.action == Actions::R)

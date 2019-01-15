@@ -259,9 +259,9 @@ namespace Ai_Arena
 		virtual Reward reward(std::shared_ptr<Actor<State_T>> actor);
 
 		/*prooves if a state is a final state*/
-		virtual bool   is_final(std::shared_ptr<Actor<State_T>>, State_T) const = 0;
+		virtual bool   is_final(std::shared_ptr<Actor<State_T>>, State_T, bool is_simulation = false) const = 0;
 		/*prooves if the current state is a final state*/
-		virtual bool   is_final(std::shared_ptr<Actor<State_T>> actor) const;
+		virtual bool   is_final(std::shared_ptr<Actor<State_T>> actor, bool is_simulation = false) const;
 
 
 		//ACTOR GENERAL

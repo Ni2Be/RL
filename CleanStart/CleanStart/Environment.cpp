@@ -88,9 +88,9 @@ Reward Environment<State_T>::reward(std::shared_ptr<Actor<State_T>> actor)
 
 /*prooves if the current state is a final state*/
 template <class State_T>
-bool   Environment<State_T>::is_final(std::shared_ptr<Actor<State_T>> actor) const
+bool   Environment<State_T>::is_final(std::shared_ptr<Actor<State_T>> actor, bool is_simulation) const
 {
-	return is_final(actor, actual_state(actor));
+	return is_final(actor, actual_state(actor), is_simulation);
 };
 
 

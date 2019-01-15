@@ -9,7 +9,6 @@ namespace Ai_Arena
 	{
 	public:
 		Random_Agent(std::shared_ptr<Environment<State_T>> enviroment);
-		void learn();
 		void evaluate_action();
 
 

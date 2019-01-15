@@ -10,9 +10,10 @@ namespace Ai_Arena
 	{
 	public:
 		Snake_Human_Player(std::shared_ptr<Environment<State_T>> enviroment);
-		void evaluate_action();
+		void set_action();
 
 	private:
 		Snake::Actions m_last_action;
+		using Human_Player<State_T>::m_next_action;
 	};
 }

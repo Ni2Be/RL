@@ -163,6 +163,7 @@
     <ClCompile Include="Human_Player.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MCTS_Agent.cpp" />
     <ClCompile Include="Reflex_Agent.cpp" />
     <ClCompile Include="Snake_Game.cpp" />
     <ClCompile Include="Random_Agent.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="Human_Player.h" />
+    <ClInclude Include="MCTS_Agent.h" />
     <ClInclude Include="Reflex_Agent.h" />
     <ClInclude Include="Snake_Graphics.h" />
     <ClInclude Include="Random_Agent.h" />

@@ -13,33 +13,22 @@ Reflex_Agent<State_T>::Reflex_Agent(std::shared_ptr<Environment<State_T>> enviro
 	:
 	Agent<State_T>::Agent(enviroment)
 {
-	std::cout << "actor " << id() << " created\n";
 }
 
 
 template <class State_T>
 void Reflex_Agent<State_T>::set_up()
 {
-	std::cout << "actor " << id() << " set up\n";
 }
-
-
-template <class State_T>
-void Reflex_Agent<State_T>::learn() {};
 
 template <class State_T>
 void Reflex_Agent<State_T>::evaluate_action()
 {
-	//std::cout << "\n\n\nevaluate_action:\n";
 	if (!m_environment->is_final(m_self_pointer))
 	{
 		std::vector<Action> possible_actions =
 			m_environment->possible_actions(
 				m_self_pointer);
-		
-		//test
-		auto perc = m_environment->get_perception(m_self_pointer, SEE_THE_WHOLE_STATE);
-		
 		
 		const auto state = m_environment->actual_state(m_self_pointer);
 
@@ -56,28 +45,18 @@ void Reflex_Agent<State_T>::evaluate_action()
 		{
 			next_state = m_environment->assume_action(m_self_pointer, state, possible_actions[i]);
 			reward = m_environment->reward(m_self_pointer, next_state[0]);
-
-			//std::cout << "actor " << Agent<State_T>::id() << " reward for action : " << i << ", reward: "<< reward << "\n";
-
 			if (reward > highest_reward && possible_actions[i].is_possible)
 			{
-				//std::cout << "actor " << Agent<State_T>::id() << " best reward = " << highest_reward << "\n";
 				next_action_index = i;
 				highest_reward = reward;
 			}
 		}
-
-		//std::cout << "actor " << Agent<State_T>::id() << " performing action index: " << next_action_index << ", action: " << possible_actions[next_action_index].action << "\n";
-		
 		m_environment->apply_action(m_self_pointer, possible_actions[next_action_index]);
 	}
 	else
 	{
-		//std::cout << "actor " << Agent<State_T>::id() << " deactivated\n";
 		deactivate();
 		sleep();
-		//TODO
-		//chould do things like save his learnig progress (if learning agent)
 	}
 
 }

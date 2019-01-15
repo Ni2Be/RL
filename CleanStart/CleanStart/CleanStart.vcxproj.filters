@@ -42,6 +42,9 @@
     <Filter Include="Actor\Agent\Reflex_Agent">
       <UniqueIdentifier>{877f290a-8ad7-477e-91c8-9563624b1ff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Agent\MCTS_Agent">
+      <UniqueIdentifier>{3e73088b-537c-4e86-8cea-99b857956bdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Reflex_Agent.cpp">
       <Filter>Actor\Agent\Reflex_Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="MCTS_Agent.cpp">
+      <Filter>Actor\Agent\MCTS_Agent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="Reflex_Agent.h">
       <Filter>Actor\Agent\Reflex_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTS_Agent.h">
+      <Filter>Actor\Agent\MCTS_Agent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

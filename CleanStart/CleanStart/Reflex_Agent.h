@@ -14,7 +14,6 @@ namespace Ai_Arena
 	{
 	public:
 		Reflex_Agent(std::shared_ptr<Environment<State_T>> enviroment);
-		void learn();
 		void evaluate_action();
 		void set_up();
 		void shut_down();

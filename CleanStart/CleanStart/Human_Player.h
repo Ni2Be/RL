@@ -15,7 +15,12 @@ namespace Ai_Arena
 
 		Human_Player(std::shared_ptr<Environment<State_T>> enviroment);
 		
+		virtual void set_action();
+		void evaluate_action();
+		Action m_next_action;
+
 		bool is_human() { return true; }
-		//Input_Mode m_input_mode = AUTO_RELEASE_KEY;
+
+		using Actor<State_T>::m_environment;
 	};
 }

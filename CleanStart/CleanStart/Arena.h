@@ -11,6 +11,8 @@
 #include "Reflex_Agent.cpp"
 #include "Snake_Human_Player.h"
 #include "Snake_Human_Player.cpp"
+#include "MCTS_Agent.h"
+#include "MCTS_Agent.cpp"
 
 namespace Ai_Arena
 {

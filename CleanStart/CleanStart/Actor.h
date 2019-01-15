@@ -171,12 +171,9 @@ void Actor<State_T>::start_actor_thread()
 		m_is_running = true;
 
 		set_up();
-		//sleep();
 		while (m_is_running)
 		{
-			//std::cout << "eval, actor: " << id() << std::endl;
 			evaluate_action();
-			//std::cout << "end eval, actor: " << id() << std::endl;
 		}
 	});
 }
@@ -192,7 +189,6 @@ void Actor<State_T>::wake_up()
 {
 	std::unique_lock<std::mutex> lock(m_actor_lock);
 	m_is_sleeping = false;
-	//std::cout << std::endl << "wakeup, actor: " << id() << std::endl;
 	m_actor_condition.notify_one();
 	lock.unlock();
 };
@@ -209,7 +205,6 @@ void Actor<State_T>::activate()
 {
 	std::scoped_lock<std::mutex> lock(m_actor_lock);
 	m_is_active = true;
-	//std::cout << std::endl << "active, actor: " << id() << std::endl;
 };
 
 template <class State_T>
@@ -217,7 +212,6 @@ void Actor<State_T>::deactivate()
 {
 	std::scoped_lock<std::mutex> lock(m_actor_lock);
 	m_is_active = false;
-	//std::cout << std::endl << "deactive, actor: " << id() << std::endl;
 };
 
 template <class State_T>
@@ -225,8 +219,6 @@ void Actor<State_T>::sleep()
 {
 	std::unique_lock<std::mutex> lock(m_actor_lock);
 	m_is_sleeping = true;
-	//std::cout << std::endl << "sleep" << std::endl;
 	m_actor_condition.wait(lock);
-	//std::cout << std::endl << "awake" << std::endl;
 	lock.unlock();
 };

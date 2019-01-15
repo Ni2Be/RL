@@ -55,5 +55,7 @@ void Game_Base<Graphics, State_T>::run()
 
 	//when the game is finished shut down the actor threads
 	for (auto& actor : Environment<State_T>::actors())
+	{
 		actor.actor->shut_down();
+	}
 }
