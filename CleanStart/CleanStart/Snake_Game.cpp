@@ -152,24 +152,24 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 { 
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 	
-	Reward reward = -1.0f;
+	Reward reward = 0.0f;
 
 	if (controlled_snake->score() < controlled_snake->last_score())
-		reward = 0.0001f;
+		reward = 0.0f;
 	else if (controlled_snake->score() > controlled_snake->last_score())
 		reward = 1.0f;
 	else
-		reward = 0.002f;
+		reward = 0.5f;
 
-	return reward;
+	//return reward;
+	return controlled_snake->score();
 }
 
 
 Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) const
 {
-	Snake_World actual_world = world;
-
-	return actual_world;
+	Snake_World current_world = world;
+	return current_world;
 }
 
 
@@ -212,16 +212,12 @@ void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action 
 
 //TODO
 //converts the state to the following state but acts as if the other snakes can't move
-//and as if the apple whould sporn at the same position as it currently is
 std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state, Action action) const
 {
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 
 	controlled_snake->perform_action(action.action);
-
-	//replace apple
-	state.apple.position = world.apple.position;
-
+	
 	////handle events like ate apple or crashed
 	state.check_events();
 

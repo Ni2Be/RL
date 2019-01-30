@@ -4,6 +4,7 @@
 
 #include "Environment.h"
 
+#include <cmath>
 namespace Ai_Arena
 {
 	template <class State_T>
@@ -19,8 +20,11 @@ namespace Ai_Arena
 		std::vector<MC_Node*> children;
 		MC_Node* parent;
 		//upper confidence bound
-		MC_Node* uct() const;
-		float m_c = 1.0f;
+		MC_Node* uct_child() const;
+		const float sqrt2 = 1.41421356237309504880;
+		float m_c = sqrt2;
+
+		static float uct(int parent_visits, int child_visits, float child_value, float c);
 	};
 
 	template <class State_T>
@@ -50,7 +54,7 @@ namespace Ai_Arena
 		int node_height(MC_Node<State_T>& node) const;
 		MC_Node<State_T>* root;
 		int max_simulation_depth = 10;
-		float discount_factor = 0.4;
+		float discount_factor = 1.0f;
 
 		//parent template
 		using Actor<State_T>::m_self_pointer;
