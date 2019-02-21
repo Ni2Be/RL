@@ -14,7 +14,7 @@ namespace Ai_Arena
 		};*/
 
 		Human_Player(std::shared_ptr<Environment<State_T>> enviroment);
-		
+
 		virtual void set_action();
 		void evaluate_action();
 		Action m_next_action;

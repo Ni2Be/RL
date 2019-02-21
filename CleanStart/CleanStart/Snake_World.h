@@ -14,7 +14,7 @@ namespace Ai_Arena
 	class Snake_World
 	{
 	public:
-		Snake_World(){}
+		Snake_World() {}
 
 
 
@@ -37,7 +37,7 @@ namespace Ai_Arena
 				EMPTY
 			};
 
-			Playing_Field() {}			
+			Playing_Field() {}
 			Playing_Field(int x, std::vector<int> y)
 				:
 				std::vector<std::vector<int>>(x, y)
@@ -55,7 +55,7 @@ namespace Ai_Arena
 		};
 
 		/*
-		checks if an event happened. 
+		checks if an event happened.
 		atm: It's possible that two events like
 		two snakes eat the apple happen. this function just collects all events
 		and does not check if they contradict each other.
@@ -73,17 +73,17 @@ namespace Ai_Arena
 		{
 			snakes.push_back(Snake_Entity());
 			snakes[snakes.size() - 1].respown(find_spawn_area());
-		};		
-		
+		};
+
 		void add_snake(Pos_int pos)
 		{
 			snakes.push_back(Snake_Entity());
-			snakes[snakes.size() - 1].respown({pos, pos});
+			snakes[snakes.size() - 1].respown({ pos, pos });
 		};
 
 		/*
 		returns an random area which is empty.
-		will try to find an 3x3 area first and after 20 trys be looking for a 2x2, 
+		will try to find an 3x3 area first and after 20 trys be looking for a 2x2,
 		after 40 a 1 tile area
 		*/
 		Area_int find_spawn_area();
@@ -95,7 +95,7 @@ namespace Ai_Arena
 
 
 		bool game_over = false;
-		
+
 
 		Playing_Field playing_field;
 	};

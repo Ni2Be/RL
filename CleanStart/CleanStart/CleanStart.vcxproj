@@ -23,7 +23,7 @@
     <ProjectGuid>{AD64B6CC-918C-4FAD-A3E2-05CEE1D166D1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CleanStart</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -51,6 +52,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -149,9 +151,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\lib\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>del $(IntermediateOutputPath)Arena.obj</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
@@ -164,6 +163,11 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCTS_Agent.cpp" />
+    <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="Pong_Game.cpp" />
+    <ClCompile Include="Pong_Graphics.cpp" />
+    <ClCompile Include="Pong_Human_Player.cpp" />
+    <ClCompile Include="Pong_World.cpp" />
     <ClCompile Include="Reflex_Agent.cpp" />
     <ClCompile Include="Snake_Game.cpp" />
     <ClCompile Include="Random_Agent.cpp" />
@@ -177,12 +181,16 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Eight_Puzzle.h" />
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
-    <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="Human_Player.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="MCTS_Agent.h" />
-    <ClInclude Include="Reflex_Agent.h" />
+    <ClInclude Include="Paddle.h" />
+    <ClInclude Include="Pong_Game.h" />
+    <ClInclude Include="Pong_Graphics.h" />
+    <ClInclude Include="Pong_Human_Player.h" />
+    <ClInclude Include="Pong_World.h" />
     <ClInclude Include="Snake_Graphics.h" />
     <ClInclude Include="Random_Agent.h" />
     <ClInclude Include="Arena.h" />

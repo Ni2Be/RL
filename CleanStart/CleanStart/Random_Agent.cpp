@@ -28,7 +28,7 @@ void Random_Agent<State_T>::evaluate_action()
 
 
 	}
-	else 
+	else
 	{
 		std::cout << "actor " << Agent<State_T>::id() << " deactivated\n";
 		deactivate();

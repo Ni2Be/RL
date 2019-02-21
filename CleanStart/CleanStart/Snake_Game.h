@@ -1,12 +1,12 @@
 /*
 class Multi_Snake:
-	Handles the	communication with all Actors
+	Contains the game rules and handles the
+	communication with an Actor
 
-	the world contains the snakes, the apple and 
-	the walls. 
-	The snakes know how to move and how to grow.
-	The game rules like "what is to do if a snake 
-	hits the wall?", are definded in Snake_World.h
+	the world contains the snakes and the apple
+	the snakes know how to move and how to grow
+	the game rules decide when a snake grows, it 
+	has to respawn, or it has lost.
 */
 
 #pragma once
@@ -15,17 +15,18 @@ class Multi_Snake:
 #include "Snake_World.h"
 #include "Snake_Graphics.h"
 
-
 namespace Ai_Arena
 {
 	class Snake_Game : public Game_Base<Snake_Graphics, Snake_World>
 	{
 	public:
+
 		Snake_Game(int fields_width_count, int field_pixel);
 
 		void update_world();
 
-		//sets the state the first time, wakes up the actors
+		//does everything needed to start the game
+		//places the apple, and a snake for each actor
 		void set_up();
 	private:
 		Snake_World  world;
@@ -53,7 +54,6 @@ namespace Ai_Arena
 		////DEBUG
 		//void console_print(State);// const;
 		//void console_print(State) const;
-
 	private:
 		////I_Environment helper
 		const Perception convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const;

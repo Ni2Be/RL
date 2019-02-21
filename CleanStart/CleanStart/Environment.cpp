@@ -57,15 +57,15 @@ void Environment<State_T>::set_events(std::queue<sf::Event> events)
 
 template <class State_T>
 std::chrono::system_clock::time_point Environment<State_T>::next_execution_time() const
-{ 
-	std::scoped_lock<std::mutex> lock(m_next_execution_time_lock);
-	return m_next_execution_time; 
-}
-template <class State_T>
-void Environment<State_T>::set_next_execution_time(std::chrono::system_clock::time_point time) 
 {
 	std::scoped_lock<std::mutex> lock(m_next_execution_time_lock);
-	m_next_execution_time = time; 
+	return m_next_execution_time;
+}
+template <class State_T>
+void Environment<State_T>::set_next_execution_time(std::chrono::system_clock::time_point time)
+{
+	std::scoped_lock<std::mutex> lock(m_next_execution_time_lock);
+	m_next_execution_time = time;
 }
 
 
@@ -101,7 +101,7 @@ template <class State_T>
 const int Environment<State_T>::human_actors() const { std::unique_lock<std::mutex>(m_human_actor_lock); return m_human_actors; }
 /*retruns the number of active actors*/
 template <class State_T>
-const int& Environment<State_T>::active_actors() const 
+const int& Environment<State_T>::active_actors() const
 {
 	std::unique_lock<std::mutex>(m_actor_lock);
 	int active_actors_counter = 0;

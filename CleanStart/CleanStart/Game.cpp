@@ -25,7 +25,7 @@ void Game_Base<Graphics, State_T>::run()
 	//set the end time when the game will be updated
 	auto start_time = std::chrono::system_clock::now();
 	this->set_next_execution_time(start_time + Environment<State_T>::update_interval());
-	
+
 	while (Environment<State_T>::m_is_running)
 	{
 		//get all input events

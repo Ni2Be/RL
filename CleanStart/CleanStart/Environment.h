@@ -272,7 +272,7 @@ namespace Ai_Arena
 		const int human_actors() const;
 		/*retruns the number of active actors*/
 		const int& active_actors() const;
-		
+
 		//GENERAL
 
 			/*starts the environment*/

@@ -12,6 +12,7 @@ namespace Ai_Arena
 	class Snake_Graphics : public Game_Graphics
 	{
 	public:
+		
 		Snake_Graphics(int fields, const std::string title, int field_pixel)
 			:
 			m_field_pixel(field_pixel),
@@ -29,6 +30,7 @@ namespace Ai_Arena
 			Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color);
 
 			sf::RectangleShape rect;
+			
 			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		};
 
@@ -36,9 +38,12 @@ namespace Ai_Arena
 		{
 		public:
 			Snake_Entity_G(const Snake_Entity&, int field_pixel, sf::Color head_color, sf::Color color);
-
+			
+			
 			sf::Color m_color;
 			sf::Color m_head_color;//not used
+
+			
 
 			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -56,5 +61,7 @@ namespace Ai_Arena
 
 	private:
 		int m_field_pixel;
+		
+
 	};
 }

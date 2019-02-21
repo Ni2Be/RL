@@ -9,7 +9,12 @@ namespace Ai_Arena
 	{
 		enum Actions
 		{
-			U, D, L, R, NO_ACTION
+			U, D, R, L, NO_ACTION
+		};
+
+		enum Diagonals
+		{
+			NO_TURN, UL, UR, DL, DR, LU, LD, RU, RD
 		};
 	}
 	using namespace Snake;
@@ -23,13 +28,22 @@ namespace Ai_Arena
 		inline Pos_int& position() { return m_position; }
 		inline Actions& direction() { return m_direction; }
 		inline bool& is_head() { return m_is_head; }
+		inline bool& is_tail() { return m_is_tail; }
+		inline Diagonals& turn() { return m_turn; }
+
 		inline const Pos_int& position() const { return m_position; }
 		inline const Actions& direction() const { return m_direction; }
 		inline const bool& is_head() const { return m_is_head; }
+		inline const bool& is_tail() const { return m_is_tail; }
+		inline const Diagonals& turn() const { return m_turn; }
+
+
 	private:
 		bool m_is_head = false;
+		bool m_is_tail = false;
 		Pos_int m_position;
-		Actions m_direction = NO_ACTION;
+		Actions m_direction;
+		Diagonals m_turn;
 	};
 
 	class Snake_Entity
@@ -45,7 +59,6 @@ namespace Ai_Arena
 		//grow the snake
 		void extend();
 		void extend(Pos_int pos);
-
 		// placed on a random position in the given range
 		void respown(Area_int area);
 
@@ -63,7 +76,7 @@ namespace Ai_Arena
 		inline const std::vector<Snake_Segment>& body() const { return m_body; }
 
 		inline const Pos_int& head_position() const { return body()[0].position(); }
-
+	
 		inline int& lives() { return m_lives; }
 		inline const int lives() const { return m_lives; }
 		inline int& score() { return m_score; }
@@ -80,8 +93,8 @@ namespace Ai_Arena
 
 		
 		Snake_Segment m_prev_tail_end = {0,0};
-		Action  m_current_action = Actions::NO_ACTION;
-
+		Action m_current_action = Actions::NO_ACTION;
+		
 		int  m_lives = 30;
 		int  m_last_score = 0;
 		int  m_score = 0;

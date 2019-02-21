@@ -13,15 +13,15 @@ ANLEITUNG:
 
 !!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!
 	Es sollte nicht direkt von Actor geerbt werden!
-	Stattdessen sollte die passende Klasse 
+	Stattdessen sollte die passende Klasse
 	Agent oder Human_Player
 	verwendet werden.
 !!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!!!ACHTUNG!!
-	
+
 	Sollte ein eigener Actor implementiert werden bietet
 	es sich an dort im header die folgenden variablen und
 	funktionen bekannt zu machen (einfach rein kopieren):
-		
+
 		using Actor<State_T>::m_self_pointer;
 		using Actor<State_T>::m_environment;
 		using Actor<State_T>::start_actor_thread;
@@ -39,7 +39,7 @@ ANLEITUNG:
 
 	Es bietet sich außerdem an Environment.h zu includen und
 	einen State_T type (z.B. int) vorzugeben damit IntelliSense
-	richtig arbeitet und man die environment funktionen nicht 
+	richtig arbeitet und man die environment funktionen nicht
 	von hand eingeben muss.
 ________________________________________________________________
 
@@ -66,13 +66,13 @@ void apply_action()
 std::mutex  m_actor_lock
 std::thread m_actor_thread
 std::condition_variable m_actor_condition
-std::atomic<bool> m_is_sleeping 
+std::atomic<bool> m_is_sleeping
 std::atomic<bool> m_is_running
 void start_actor_thread();
 bool is_sleeping();
 void sleep();
 void wake_up();
-	Diese Funktionen und Variabeln bieten eine Hilfestellung 
+	Diese Funktionen und Variabeln bieten eine Hilfestellung
 	um den Actor thread zu steuern.
 
 void shut_down()
@@ -82,7 +82,7 @@ std::shared_ptr<Actor> self()
 	Gibt einen shared_ptr auf den Agenten zurück.
 
 int id()
-	Liefert die id des Agenten zurück. Die id sollte erst 
+	Liefert die id des Agenten zurück. Die id sollte erst
 	abgerufen werden nachdem der actor einem Environment
 	mit add_actor() hizugefügt wurde.
 
@@ -93,11 +93,11 @@ bool is_human()
 std::shared_ptr<Actor> m_self_pointer;
 	Ein shared_ptr auf den Actor. shared_ptr werden von
 	vielen Ai_Arena Funktionen als Eingabeparameter gefordert
-	durch diesen pointer muss nicht immer ein neuer erstellt 
+	durch diesen pointer muss nicht immer ein neuer erstellt
 	werden.
 
 std::shared_ptr<Environment> m_environment;
-	Ein shared_ptr auf das Environment in dem sich 
+	Ein shared_ptr auf das Environment in dem sich
 	der Actor befindet.
 */
 #pragma once
@@ -129,7 +129,7 @@ namespace Ai_Arena
 		void deactivate();
 
 		virtual void shut_down() { m_is_running = false; };
-		
+
 
 		int& id() { return m_id; }
 		const int& id() const { return m_id; }
@@ -181,7 +181,7 @@ void Actor<State_T>::start_actor_thread()
 template <class State_T>
 bool Actor<State_T>::is_sleeping()
 {
-	return m_is_sleeping; 
+	return m_is_sleeping;
 };
 
 template <class State_T>

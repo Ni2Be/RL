@@ -145,8 +145,8 @@ Area_int Snake_World::find_spawn_area()
 	{
 		int x = Utility::random_int_ts(0, playing_field[0].size() - 1 - area_size);
 		int y = Utility::random_int_ts(0, playing_field.size() - 1 - area_size);
-		if (is_empty(Area_int({ x, y }, { x + area_size, y + area_size})))
-			return Area_int({ x, y }, { x + area_size, y + area_size});
+		if (is_empty(Area_int({ x, y }, { x + area_size, y + area_size })))
+			return Area_int({ x, y }, { x + area_size, y + area_size });
 
 		if (trys++ % 20 == 0 && area_size > 0)
 			area_size--;

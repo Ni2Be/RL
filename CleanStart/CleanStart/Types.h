@@ -14,12 +14,12 @@ Action
 	Actions werden verwendet um einem Actor mitzuteilen
 	welche Actions im Environment angewand werden können.
 	Falls Aktionen nicht ausgeführt werden können, aber
-	existieren sollte die Variable is_possible auf false 
+	existieren sollte die Variable is_possible auf false
 	gesetzt werden.
-	Um das Design einheitlich zu halten sollten die Actions 
-	am besten definiert werden indem eine  enum Actions 
-	z.B. 
-	enum Actions { UP, DOWN, ..., NO_ACTION } 
+	Um das Design einheitlich zu halten sollten die Actions
+	am besten definiert werden indem eine  enum Actions
+	z.B.
+	enum Actions { UP, DOWN, ..., NO_ACTION }
 	erstellt wird.
 
 Pos<T>
@@ -48,14 +48,14 @@ namespace Ai_Arena
 	{
 		SEE_THE_WHOLE_STATE
 	};
-	
+
 	using Perception = std::vector<float>;
 
 	struct Action
 	{
 		int  action = 0;
 		bool is_possible;
-		Action() : is_possible(false){}
+		Action() : is_possible(false) {}
 		Action(const int action, const bool is_possible = true)
 			:
 			action(action),
@@ -79,7 +79,7 @@ namespace Ai_Arena
 			return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
 		}
 	};
-	using Pos_int   = Pos<int>;
+	using Pos_int = Pos<int>;
 	using Pos_float = Pos<float>;
 
 	template <class T>
@@ -89,12 +89,12 @@ namespace Ai_Arena
 		Pos<T> lower_right;
 		Area(T x1, T y1, T x2, T y2)
 			:
-			upper_left (x1, y1),
+			upper_left(x1, y1),
 			lower_right(x2, y2)
 		{}
 		Area(Pos<T> upper_left, Pos<T> lower_right)
 			:
-			upper_left (upper_left),
+			upper_left(upper_left),
 			lower_right(lower_right)
 		{}
 
@@ -106,6 +106,6 @@ namespace Ai_Arena
 				&& pos.y <= lower_right.y;
 		}
 	};
-	using Area_int   = Area<int>;
+	using Area_int = Area<int>;
 	using Area_float = Area<float>;
 }

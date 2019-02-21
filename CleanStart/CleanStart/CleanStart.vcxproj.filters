@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Ressourcendateien">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -39,11 +35,14 @@
     <Filter Include="Environment\Games\Snake">
       <UniqueIdentifier>{396f19d8-a399-4031-879d-c42218bde956}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Agent\Reflex_Agent">
-      <UniqueIdentifier>{877f290a-8ad7-477e-91c8-9563624b1ff0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Agent\MCTS_Agent">
-      <UniqueIdentifier>{3e73088b-537c-4e86-8cea-99b857956bdd}</UniqueIdentifier>
+      <UniqueIdentifier>{acbf19b0-bf96-404c-8892-977f2a7e4588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Agent\Reflex_Agent">
+      <UniqueIdentifier>{de377cdf-2145-4036-95c2-0eccc0a05459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment\Games\Pong">
+      <UniqueIdentifier>{4224b1a5-7016-43f7-98d5-dec331835e54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +73,9 @@
     <ClCompile Include="Snake_Human_Player.cpp">
       <Filter>Environment\Games\Snake</Filter>
     </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
     <ClCompile Include="Human_Player.cpp">
       <Filter>Actor\Human_Player</Filter>
     </ClCompile>
@@ -89,14 +91,26 @@
     <ClCompile Include="Game.cpp">
       <Filter>Environment\Games</Filter>
     </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Environment</Filter>
+    <ClCompile Include="MCTS_Agent.cpp">
+      <Filter>Actor\Agent\MCTS_Agent</Filter>
     </ClCompile>
     <ClCompile Include="Reflex_Agent.cpp">
       <Filter>Actor\Agent\Reflex_Agent</Filter>
     </ClCompile>
-    <ClCompile Include="MCTS_Agent.cpp">
-      <Filter>Actor\Agent\MCTS_Agent</Filter>
+    <ClCompile Include="Paddle.cpp">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="Pong_Game.cpp">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="Pong_Graphics.cpp">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="Pong_World.cpp">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="Pong_Human_Player.cpp">
+      <Filter>Environment\Games\Pong</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,8 +126,8 @@
     <ClInclude Include="Agent.h">
       <Filter>Actor\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="Arena.h">
-      <Filter>Arena</Filter>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
       <Filter>Utility</Filter>
@@ -130,6 +144,9 @@
     <ClInclude Include="Snake_Human_Player.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Environment</Filter>
+    </ClInclude>
     <ClInclude Include="Human_Player.h">
       <Filter>Actor\Human_Player</Filter>
     </ClInclude>
@@ -139,23 +156,32 @@
     <ClInclude Include="Game_Graphics.h">
       <Filter>Environment\Games</Filter>
     </ClInclude>
+    <ClInclude Include="Arena.h">
+      <Filter>Arena</Filter>
+    </ClInclude>
     <ClInclude Include="Snake_Game.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
     <ClInclude Include="Snake_Graphics.h">
       <Filter>Environment\Games\Snake</Filter>
     </ClInclude>
-    <ClInclude Include="Environment.h">
-      <Filter>Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Reflex_Agent.h">
-      <Filter>Actor\Agent\Reflex_Agent</Filter>
-    </ClInclude>
     <ClInclude Include="MCTS_Agent.h">
       <Filter>Actor\Agent\MCTS_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Paddle.h">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="Pong_Game.h">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="Pong_Graphics.h">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="Pong_World.h">
+      <Filter>Environment\Games\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="Pong_Human_Player.h">
+      <Filter>Environment\Games\Pong</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

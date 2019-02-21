@@ -32,4 +32,3 @@ namespace Ai_Arena
 		virtual void update() = 0;
 	};
 }
-

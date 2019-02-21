@@ -1,29 +1,31 @@
-#include "Snake_Game.h"
+#include "Pong_Game.h"
 #include "Actor.h"
-#include "Snake_World.h"
+#include "Pong_World.h"
 using namespace Ai_Arena;
-using namespace Snake;
+using namespace Pong;
 
 
-Snake_Game::Snake_Game(int fields, int field_pixel)
+Pong_Game::Pong_Game(int paddle_length,int fields_x, int fields_y, int field_pixel)
 	:
-	m_fields_width_count(fields),
-	world(fields)
+	//m_fields(fields),
+	world(fields_x, fields_y, paddle_length)
 {
+	world.MOVE_RANGE = fields_y;
 	graphics(
-		std::shared_ptr<Snake_Graphics>(
-			new Snake_Graphics(
-				fields,
-				"Snake",
+		std::shared_ptr<Pong_Graphics>(
+			new Pong_Graphics(
+				fields_x, fields_y,
+				"Pong",
 				field_pixel)));
 
 
 	m_graphics->update_graphics(world);
 
-	//set_environment_state(convert_to_state(***));
 }
 
-void Snake_Game::update_world()
+
+
+void Pong_Game::update_world()
 {
 	if (active_actors() == 0)
 	{
@@ -52,12 +54,13 @@ void Snake_Game::update_world()
 	}
 	lock.unlock();
 }
-void Snake_Game::set_up()
+
+void Pong_Game::set_up()
 {
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 
 	//save for learning debug
-	m_old_lives = world.snakes[0].lives();
+	//m_old_lives = world.paddles[0].lives();
 
 	for (auto& actor : actors())
 	{
@@ -66,29 +69,28 @@ void Snake_Game::set_up()
 }
 
 
-
-void Snake_Game::add_actor(std::shared_ptr<Actor<Snake_World>> actor)
+void Pong_Game::add_actor(std::shared_ptr<Actor<Pong_World>> actor)
 {
 	Environment::add_actor(Actor_Representation(actor, { Actions::NO_ACTION }));
-	m_actor_events.push_back(Snake_World::Events::NO_EVENT);
-	world.add_snake();
+	m_actor_events.push_back(Pong_World::Events::NO_EVENT);
+	world.add_paddle();
 }
 
-void Snake_Game::execute_actions()
+void Pong_Game::execute_actions()
 {
 	//execute all actions
 	for (auto actor_representation : actors())
 	{
 
-		if (world.snakes[actor_representation.actor->id()].has_lost())
+		if (world.paddles[actor_representation.actor->id()].has_lost())
 			set_actor_state(actor_representation.actor, true);
 		else if (actor_representation.actor->is_active())
 		{
-			//the actor Id should allways be the position of the snake in this array
-			Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
+			//the actor Id should allways be the position of the paddle in this array
+			Paddle* controlled_paddle = &(world.paddles[actor_representation.actor->id()]);
 
-			if (!controlled_snake->has_lost())
-				controlled_snake->perform_action(actor_representation.action.action);
+			if (!controlled_paddle->has_lost())
+				controlled_paddle->perform_action(actor_representation.action.action);
 			else
 				actor_representation.actor->deactivate();
 
@@ -101,15 +103,17 @@ void Snake_Game::execute_actions()
 
 }
 
-void Snake_Game::update()
+void Pong_Game::update()
 {
 	update_world();
 
-	if (m_old_lives != world.snakes[0].lives())
+/*	
+if (m_old_lives != world.Pongs[0].lives())
 	{
-		m_old_lives = world.snakes[0].lives();
+		m_old_lives = world.Pongs[0].lives();
 		std::cout << "p1 lives: " << m_old_lives << "\n\n";
 	}
+*/
 	//only update graphics in play mode
 	//if(needed)
 	graphics()->update_graphics(world);
@@ -118,72 +122,70 @@ void Snake_Game::update()
 
 
 //I_ENVIRONMENT
-std::vector<Action> Snake_Game::possible_actions(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
+std::vector<Action> Pong_Game::possible_actions(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state) const
 {
-	//TODO richtige richtungen seden
+
 	std::vector<Action> all_actions = {
 		Actions::U,
-		Actions::D,
-		Actions::L,
-		Actions::R,
-		//	Actions::NO_ACTION 
+		Actions::D
+		//Actions::L,
+		//Actions::R
+		//Actions::NO_ACTION 
 	};
-
-
 
 	return all_actions;
 }
 
 
-bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state, bool is_simulation) const
+bool Pong_Game::is_final(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state, bool is_simulation) const
 {
-	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
+	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
 	//TODO should be handled differently
-	if (controlled_snake->has_lost() && !is_simulation)
+	if (controlled_paddle->has_lost() && !is_simulation)
 	{
 		actor->deactivate();
 		//notify the environment that all actors could be finished
 		m_environment_condition.notify_all();
 	}
-	return controlled_snake->has_lost();
+	return controlled_paddle->has_lost();
 };
 
 
-Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state) const
+Reward Pong_Game::reward(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state) const
 {
-	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
+	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
 
 	Reward reward = 0.0f;
 
-	if (controlled_snake->score() < controlled_snake->last_score())
+	if (controlled_paddle->score() < controlled_paddle->last_score())
 		reward = 0.0f;
-	else if (controlled_snake->score() > controlled_snake->last_score())
+	else if (controlled_paddle->score() > controlled_paddle->last_score())
 		reward = 1.0f;
 	else
 		reward = 0.5f;
 
 	//return reward;
-	return controlled_snake->score();
+	return controlled_paddle->score();
 }
 
 
-Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) const
+Pong_World Pong_Game::actual_state(std::shared_ptr<Actor<Pong_World>> actor) const
 {
-	Snake_World current_world = world;
+	Pong_World current_world = world;
 	return current_world;
 }
 
 
 
 
-Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor, Sensor sensor) const
+Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor) const
 {
-	Snake_World actual_world = world;
+	Pong_World actual_world = world;
 
 	return get_perception(actor, sensor, actual_world);
 }
 
-Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor, Sensor sensor, Snake_World state) const
+Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor, Pong_World state) const
 {
 	Perception perception;
 	if (sensor == Sensor::SEE_THE_WHOLE_STATE)
@@ -195,7 +197,7 @@ Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor,
 
 
 
-void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action action)
+void Pong_Game::apply_action(std::shared_ptr<Actor<Pong_World>> actor, Action action)
 {
 	//assign action to actor
 	exchange_action(actor, action);
@@ -212,12 +214,12 @@ void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action 
 }
 
 //TODO
-//converts the state to the following state but acts as if the other snakes can't move
-std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_World>> actor, Snake_World state, Action action) const
+//converts the state to the following state but acts as if the other paddles can't move
+std::vector<Pong_World> Pong_Game::assume_action(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state, Action action) const
 {
-	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
+	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
 
-	controlled_snake->perform_action(action.action);
+	controlled_paddle->perform_action(action.action);
 
 	////handle events like ate apple or crashed
 	state.check_events();
@@ -227,7 +229,7 @@ std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_W
 
 //I_Environment helper
 
-const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const
+const Perception Pong_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Pong_World& world) const
 {
 	//TODO find good state representation
 
@@ -298,50 +300,41 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	//fill in the walls
 	for (int x = 0; x < world.playing_field.size(); x++) {
 		for (int y = 0; y < world.playing_field[0].size(); y++) {
-			if (world.playing_field[x][y] == Snake_World::Playing_Field::WALL)
+			if (world.playing_field[x][y] == Pong_World::Playing_Field::WALL)
 			{
 				world_state[x][y].first = C_WALL;
 			}
 		}
 	}
 
-	//fill in the apple
-	world_state[world.apple.position.x][world.apple.position.y].first = C_APPLE;
+	//fill in the ball
+	world_state[world.ball.position.x][world.ball.position.y].first = C_BALL;
 
-	//fill in the snakes
-	int snake_counter = 0;
-	for (auto snake : world.snakes)
+	//fill in the paddles
+	int paddle_counter = 0;
+	for (auto paddle : world.paddles)
 	{
-		for (auto snake_segment : snake.body())
+		for (auto paddle_segment : paddle.body())
 		{
-			if (snake_segment.is_head())
-				world_state[snake_segment.position().x][snake_segment.position().y].first = C_P_ACTOR_HEAD + snake_counter * 2;
-			else
-				world_state[snake_segment.position().x][snake_segment.position().y].first = C_P_ACTOR_BODY + snake_counter * 2;
+			world_state[paddle_segment.position().x][paddle_segment.position().y].first = C_P_ACTOR_BODY + paddle_counter * 2;
 
-			switch (snake_segment.direction())
+			switch (paddle_segment.direction())
 			{
-			case Snake::Actions::U:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_UP;
+			case Pong::Actions::U:
+				world_state[paddle_segment.position().x][paddle_segment.position().y].second = C_UP;
 				break;
-			case Snake::Actions::D:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_DOWN;
+			case Pong::Actions::D:
+				world_state[paddle_segment.position().x][paddle_segment.position().y].second = C_DOWN;
 				break;
-			case Snake::Actions::L:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_LEFT;
-				break;
-			case Snake::Actions::R:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_RIGHT;
-				break;
-			case Snake::Actions::NO_ACTION:
+			case Pong::Actions::NO_ACTION:
 				break;
 			default:
-				std::cerr << "convert_to_state()\ninvalid action: " << snake_segment.direction() << "\n";
+				std::cerr << "convert_to_state()\ninvalid action: " << paddle_segment.direction() << "\n";
 				exit(-1);
 			}
 
 		}
-		snake_counter++;
+		paddle_counter++;
 	}
 
 	//convert to perception
@@ -357,12 +350,13 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	}
 
 	//pushback events
-	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::CRASHED)
-		perception.push_back(C_IS_CRASHED);
+	//TODO EVENTS
+	if (m_actor_events[perceiving_actor.actor->id()] == Pong_World::Events::PADDLE_BOUNCE)
+		perception.push_back(C_IS_BOUNCED);
 	else
 		perception.push_back(0.0f);
-	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::ATE)
-		perception.push_back(C_HAS_EATEN);
+	if (m_actor_events[perceiving_actor.actor->id()] == Pong_World::Events::GOAL_HIT)
+		perception.push_back(C_HAS_SCORED);
 	else
 		perception.push_back(0.0f);
 
@@ -374,6 +368,4 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 
 	return perception;
 }
-
-
 

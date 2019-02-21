@@ -17,8 +17,8 @@ void Human_Player<State_T>::set_action()
 
 template <class State_T>
 void Human_Player<State_T>::evaluate_action()
-{	
-	auto next_action_time =	m_environment->next_execution_time();
+{
+	auto next_action_time = m_environment->next_execution_time();
 
 	while (std::chrono::system_clock::now() < next_action_time)
 	{
