@@ -45,6 +45,8 @@ namespace Ai_Arena
 		Pos_int position();
 		void reset_position();
 		void set_values(Pos_int pos, int paddle_length, int side);
+		//inline const void set_values(Pos_int pos, int paddle_length, int side) const;
+		
 		Action get_action();
 		
 
@@ -70,6 +72,8 @@ namespace Ai_Arena
 
 		inline int& score() { return m_score; }
 		inline const int score() const { return m_score; }
+		inline int& hits() { return m_hits; }
+		inline const int hits() const { return m_hits; }
 		inline int& last_score() { return m_last_score; }
 		inline const int last_score() const { return m_last_score; }
 
@@ -79,6 +83,7 @@ namespace Ai_Arena
 		Action m_current_action = Pong::Actions::NO_ACTION;
 		Pos_int m_start_position;
 		int m_score = 0;
+		int m_hits = 0;
 		int  m_last_score = 0;
 		int m_side;
 		int m_length;

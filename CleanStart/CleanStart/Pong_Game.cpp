@@ -127,10 +127,10 @@ std::vector<Action> Pong_Game::possible_actions(std::shared_ptr<Actor<Pong_World
 
 	std::vector<Action> all_actions = {
 		Actions::U,
-		Actions::D
+		Actions::D,
 		//Actions::L,
 		//Actions::R
-		//Actions::NO_ACTION 
+		Actions::NO_ACTION 
 	};
 
 	return all_actions;
@@ -154,18 +154,53 @@ bool Pong_Game::is_final(std::shared_ptr<Actor<Pong_World>> actor, Pong_World st
 Reward Pong_Game::reward(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state) const
 {
 	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
+	Reward reward = 0.0;
+	const Pong_World world = state;
 
-	Reward reward = 0.0f;
+	int chunkSize = 5;
+	int actor_front_y = controlled_paddle->body().front().position().y;
+	int paddle_size = (int) controlled_paddle->body().size();
+	int actor_center_y = controlled_paddle->body()[paddle_size / 2 - 1].position().y;
+	int actor_back_y = controlled_paddle->body().back().position().y;
+	int ball_y = state.ball.position.y;
+	float chunk = state.m_fields_y / chunkSize;
 
-	if (controlled_paddle->score() < controlled_paddle->last_score())
-		reward = 0.0f;
-	else if (controlled_paddle->score() > controlled_paddle->last_score())
-		reward = 1.0f;
-	else
-		reward = 0.5f;
+	
+	for (int i = 0; chunkSize > i; i++)
+	{
+		//std::cout << "chunk " << i << ": " << chunk * i<< std::endl;
 
-	//return reward;
-	return controlled_paddle->score();
+		if (chunk * i < actor_center_y && actor_center_y < chunk * (i + 1))
+		{
+		
+			if (chunk * i < ball_y && ball_y < chunk * (i + 1))
+				reward += 0.2;
+		}
+	}
+
+
+	if (controlled_paddle->body().front().position().y <= state.ball.position.y && state.ball.position.y <= controlled_paddle->body().back().position().y)
+		reward += 0.7;
+		
+
+	
+	for (int i = 0; controlled_paddle->body().size() > i; i++)
+	{
+		if (controlled_paddle->body()[i].position().x + 1 == state.ball.position.x && controlled_paddle->body()[i].position().y == state.ball.position.y && controlled_paddle->get_side() == Sides::L ||
+			controlled_paddle->body()[i].position().x - 1 == state.ball.position.x && controlled_paddle->body()[i].position().y == state.ball.position.y && controlled_paddle->get_side() == Sides::R
+			)
+		{
+			reward += 0.8;
+			//std::cout << "BOUNCE! "  << std::endl;
+		}
+	}
+
+	if (reward == 0.0)
+		reward = 0.0001;
+
+
+	return reward;
+	//return controlled_paddle->score();
 }
 
 
@@ -181,9 +216,13 @@ Pong_World Pong_Game::actual_state(std::shared_ptr<Actor<Pong_World>> actor) con
 Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor) const
 {
 	Pong_World actual_world = world;
-
 	return get_perception(actor, sensor, actual_world);
+
+	//Perception perception;
+	//return perception;
 }
+
+
 
 Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor, Pong_World state) const
 {
@@ -192,8 +231,14 @@ Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, S
 	{
 		perception = convert_to_SEE_THE_WHOLE_STATE(actors()[actor->id()], state);
 	}
+	if (sensor == Sensor::OWN_POS_AND_BALL)
+	{
+		perception = own_position_and_ball(actors()[actor->id()], state);
+	}
+
 	return perception;
 }
+
 
 
 
@@ -338,7 +383,7 @@ const Perception Pong_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation 
 	}
 
 	//convert to perception
-	std::vector<float> perception;
+	std::vector<double> perception;
 
 	for (int collumn = 0; collumn < world_state.size(); collumn++)
 	{
@@ -369,3 +414,81 @@ const Perception Pong_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation 
 	return perception;
 }
 
+
+const Perception Pong_Game::own_position_and_ball(Actor_Representation perceiving_actor, const Pong_World& world) const
+{
+	Perception perception;
+	Pong_World state = world;
+	int chunkSize = 5;
+	int actor_front_y = state.paddles[perceiving_actor.actor->id()].body().front().position().y;
+	int actor_center_y = state.paddles[perceiving_actor.actor->id()].body()[(int) state.paddles[perceiving_actor.actor->id()].body().size() / 2 - 1].position().y;
+	int actor_back_y = state.paddles[perceiving_actor.actor->id()].body().back().position().y;
+	int ball_y = state.ball.position.y;
+	float chunk = state.m_fields_y / chunkSize;
+
+
+	/*if (actor_front_y <= ball_y && ball_y <= actor_back_y)
+		perception.push_back(1.0);
+	else
+		perception.push_back(0.0);
+		*/
+
+	for (int i = 0; chunkSize > i; i++)
+	{
+		if (chunk * i <= actor_center_y && actor_center_y < chunk * (i + 1))
+		{
+			perception.push_back(i);
+			if (chunk * i <= ball_y && ball_y < chunk * (i + 1))
+			{
+				perception.push_back(1.0);
+			}
+			else
+			{
+				perception.push_back(0.0);
+
+			}
+		}
+	}
+	perception.push_back(actor_front_y);
+	perception.push_back(actor_back_y);
+	perception.push_back(ball_y);
+
+
+	//std::cout << "Perception Inputiii " << i << ": " << lastPerception[i] << std::endl;
+	//perception.push_back(state.paddles[perceiving_actor.actor->id()].body().front().position().y);
+	//perception.push_back(state.paddles[perceiving_actor.actor->id()].body().back().position().y);
+	//perception.push_back(state.ball.position.y);
+
+	//(m_actor_events[perceiving_actor.actor->id()] == Pong_World::Events::PADDLE_BOUNCE)
+
+
+
+	return perception;
+}
+
+void Pong_Game::debug(std::shared_ptr<Actor<Pong_World>> actor)
+{
+	
+	if (world.paddles[0].get_length() == world.paddles[1].get_length())
+	{
+		world.paddles[1].set_values({ world.m_fields_x - 3,1 , 0 }, world.m_fields_y -2, Sides::R);
+	}
+	else
+	{
+		world.paddles[1].set_values({ world.m_fields_x - 3,(int)world.m_fields_y / 2 , 0 }, world.m_paddle_length, Sides::R);
+	}
+	
+
+
+}
+
+std::vector<double> Pong_Game::get_stats()
+{
+	std::vector<double> stats;
+	stats.push_back(world.paddles[0].hits());
+	stats.push_back(world.paddles[1].score());
+	world.paddles[0].hits() = 0;
+	world.paddles[1].score() = 0;
+	return stats;
+
+}

@@ -33,10 +33,14 @@ namespace Ai_Arena
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor) const;
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor, Pong_World) const;
 
+		std::vector<double> get_stats();
+
+
 		Reward reward(std::shared_ptr<Actor<Pong_World>>, Pong_World) const;
 		bool is_final(std::shared_ptr<Actor<Pong_World>>, Pong_World, bool is_simulation = false) const;
 		void add_actor(std::shared_ptr<Actor<Pong_World>>);
 		void update();
+		void debug(std::shared_ptr<Actor<Pong_World>>);
 
 		////DEBUG
 		//void console_print(State);// const;
@@ -45,6 +49,7 @@ namespace Ai_Arena
 	private:
 		////I_Environment helper
 		const Perception convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Pong_World& world) const;
+		const Perception own_position_and_ball(Actor_Representation perceiving_actor, const Pong_World& world) const;
 		std::vector<Pong_World::Events> m_actor_events;
 
 

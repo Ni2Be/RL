@@ -345,7 +345,7 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	}
 
 	//convert to perception
-	std::vector<float> perception;
+	std::vector<double> perception;
 
 	for (int collumn = 0; collumn < world_state.size(); collumn++)
 	{

@@ -19,6 +19,8 @@
 #include "Reflex_Agent.cpp"
 #include "MCTS_Agent.h"
 #include "MCTS_Agent.cpp"
+#include "TD_Agent.h"
+#include "TD_Agent.cpp"
 
 namespace Ai_Arena
 {

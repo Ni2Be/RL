@@ -2,7 +2,7 @@
 
 ###Installation
 
-1. Branch "template_state" runterladen
+1. Branch "init" runterladen
 2. 64bit sfml https://www.sfml-dev.org/download/sfml/2.5.1/ 
    in den lib ordner entpacken und das -2.5.* löschen.
    Also die Ordnerstruktur für z.b. include sollte dann so aussehen:

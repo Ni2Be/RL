@@ -114,12 +114,15 @@ void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_eve
 				break;
 			case Events::PADDLE_BOUNCE:
 				//std::cout << "paddle hit: " << pong_event_pair.first->get_side() << std::endl;
+				//std::cout << "Ball hits: " << pong_event_pair.first->hits() << std::endl;
+				pong_event_pair.first->hits()++;
 				ball.hit_by = pong_event_pair.first->get_side();
 				break;
 			case Events::GOAL_HIT:
 				pong_event_pair.first->increase_Score(1);
 				//std::cout.flush();// Flush the output stream
 				//system("cls"); // Clear the console with the "system" function
+				
 				/*
 				if (pong_event_pair.first->get_side() == Sides::L)
 					std::cout <<  "Left Scored a Point!" << std::endl;
@@ -128,7 +131,7 @@ void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_eve
 
 				std::cout << "Scores \nLeft: " << paddles[Sides::L].score() << "\nRight: " << paddles[Sides::R].score() << std::endl;
 				*/
-				
+				//std::cout << "Ball misses: " << paddles[Sides::R].score() << std::endl;
 				
 				ball.reset({ m_fields_x / 2, m_fields_y / 2 });
 

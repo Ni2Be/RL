@@ -36,6 +36,15 @@ Perception get_perception(std::shared_ptr<Actor>, Sensor, State)
 	Wird von Agenten aufgerufen un die Wahrnehmung für einen vorgegebenen State
 	zu erhalten.
 
+////WORKINPROGRESS////
+Perceptions get_perceptions(std::shared_ptr<Actor>, Sensor)
+	Wird vom Agenten aufgerufen und versucht für possible_actions alle Wahrnehmungen
+	zu erhalten.
+Perceptions get_perceptions(std::shared_ptr<Actor>, Sensor, State)
+	Wird von Agenten aufgerufen un die Wahrnehmung für einen vorgegebenen State
+	zu erhalten.
+////WORKINPROGRESS////
+
 Reward reward(std::shared_ptr<Actor>, State)
 	Wird von planenden Agenten aufgerufen um für einen State einen Reward
 	zu bekommen.
@@ -251,7 +260,13 @@ namespace Ai_Arena
 		virtual Perception get_perception(std::shared_ptr<Actor<State_T>>, Sensor) const = 0;
 		/*returns the perception of the enviroment for a given state*/
 		virtual Perception get_perception(std::shared_ptr<Actor<State_T>>, Sensor, State_T) const = 0;
+		/*returns the actual perception of the enviroment*/
+	//	virtual Perceptions get_perceptions(std::shared_ptr<Actor<State_T>>, Sensor) const = 0;
+		/*returns the perception of the enviroment for a given state*/
+		//virtual Perceptions get_perceptions(std::shared_ptr<Actor<State_T>>, Sensor, State_T) const = 0;
 
+		/*returns stats relatet to the game*/
+		virtual std::vector<double> get_stats() = 0;
 
 		/*returns the reward of a given state*/
 		virtual Reward reward(std::shared_ptr<Actor<State_T>>, State_T) const = 0;
@@ -268,6 +283,8 @@ namespace Ai_Arena
 
 			/*adds an actor to the environment*/
 		virtual void add_actor(std::shared_ptr<Actor<State_T>>) = 0;
+		/*execute special options for debug purposes*/
+		virtual void debug(std::shared_ptr<Actor<State_T>>) = 0;
 		/*returns the number of humen actors*/
 		const int human_actors() const;
 		/*retruns the number of active actors*/
@@ -331,7 +348,7 @@ namespace Ai_Arena
 		Action exchange_action(std::shared_ptr<Actor<State_T>> actor, Action new_action);
 		//THREADSAFE will count +1 to active_actors
 		void add_actor(Actor_Representation actor_action);
-
+		void debug(Actor_Representation actor_action);
 		Environment() {};
 
 
