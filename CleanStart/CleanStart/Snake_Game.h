@@ -50,6 +50,8 @@ namespace Ai_Arena
 		bool is_final(std::shared_ptr<Actor<Snake_World>>, Snake_World, bool is_simulation = false) const;
 		void add_actor(std::shared_ptr<Actor<Snake_World>>);
 		void update();
+		std::vector<double> get_stats();
+		void debug(std::shared_ptr<Actor<Snake_World>>);
 
 		////DEBUG
 		//void console_print(State);// const;

@@ -33,14 +33,17 @@ namespace Ai_Arena
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor) const;
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor, Pong_World) const;
 
-		std::vector<double> get_stats();
+		
 
 
 		Reward reward(std::shared_ptr<Actor<Pong_World>>, Pong_World) const;
 		bool is_final(std::shared_ptr<Actor<Pong_World>>, Pong_World, bool is_simulation = false) const;
 		void add_actor(std::shared_ptr<Actor<Pong_World>>);
 		void update();
+		std::vector<double> get_stats();
 		void debug(std::shared_ptr<Actor<Pong_World>>);
+		double normalize_width(double input) const;
+		double normalize_height(double input) const;
 
 		////DEBUG
 		//void console_print(State);// const;
@@ -53,8 +56,11 @@ namespace Ai_Arena
 		std::vector<Pong_World::Events> m_actor_events;
 
 
+
 		int m_old_lives = 0;
 
+		double x1_w, x2_w, y1_w, y2_w, m_w, b_w;
+		double x1_h, x2_h, y1_h, y2_h, m_h, b_h;
 
 		const int C_WALL = 1;
 		const int C_BALL = 2;

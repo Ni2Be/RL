@@ -1,7 +1,7 @@
 #pragma once
 #include "TD_Agent.h"
 
-
+#include <ctime> //Für Random Zahl
 #include <iostream>
 
 #include "Utility.h"
@@ -29,13 +29,8 @@ void TD_Agent<State_T>::evaluate_action()
 		
 
 		int moveIndex = findMoveTD(possible_actions);
-		//std::cout << "super" << std::endl;
-		//Perception test = m_environment->get_perception(m_self_pointer, Sensor::OWN_POS_AND_BALL, m_environment->actual_state(m_self_pointer));
-		//std::cout << test.size() << std::endl;
-		
 
 
-		//std::cout << moveIndex << std::endl;
 		Agent<State_T>::m_environment->apply_action(Agent<State_T>::m_self_pointer, possible_actions[moveIndex]);
 		checkRewards();
 		stats();
@@ -134,7 +129,13 @@ void TD_Agent<State_T>::stats()
 
 		if (ballhits > ballhitsbest)
 			ballhitsbest = ballhits;
-		hitmissratio = ((float)ballhits / (float)ballmisses );
+		if (statReward > statRewardMax)
+			statRewardMax = statReward;
+		if (ballmisses != 0)
+		{
+			hitmissratio = ((float)ballhits / (float)ballmisses);
+		}
+		else hitmissratio = 0;
 		if (hitmissratio > besthitmissratio)
 			besthitmissratio = hitmissratio;
 
@@ -142,6 +143,7 @@ void TD_Agent<State_T>::stats()
 		std::cout << "Total Steps: " << totalStep << "-------------" << std::endl;
 		std::cout << "Stats: " << std::endl;
 		std::cout << "Reward:" << statReward << std::endl;
+		std::cout << "Reward Max:" << statRewardMax << std::endl;
 
 //		std::cout << "Y Front: " << lastPerception[0] << std::endl;
 //		std::cout << "Y Back: " << lastPerception[1] << std::endl;
@@ -157,6 +159,7 @@ void TD_Agent<State_T>::stats()
 		std::cout << "Ball hits best round: " << ballhitsbest << std::endl;
 		std::cout << "Hit Miss Ratio: "  << hitmissratio << std::endl;
 		std::cout << "Best Hit Miss Ratio: " << besthitmissratio << std::endl;
+		
 		std::cout << "------" << "-------Total Steps: " << totalStep << std::endl;
 		std::cout << std::endl;
 

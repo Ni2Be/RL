@@ -376,4 +376,15 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 }
 
 
+void Snake_Game::debug(std::shared_ptr<Actor<Snake_World>> actor)
+{
+	return;
 
+
+}
+
+std::vector<double> Snake_Game::get_stats()
+{
+	std::vector<double> null;
+	return null;
+}

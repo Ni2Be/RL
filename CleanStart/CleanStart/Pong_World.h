@@ -26,6 +26,8 @@ namespace Ai_Arena
 			void travel();
 			void flip_trajectory_x();
 			void flip_trajectory_y();
+
+
 		};
 		class Playing_Field : public std::vector<std::vector<int>>
 		{
@@ -64,6 +66,7 @@ namespace Ai_Arena
 
 			}
 
+
 			ball.reset({fields_x / 2, fields_y / 2});
 		}
 
@@ -74,7 +77,7 @@ namespace Ai_Arena
 
 		void check_events();
 		void handle_events(std::vector<std::pair<Paddle*, Events>>& pong_events);
-
+		//double normalize(double input);
 		void add_paddle()
 		{
 			
@@ -96,5 +99,9 @@ namespace Ai_Arena
 		Playing_Field playing_field;
 		int m_fields_x, m_fields_y;
 		int m_paddle_length;
+		int random_y = 0;
+
+
+
 	};
 }
