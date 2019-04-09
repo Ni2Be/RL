@@ -32,9 +32,10 @@ namespace Ai_Arena
 		using Actor<State_T>::activate;
 		using Actor<State_T>::deactivate;
 		NeuralNetwork nn = NeuralNetwork(5, 12, 3);
-		NeuralNetwork best_nn;
+		//NeuralNetwork best_nn;
 		bool firstRound = true;
 		Perception lastPerception;
+		bool debug_active = false;
 		float statReward;
 		float statRewardMax;
 		int maxStep = 1000;

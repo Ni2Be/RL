@@ -5,23 +5,45 @@ using namespace Ai_Arena;
 void Arena::run()
 {
 
-	//SNAKE
+	//Snake
 	m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(10, 40));
 
 
-	//HUMAN
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[0]);
+	for (int i = 0; i < humanPlayers; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
 
 	//AGENTS
-	m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
-	m_enviroment->add_actor(m_actors[0]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[1]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[2]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[3]);
+	//MCTS
+	for (int i = 0; i < MCTSAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//Reflex
+	for (int i = 0; i < ReflexAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//Random
+	for (int i = 0; i < RandomAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//TD
+	for (int i = 0; i < TDAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new TD_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
 
 	m_enviroment->update_interval() = std::chrono::milliseconds(50);
 
@@ -33,27 +55,55 @@ void Arena::run()
 	std::this_thread::sleep_for(std::chrono::milliseconds(300));
 	std::cout << "end\n";
 
+
 }
 
 /*
+
+
+
+	NEW PONG
 	//Pong
 	m_pong_enviroment = std::shared_ptr<Environment<Pong_World>>(new Pong_Game(10, 150, 80, 10));
 
-	//HUMAN
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[0]);
+
+	for (int i = 0; i < humanPlayers; i++) {
+		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new Pong_Human_Player(m_pong_enviroment)));
+		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
+		addedAgents++;
+	}
+
 
 	//AGENTS
-	m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new MCTS_Agent<Pong_World>(m_pong_enviroment)));
-	m_pong_enviroment->add_actor(m_pong_actors[0]);
-	m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new MCTS_Agent<Pong_World>(m_pong_enviroment)));
-	m_pong_enviroment->add_actor(m_pong_actors[1]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[2]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[3]);
+	//MCTS
+	for (int i = 0; i < MCTSAgents; i++) {
+		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new MCTS_Agent<Pong_World>(m_pong_enviroment)));
+		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
+		addedAgents++;
+	}
 
-	m_pong_enviroment->update_interval() = std::chrono::milliseconds(50);
+	//Reflex
+	for (int i = 0; i < ReflexAgents; i++) {
+		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new Reflex_Agent<Pong_World>(m_pong_enviroment)));
+		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//Random
+	for (int i = 0; i < RandomAgents; i++) {
+		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new Random_Agent<Pong_World>(m_pong_enviroment)));
+		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//TD
+	for (int i = 0; i < TDAgents; i++) {
+		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new TD_Agent<Pong_World>(m_pong_enviroment)));
+		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	m_pong_enviroment->update_interval() = std::chrono::milliseconds(1);
 
 
 	for (auto& actor : m_pong_actors)
@@ -62,28 +112,60 @@ void Arena::run()
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(300));
 	std::cout << "end\n";
+
+
+
+
+
 */
 
 /*
 void Arena::snake()
 {
-	//SNAKE
+
+
+
+
+SNAKE NEW
+	//Snake
 	m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(10, 40));
 
 
-	//HUMAN
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[0]);
+	for (int i = 0; i < humanPlayers; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
 
 	//AGENTS
-	m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
-	m_enviroment->add_actor(m_actors[0]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[1]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[2]);
-	//m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
-	//m_enviroment->add_actor(m_actors[3]);
+	//MCTS
+	for (int i = 0; i < MCTSAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new MCTS_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//Reflex
+	for (int i = 0; i < ReflexAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Reflex_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//Random
+	for (int i = 0; i < RandomAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Random_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
+
+	//TD
+	for (int i = 0; i < TDAgents; i++) {
+		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new TD_Agent<Snake_World>(m_enviroment)));
+		m_enviroment->add_actor(m_actors[addedAgents]);
+		addedAgents++;
+	}
 
 	m_enviroment->update_interval() = std::chrono::milliseconds(50);
 
@@ -94,5 +176,7 @@ void Arena::snake()
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(300));
 	std::cout << "end\n";
-}
+
+
+
 */

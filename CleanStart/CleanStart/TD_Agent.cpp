@@ -176,13 +176,16 @@ void TD_Agent<State_T>::stats()
 template <class State_T>
 void TD_Agent<State_T>::debug()
 {
+	if (debug_active)
+	{
 		//using namespace Pong;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 
-				m_environment->debug(m_self_pointer);
-				std::cout << "Toggle Mode" << std::endl;
+			m_environment->debug(m_self_pointer);
+			std::cout << "Toggle Mode" << std::endl;
 
 		}
+	}
 
 }
