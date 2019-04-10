@@ -6,6 +6,8 @@ using namespace Ai_Arena;
 int Pong_World::MOVE_RANGE;
 void Pong_World::Ball::reset(Pos_int pos)
 {
+	//std::cout.flush();// Flush the output stream
+	//std::cout << "Random Y: " << pos.y << std::endl;
 	position = pos;
 	is_shot = false;
 	hit_by = Sides::R;
@@ -105,6 +107,7 @@ void Pong_World::check_events()
 
 void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_events)
 {
+
 		for (auto& pong_event_pair : pong_events)
 		{
 			switch (pong_event_pair.second)
@@ -114,12 +117,15 @@ void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_eve
 				break;
 			case Events::PADDLE_BOUNCE:
 				//std::cout << "paddle hit: " << pong_event_pair.first->get_side() << std::endl;
+				//std::cout << "Ball hits: " << pong_event_pair.first->hits() << std::endl;
+				pong_event_pair.first->hits()++;
 				ball.hit_by = pong_event_pair.first->get_side();
 				break;
 			case Events::GOAL_HIT:
 				pong_event_pair.first->increase_Score(1);
 				//std::cout.flush();// Flush the output stream
 				//system("cls"); // Clear the console with the "system" function
+				
 				/*
 				if (pong_event_pair.first->get_side() == Sides::L)
 					std::cout <<  "Left Scored a Point!" << std::endl;
@@ -128,9 +134,12 @@ void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_eve
 
 				std::cout << "Scores \nLeft: " << paddles[Sides::L].score() << "\nRight: " << paddles[Sides::R].score() << std::endl;
 				*/
-				
-				
+				//std::cout << "Ball misses: " << paddles[Sides::R].score() << std::endl;
+				//random_y = rand() % m_fields_y;
+				//if (random_y < 2) random_y = 4;
+				//if (random_y > m_fields_y - 3) random_y = m_fields_y - 5;
 				ball.reset({ m_fields_x / 2, m_fields_y / 2 });
+				
 
 				break;
 			case Events::NO_EVENT:
@@ -141,3 +150,4 @@ void Pong_World::handle_events(std::vector<std::pair<Paddle*, Events>>& pong_eve
 			}
 		}
 }
+

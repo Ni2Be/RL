@@ -44,6 +44,9 @@
     <Filter Include="Environment\Games\Pong">
       <UniqueIdentifier>{4224b1a5-7016-43f7-98d5-dec331835e54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Agent\TD_Agent">
+      <UniqueIdentifier>{9257491b-c19a-4570-b2d1-bf34f5fb65a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +114,15 @@
     </ClCompile>
     <ClCompile Include="Pong_Human_Player.cpp">
       <Filter>Environment\Games\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="NN.cpp">
+      <Filter>Actor\Agent\TD_Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="TD_Agent.cpp">
+      <Filter>Actor\Agent\TD_Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuralNetwork.cpp">
+      <Filter>Actor\Agent\TD_Agent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +194,15 @@
     </ClInclude>
     <ClInclude Include="Pong_Human_Player.h">
       <Filter>Environment\Games\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="NN.h">
+      <Filter>Actor\Agent\TD_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="TD_Agent.h">
+      <Filter>Actor\Agent\TD_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork.h">
+      <Filter>Actor\Agent\TD_Agent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

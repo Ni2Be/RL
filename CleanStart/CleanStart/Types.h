@@ -41,15 +41,16 @@ Area<T>
 namespace Ai_Arena
 {
 
-	using Reward = float;
+	using Reward = double;
 
 
 	enum Sensor
 	{
-		SEE_THE_WHOLE_STATE
+		SEE_THE_WHOLE_STATE, OWN_POS_AND_BALL
 	};
 
-	using Perception = std::vector<float>;
+	using Perception = std::vector<double>;
+	using Perceptions = std::vector<std::vector<double>>;
 
 	struct Action
 	{
