@@ -506,3 +506,11 @@ lifes: 80
 score: 0
 action count: 5
 
+lifes: 99
+score: 7
+action count: 103
+
+lifes: 98
+score: 8
+action count: 319
+
