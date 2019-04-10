@@ -14,6 +14,7 @@ class Multi_Snake:
 #include "Game.cpp"
 #include "Snake_World.h"
 #include "Snake_Graphics.h"
+#include <vector>
 
 namespace Ai_Arena
 {
@@ -34,6 +35,8 @@ namespace Ai_Arena
 		int         m_fields_width_count;
 
 		void execute_actions();
+
+		std::vector<int> action_counter;
 	public:
 		//I_Environment
 
@@ -60,7 +63,7 @@ namespace Ai_Arena
 		std::vector<Snake_World::Events> m_actor_events;
 
 
-		int m_old_lives = 0;
+		int m_old_lifes = 0;
 
 
 		const int C_WALL = 1;

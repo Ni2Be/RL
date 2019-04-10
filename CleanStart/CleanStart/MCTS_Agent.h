@@ -11,7 +11,7 @@ namespace Ai_Arena
 	class MC_Node
 	{
 	public:
-		MC_Node(State_T);
+		MC_Node(State_T, float c);
 		~MC_Node();
 		State_T state;
 		float value;
@@ -21,8 +21,7 @@ namespace Ai_Arena
 		MC_Node* parent;
 		//upper confidence bound
 		MC_Node* uct_child() const;
-		const float sqrt2 = 1.41421356237309504880;
-		float m_c = sqrt2;
+		float m_c;
 
 		static float uct(int parent_visits, int child_visits, float child_value, float c);
 	};
@@ -40,6 +39,10 @@ namespace Ai_Arena
 	private:
 		Action select_action();
 
+		//Monitor
+		int simulated_steps;
+		int applied_actions;
+
 
 		//Tree
 	public:
@@ -50,12 +53,14 @@ namespace Ai_Arena
 		void simulate(MC_Node<State_T>&);
 		void backpropagate(MC_Node<State_T>&);
 	private:
+		void load_settings();
 
 		int node_height(MC_Node<State_T>& node) const;
 		MC_Node<State_T>* root;
-		int max_simulation_depth = 10;
+		int max_simulation_depth = 4;
 		float discount_factor = 1.0f;
-
+		const float sqrt2 = 1.41421356237309504880;
+		float m_c = sqrt2;
 		//parent template
 		using Actor<State_T>::m_self_pointer;
 		using Actor<State_T>::m_environment;

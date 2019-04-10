@@ -5,13 +5,20 @@
 
 #include "Eight_Puzzle.h"
 
+//#define PONG
+#define SNAKE 1
+
+#if PONG
 #include "Pong_Game.h"
 #include "Pong_Human_Player.h"
 #include "Pong_Human_Player.cpp"
+#endif
 
-//#include "Snake_Game.h"
-//#include "Snake_Human_Player.h"
-//#include "Snake_Human_Player.cpp"
+#if SNAKE
+#include "Snake_Game.h"
+#include "Snake_Human_Player.h"
+#include "Snake_Human_Player.cpp"
+#endif
 
 #include "Random_Agent.h"
 #include "Random_Agent.cpp"
@@ -31,11 +38,12 @@ namespace Ai_Arena
 		void run();
 
 	protected:
-
-		//std::shared_ptr<Environment<Snake_World>> m_enviroment;
-		//std::vector<std::shared_ptr<Actor<Snake_World>>> m_actors;
-		
+#ifdef PONG
 		std::shared_ptr<Environment<Pong_World>> m_pong_enviroment;
 		std::vector<std::shared_ptr<Actor<Pong_World>>> m_pong_actors;
+#elif SNAKE
+		std::shared_ptr<Environment<Snake_World>> m_enviroment;
+		std::vector<std::shared_ptr<Actor<Snake_World>>> m_actors;
+#endif
 	};
 }

@@ -2,6 +2,7 @@
 #include "MCTS_Agent.h"
 
 #include <iostream>
+#include <fstream>
 
 #include "Utility.h"
 
@@ -13,6 +14,7 @@ MCTS_Agent<State_T>::MCTS_Agent(std::shared_ptr<Environment<State_T>> enviroment
 	:
 	Agent<State_T>::Agent(enviroment)
 {
+	load_settings();
 }
 
 
@@ -20,6 +22,31 @@ template <class State_T>
 void MCTS_Agent<State_T>::set_up()
 {
 }
+
+template <class State_T>
+void MCTS_Agent<State_T>::load_settings()
+{
+	std::ifstream ifs;
+	ifs.open("MCTS_Settings.txt");
+	if (!ifs)
+	{
+		std::cerr << "could not load MCTS Agent\n";
+		exit(-1);
+	}
+	std::string consumer;
+	ifs >> consumer;
+	ifs >> max_simulation_depth;
+	ifs >> consumer;
+	ifs >> discount_factor;
+	ifs >> consumer;
+	ifs >> m_c;
+	ifs.close();
+	std::cout << "Load MCTS:"
+		<< "\nmax_simulation_depth: " << max_simulation_depth
+		<< "\ndiscount_factor: " << discount_factor
+		<< "\nc: " << m_c << "\n";
+}
+
 
 template <class State_T>
 void MCTS_Agent<State_T>::evaluate_action()
@@ -48,6 +75,7 @@ void MCTS_Agent<State_T>::evaluate_action()
 		}
 		//DEBUG
 		std::cout << "simulation steps: " << simulation_steps << "\n";
+		simulated_steps += simulation_steps;
 		for (int i = 0; i < root->children.size(); i++)
 		{
 			char ch = 'n';
@@ -65,6 +93,7 @@ void MCTS_Agent<State_T>::evaluate_action()
 
 		//std::cout << "action: " << next_action.action << "\n\n\n";
 		m_environment->apply_action(m_self_pointer, next_action);
+		applied_actions++;
 	}
 	else
 	{
@@ -126,15 +155,27 @@ void MCTS_Agent<State_T>::shut_down()
 {
 	std::cout << "shut down\n";
 
+	std::ofstream ofs;
+	ofs.open("MCTSlog.txt", std::ios::app);
+	if (!ofs)
+	{
+		std::cerr << "could not open MCTSlog.txt";
+		exit(-1);
+	}
+	
+	ofs << "\napplied actions: " << applied_actions;
+	ofs << "\nsimulated states: " << simulated_steps;
+	ofs.close();
 	m_is_running = false;
 }
 
-
+	
 //NODE
 template <class State_T>
-MC_Node<State_T>::MC_Node(State_T state)
+MC_Node<State_T>::MC_Node(State_T state, float c)
 	:
-	state(state)
+	state(state),
+	m_c(c)
 {
 }
 
@@ -183,7 +224,7 @@ template <class State_T>
 void MCTS_Agent<State_T>::set_up_tree(const State_T& actual_state, const std::vector<Action>& possible_actions)
 {
 	//set the root Node
-	root = new MC_Node(actual_state);
+	root = new MC_Node(actual_state, m_c);
 	expand(*root, possible_actions);
 	root->visits++;
 	for (auto& child : root->children)
@@ -219,7 +260,7 @@ void MCTS_Agent<State_T>::expand(MC_Node<State_T>& leaf, const std::vector<Actio
 	for (int i = 0; i < possible_actions.size(); i++)
 	{
 		auto possible_child_states = m_environment->assume_action(m_self_pointer, leaf.state, possible_actions[i]);
-		leaf.children.push_back(new MC_Node<State_T>(possible_child_states[0]));
+		leaf.children.push_back(new MC_Node<State_T>(possible_child_states[0], m_c));
 		leaf.children.back()->parent = &leaf;
 	}
 	leaf.is_fully_expanded = true;
@@ -252,7 +293,7 @@ void MCTS_Agent<State_T>::simulate(MC_Node<State_T>& child)
 	}
 	//set child value
 	child_value /= static_cast<float>(simulation_step);
-	child.value = child_value;
+	child.value = child_value + child.parent->value;
 	child.visits += 1;
 }
 

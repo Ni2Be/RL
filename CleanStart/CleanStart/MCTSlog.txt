@@ -1,0 +1,24 @@
+max_simulation_depth 10
+dicount_factor 0.1
+c 2
+
+applied actions: 685296
+simulated states: 11676918
+
+
+abort...
+---------------------
+
+10ms
+max_simulation_depth 10
+dicount_factor 0.2
+c 2
+
+applied actions: 226300
+simulated states: 3508446
+----------------------
+
+200ms
+max_simulation_depth 10
+dicount_factor 0.2
+c 2

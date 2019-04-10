@@ -3,7 +3,7 @@
 #include "Snake_World.h"
 using namespace Ai_Arena;
 using namespace Snake;
-
+#include <fstream>
 
 Snake_Game::Snake_Game(int fields, int field_pixel)
 	:
@@ -57,7 +57,7 @@ void Snake_Game::set_up()
 	std::unique_lock<std::mutex> lock(m_execution_lock);
 
 	//save for learning debug
-	m_old_lives = world.snakes[0].lives();
+	m_old_lifes = world.snakes[0].lifes();
 
 	for (auto& actor : actors())
 	{
@@ -72,6 +72,8 @@ void Snake_Game::add_actor(std::shared_ptr<Actor<Snake_World>> actor)
 	Environment::add_actor(Actor_Representation(actor, { Actions::NO_ACTION }));
 	m_actor_events.push_back(Snake_World::Events::NO_EVENT);
 	world.add_snake();
+	action_counter.push_back(0);
+	action_counter.shrink_to_fit();
 }
 
 void Snake_Game::execute_actions()
@@ -86,6 +88,8 @@ void Snake_Game::execute_actions()
 		{
 			//the actor Id should allways be the position of the snake in this array
 			Snake_Entity* controlled_snake = &(world.snakes[actor_representation.actor->id()]);
+
+			action_counter[actor_representation.actor->id()]++;
 
 			if (!controlled_snake->has_lost())
 				controlled_snake->perform_action(actor_representation.action.action);
@@ -105,10 +109,20 @@ void Snake_Game::update()
 {
 	update_world();
 
-	if (m_old_lives != world.snakes[0].lives())
+	if (m_old_lifes != world.snakes[0].lifes())
 	{
-		m_old_lives = world.snakes[0].lives();
-		std::cout << "p1 lives: " << m_old_lives << "\n\n";
+		std::ofstream ofs;
+		ofs.open("snakelog.txt", std::ios::app);
+		if (!ofs)
+		{
+			std::cerr << "could not open snakelog.txt\n";
+			exit(-1);
+		}
+		m_old_lifes = world.snakes[0].lifes();
+		ofs << "lifes: " << m_old_lifes << "\nscore: " << world.snakes[0].last_score() << "\naction count: " <<  action_counter[0] << "\n\n";
+
+		action_counter[0] = 0;
+		ofs.close();
 	}
 	//only update graphics in play mode
 	//if(needed)
@@ -144,6 +158,7 @@ bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 		actor->deactivate();
 		//notify the environment that all actors could be finished
 		m_environment_condition.notify_all();
+
 	}
 	return controlled_snake->has_lost();
 };
@@ -156,11 +171,11 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 	Reward reward = 0.0f;
 
 	if (controlled_snake->score() < controlled_snake->last_score())
-		reward = 0.0f;
+		reward = -1.0f;
 	else if (controlled_snake->score() > controlled_snake->last_score())
 		reward = 1.0f;
 	else
-		reward = 0.5f;
+		reward = 0.0f;
 
 	//return reward;
 	return controlled_snake->score();

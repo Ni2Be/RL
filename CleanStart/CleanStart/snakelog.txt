@@ -1,0 +1,508 @@
+---------------------
+
+10ms
+max_simulation_depth 10
+dicount_factor 0.2
+c 2
+
+lifes: 99
+score: 18
+action count: 5233
+
+lifes: 98
+score: 0
+action count: 2
+
+lifes: 97
+score: 14
+action count: 4396
+
+abort..
+
+lifes: 99
+score: 19
+action count: 3983
+
+lifes: 98
+score: 19
+action count: 2747
+
+lifes: 97
+score: 21
+action count: 1892
+
+lifes: 96
+score: 16
+action count: 1418
+
+lifes: 95
+score: 0
+action count: 7
+
+lifes: 94
+score: 17
+action count: 669
+
+lifes: 93
+score: 0
+action count: 1
+
+lifes: 92
+score: 0
+action count: 4
+
+lifes: 91
+score: 14
+action count: 1003
+
+lifes: 90
+score: 0
+action count: 9
+
+lifes: 89
+score: 0
+action count: 7
+
+lifes: 88
+score: 0
+action count: 11
+
+lifes: 87
+score: 0
+action count: 3
+
+lifes: 86
+score: 0
+action count: 1
+
+lifes: 85
+score: 0
+action count: 2
+
+lifes: 84
+score: 0
+action count: 1
+
+lifes: 83
+score: 0
+action count: 4
+
+lifes: 82
+score: 0
+action count: 1
+
+lifes: 81
+score: 17
+action count: 1832
+
+lifes: 80
+score: 14
+action count: 7169
+
+lifes: 79
+score: 0
+action count: 1
+
+lifes: 78
+score: 19
+action count: 6261
+
+lifes: 77
+score: 0
+action count: 1
+
+lifes: 76
+score: 26
+action count: 7407
+
+lifes: 75
+score: 16
+action count: 2639
+
+lifes: 74
+score: 0
+action count: 9
+
+lifes: 73
+score: 20
+action count: 4282
+
+lifes: 72
+score: 19
+action count: 2812
+
+lifes: 71
+score: 0
+action count: 5
+
+lifes: 70
+score: 0
+action count: 2
+
+lifes: 69
+score: 18
+action count: 1536
+
+lifes: 68
+score: 0
+action count: 3
+
+lifes: 67
+score: 0
+action count: 1
+
+lifes: 66
+score: 16
+action count: 6202
+
+lifes: 65
+score: 0
+action count: 2
+
+lifes: 64
+score: 16
+action count: 3246
+
+lifes: 63
+score: 17
+action count: 6394
+
+lifes: 62
+score: 16
+action count: 724
+
+lifes: 61
+score: 18
+action count: 1571
+
+lifes: 60
+score: 0
+action count: 4
+
+lifes: 59
+score: 14
+action count: 37326
+
+lifes: 58
+score: 0
+action count: 3
+
+lifes: 57
+score: 18
+action count: 3753
+
+lifes: 56
+score: 7
+action count: 4922
+
+lifes: 55
+score: 15
+action count: 9604
+
+lifes: 54
+score: 0
+action count: 1
+
+lifes: 53
+score: 0
+action count: 6
+
+lifes: 52
+score: 0
+action count: 1
+
+lifes: 51
+score: 14
+action count: 5584
+
+lifes: 50
+score: 16
+action count: 3155
+
+lifes: 49
+score: 0
+action count: 2
+
+lifes: 48
+score: 20
+action count: 2043
+
+lifes: 47
+score: 0
+action count: 2
+
+lifes: 46
+score: 0
+action count: 5
+
+lifes: 45
+score: 23
+action count: 6088
+
+lifes: 44
+score: 0
+action count: 1
+
+lifes: 43
+score: 0
+action count: 2
+
+lifes: 42
+score: 10
+action count: 25582
+
+lifes: 41
+score: 0
+action count: 3
+
+lifes: 40
+score: 0
+action count: 2
+
+lifes: 39
+score: 6
+action count: 9911
+
+lifes: 38
+score: 0
+action count: 10
+
+lifes: 37
+score: 0
+action count: 1
+
+lifes: 36
+score: 0
+action count: 3
+
+lifes: 35
+score: 0
+action count: 5
+
+lifes: 34
+score: 0
+action count: 6
+
+lifes: 33
+score: 0
+action count: 6
+
+lifes: 32
+score: 19
+action count: 1164
+
+lifes: 31
+score: 0
+action count: 5
+
+lifes: 30
+score: 0
+action count: 7
+
+lifes: 29
+score: 21
+action count: 1014
+
+lifes: 28
+score: 0
+action count: 1
+
+lifes: 27
+score: 20
+action count: 2479
+
+lifes: 26
+score: 0
+action count: 5
+
+lifes: 25
+score: 0
+action count: 2
+
+lifes: 24
+score: 21
+action count: 450
+
+lifes: 23
+score: 16
+action count: 561
+
+lifes: 22
+score: 0
+action count: 1
+
+lifes: 21
+score: 0
+action count: 15
+
+lifes: 20
+score: 1
+action count: 12
+
+lifes: 19
+score: 21
+action count: 11111
+
+lifes: 18
+score: 0
+action count: 1
+
+lifes: 17
+score: 14
+action count: 16763
+
+lifes: 16
+score: 0
+action count: 1
+
+lifes: 15
+score: 13
+action count: 601
+
+lifes: 14
+score: 17
+action count: 873
+
+lifes: 13
+score: 4
+action count: 1341
+
+lifes: 12
+score: 0
+action count: 7
+
+lifes: 11
+score: 16
+action count: 4966
+
+lifes: 10
+score: 0
+action count: 17
+
+lifes: 9
+score: 11
+action count: 711
+
+lifes: 8
+score: 0
+action count: 5
+
+lifes: 7
+score: 18
+action count: 765
+
+lifes: 6
+score: 0
+action count: 1
+
+lifes: 5
+score: 0
+action count: 7
+
+lifes: 4
+score: 16
+action count: 1889
+
+lifes: 3
+score: 0
+action count: 7
+
+lifes: 2
+score: 9
+action count: 9252
+
+lifes: 1
+score: 14
+action count: 336
+
+lifes: 0
+score: 3
+action count: 37
+
+---------------------
+
+200ms
+max_simulation_depth 10
+dicount_factor 0.2
+c 2
+
+lifes: 99
+score: 19
+action count: 605
+
+lifes: 98
+score: 18
+action count: 8769
+
+lifes: 97
+score: 23
+action count: 2099
+
+lifes: 96
+score: 21
+action count: 2089
+
+lifes: 95
+score: 16
+action count: 2392
+
+lifes: 94
+score: 17
+action count: 1079
+
+lifes: 93
+score: 19
+action count: 4929
+
+lifes: 92
+score: 12
+action count: 6057
+
+lifes: 91
+score: 0
+action count: 12
+
+lifes: 90
+score: 0
+action count: 8
+
+lifes: 89
+score: 18
+action count: 70499
+
+lifes: 88
+score: 23
+action count: 3353
+
+lifes: 87
+score: 0
+action count: 19
+
+lifes: 86
+score: 0
+action count: 6
+
+lifes: 85
+score: 0
+action count: 1
+
+lifes: 84
+score: 0
+action count: 2
+
+lifes: 83
+score: 18
+action count: 2446
+
+lifes: 82
+score: 20
+action count: 8742
+
+lifes: 81
+score: 21
+action count: 12090
+
+lifes: 80
+score: 0
+action count: 5
+

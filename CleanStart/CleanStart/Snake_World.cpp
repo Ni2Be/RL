@@ -120,7 +120,7 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 		case Events::CRASHED:
 			snake_event_pair.first->score() = 0;
 			//only respown if lives left
-			if (--snake_event_pair.first->lives() <= 0)
+			if (--snake_event_pair.first->lifes() <= 0)
 				snake_event_pair.first->game_over();
 			else
 				snake_event_pair.first->respown(find_spawn_area());
