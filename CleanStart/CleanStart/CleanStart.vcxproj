@@ -163,7 +163,6 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCTS_Agent.cpp" />
-    <ClCompile Include="MCTS_UCB_Agent.cpp" />
     <ClCompile Include="NeuralNetwork.cpp" />
     <ClCompile Include="NN.cpp" />
     <ClCompile Include="Paddle.cpp" />
@@ -187,7 +186,6 @@
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
-    <ClInclude Include="MCTS_UCB_Agent.h" />
     <ClInclude Include="NeuralNetwork.h" />
     <ClInclude Include="TD_Agent.h" />
     <ClInclude Include="Human_Player.h" />

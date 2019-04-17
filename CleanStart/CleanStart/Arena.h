@@ -2,16 +2,20 @@
 #include <memory>
 #include <vector>
 
+#define PONG
+//#define SNAKE
 
-//#include "Eight_Puzzle.h"
+#ifdef PONG
+#include "Pong_Game.h"
+#include "Pong_Human_Player.h"
+#include "Pong_Human_Player.cpp"
+#endif
 
-//#include "Pong_Game.h"
-//#include "Pong_Human_Player.h"
-//#include "Pong_Human_Player.cpp"
-
+#ifdef SNAKE
 #include "Snake_Game.h"
 #include "Snake_Human_Player.h"
 #include "Snake_Human_Player.cpp"
+#endif
 
 #include "Random_Agent.h"
 #include "Random_Agent.cpp"
@@ -42,11 +46,15 @@ namespace Ai_Arena
 	protected:
 
 		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, addedAgents = 0;
+
+#ifdef SNAKE
 		std::shared_ptr<Environment<Snake_World>> m_enviroment;
 		std::vector<std::shared_ptr<Actor<Snake_World>>> m_actors;
+#endif
 
-
-		//std::shared_ptr<Environment<Pong_World>> m_pong_enviroment;
-		//std::vector<std::shared_ptr<Actor<Pong_World>>> m_pong_actors;
+#ifdef PONG
+		std::shared_ptr<Environment<Pong_World>> m_pong_enviroment;
+		std::vector<std::shared_ptr<Actor<Pong_World>>> m_pong_actors;
+#endif
 	};
 }
