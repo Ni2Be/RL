@@ -30,7 +30,7 @@ void Reflex_Agent<State_T>::evaluate_action()
 			m_environment->possible_actions(
 				m_self_pointer);
 		
-		const auto state = m_environment->actual_state(m_self_pointer);
+		const auto state = m_environment->current_state(m_self_pointer);
 
 		//randomly choose one action
 		int next_action_index = Utility::random_int_ts(0, possible_actions.size() - 1);

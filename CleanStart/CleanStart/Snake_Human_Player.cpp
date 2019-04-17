@@ -16,7 +16,7 @@ Snake_Human_Player<State_T>::Snake_Human_Player(std::shared_ptr<Environment<Stat
 template <class State_T>
 void Snake_Human_Player<State_T>::set_action()
 {
-	if (!Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->actual_state(Human_Player<State_T>::m_self_pointer)))
+	if (!Human_Player<State_T>::m_environment->is_final(Human_Player<State_T>::m_self_pointer, Human_Player<State_T>::m_environment->current_state(Human_Player<State_T>::m_self_pointer)))
 	{
 		auto events = Human_Player<State_T>::m_environment->get_events();
 

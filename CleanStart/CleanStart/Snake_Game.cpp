@@ -182,7 +182,7 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 }
 
 
-Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) const
+Snake_World Snake_Game::current_state(std::shared_ptr<Actor<Snake_World>> actor) const
 {
 	Snake_World current_world = world;
 	return current_world;
@@ -193,9 +193,9 @@ Snake_World Snake_Game::actual_state(std::shared_ptr<Actor<Snake_World>> actor) 
 
 Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor, Sensor sensor) const
 {
-	Snake_World actual_world = world;
+	Snake_World current_world = world;
 
-	return get_perception(actor, sensor, actual_world);
+	return get_perception(actor, sensor, current_world);
 }
 
 Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor, Sensor sensor, Snake_World state) const

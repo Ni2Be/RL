@@ -57,7 +57,7 @@
 //		std::vector<Action> possible_actions(std::shared_ptr<Actor>, State) const;
 //		std::vector<State>  assume_action(std::shared_ptr<Actor>, State, Action) const;
 //		void   apply_action(std::shared_ptr<Actor>, Action);
-//		State  actual_state(std::shared_ptr<Actor>) const;
+//		State  current_state(std::shared_ptr<Actor>) const;
 //		Reward reward(std::shared_ptr<Actor>, State) const;
 //		bool   is_final(std::shared_ptr<Actor>, State) const;
 //		void add_actor(std::shared_ptr<Actor>);

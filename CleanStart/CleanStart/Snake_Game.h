@@ -44,7 +44,7 @@ namespace Ai_Arena
 		std::vector<Action> possible_actions(std::shared_ptr<Actor<Snake_World>>, Snake_World) const;
 		std::vector<Snake_World>  assume_action(std::shared_ptr<Actor<Snake_World>>, Snake_World, Action) const;
 		void   apply_action(std::shared_ptr<Actor<Snake_World>>, Action);
-		Snake_World  actual_state(std::shared_ptr<Actor<Snake_World>>) const;
+		Snake_World  current_state(std::shared_ptr<Actor<Snake_World>>) const;
 
 		Perception get_perception(std::shared_ptr<Actor<Snake_World>>, Sensor) const;
 		Perception get_perception(std::shared_ptr<Actor<Snake_World>>, Sensor, Snake_World) const;

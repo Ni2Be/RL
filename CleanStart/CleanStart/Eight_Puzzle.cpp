@@ -274,7 +274,7 @@
 //}
 //
 ////THREADSAFE
-//State Eight_Puzzle::actual_state(std::shared_ptr<Actor>) const
+//State Eight_Puzzle::current_state(std::shared_ptr<Actor>) const
 //{
 //	return environment_state();
 //}

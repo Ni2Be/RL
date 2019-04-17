@@ -50,7 +50,7 @@ template <class State_T>
 int TD_Agent<State_T>::findMoveTD(std::vector<Action> possible_actions)
 {
 	Perceptions perceptions;
-	const auto state = m_environment->actual_state(m_self_pointer);
+	const auto state = m_environment->current_state(m_self_pointer);
 
 	for (int i = 0; i < possible_actions.size(); i++)
 	{
@@ -105,7 +105,7 @@ int TD_Agent<State_T>::greedyMove(std::vector<std::vector<double>>& perceptions)
 template <class State_T>
 void TD_Agent<State_T>::checkRewards()
 {
-	const auto state = m_environment->actual_state(m_self_pointer);
+	const auto state = m_environment->current_state(m_self_pointer);
 	Reward reward = m_environment->reward(m_self_pointer, state);
 	double eSignal = reward - nn.getValue(lastPerception);
 	nn.backProb(eSignal, 0.1);

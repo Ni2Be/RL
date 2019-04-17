@@ -24,7 +24,7 @@ void apply_action(std::shared_ptr<Actor>, Action)
 	Wird von Actors aufgerufen um dem Environment mitzuteilen welche Action
 	er ausführen will.
 
-State actual_state(std::shared_ptr<Actor>)
+State current_state(std::shared_ptr<Actor>)
 	Wird von Agenten aufgerufen um den aktuellen State des Environment zu erfahren.
 
 
@@ -252,16 +252,16 @@ namespace Ai_Arena
 		/*sets the action an actor wants to perform*/
 		virtual void   apply_action(std::shared_ptr<Actor<State_T>>, Action) = 0;
 
-		/*returns the actual state of the enviroment*/
+		/*returns the current state of the enviroment*/
 		//umbenennen current
-		virtual State_T  actual_state(std::shared_ptr<Actor<State_T>>) const = 0;
+		virtual State_T  current_state(std::shared_ptr<Actor<State_T>>) const = 0;
 
 
-		/*returns the actual perception of the enviroment*/
+		/*returns the current perception of the enviroment*/
 		virtual Perception get_perception(std::shared_ptr<Actor<State_T>>, Sensor) const = 0;
 		/*returns the perception of the enviroment for a given state*/
 		virtual Perception get_perception(std::shared_ptr<Actor<State_T>>, Sensor, State_T) const = 0;
-		/*returns the actual perception of the enviroment*/
+		/*returns the current perception of the enviroment*/
 	//	virtual Perceptions get_perceptions(std::shared_ptr<Actor<State_T>>, Sensor) const = 0;
 		/*returns the perception of the enviroment for a given state*/
 		//virtual Perceptions get_perceptions(std::shared_ptr<Actor<State_T>>, Sensor, State_T) const = 0;

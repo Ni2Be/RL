@@ -1038,3 +1038,259 @@ lifes: 85
 score: 14
 action count: 156
 
+lifes: 99
+score: 1
+action count: 3
+
+lifes: 98
+score: 2
+action count: 6
+
+lifes: 97
+score: 1
+action count: 8
+
+lifes: 96
+score: 1
+action count: 6
+
+lifes: 95
+score: 1
+action count: 7
+
+lifes: 94
+score: 1
+action count: 3
+
+lifes: 93
+score: 1
+action count: 5
+
+lifes: 92
+score: 1
+action count: 4
+
+lifes: 91
+score: 1
+action count: 2
+
+lifes: 90
+score: 1
+action count: 7
+
+lifes: 89
+score: 1
+action count: 4
+
+lifes: 88
+score: 1
+action count: 1
+
+lifes: 87
+score: 1
+action count: 3
+
+lifes: 86
+score: 1
+action count: 4
+
+lifes: 85
+score: 1
+action count: 1
+
+lifes: 84
+score: 1
+action count: 3
+
+lifes: 83
+score: 1
+action count: 5
+
+lifes: 82
+score: 1
+action count: 3
+
+lifes: 81
+score: 1
+action count: 6
+
+lifes: 80
+score: 1
+action count: 6
+
+lifes: 79
+score: 2
+action count: 7
+
+lifes: 78
+score: 1
+action count: 5
+
+lifes: 99
+score: 1
+action count: 3
+
+lifes: 99
+score: 1
+action count: 3
+
+lifes: 98
+score: 1
+action count: 4
+
+lifes: 97
+score: 1
+action count: 5
+
+lifes: 96
+score: 1
+action count: 7
+
+lifes: 95
+score: 1
+action count: 3
+
+lifes: 94
+score: 1
+action count: 3
+
+lifes: 93
+score: 1
+action count: 2
+
+lifes: 92
+score: 1
+action count: 6
+
+lifes: 91
+score: 1
+action count: 2
+
+lifes: 90
+score: 1
+action count: 1
+
+lifes: 89
+score: 1
+action count: 2
+
+lifes: 88
+score: 1
+action count: 2
+
+lifes: 87
+score: 1
+action count: 1
+
+lifes: 86
+score: 1
+action count: 4
+
+lifes: 85
+score: 1
+action count: 1
+
+lifes: 84
+score: 1
+action count: 3
+
+lifes: 83
+score: 1
+action count: 2
+
+lifes: 82
+score: 1
+action count: 5
+
+lifes: 81
+score: 1
+action count: 2
+
+lifes: 80
+score: 1
+action count: 3
+
+lifes: 79
+score: 1
+action count: 2
+
+lifes: 78
+score: 1
+action count: 2
+
+lifes: 77
+score: 1
+action count: 3
+
+lifes: 76
+score: 1
+action count: 3
+
+lifes: 75
+score: 1
+action count: 3
+
+lifes: 74
+score: 1
+action count: 5
+
+lifes: 73
+score: 1
+action count: 1
+
+lifes: 72
+score: 1
+action count: 2
+
+lifes: 71
+score: 1
+action count: 5
+
+lifes: 70
+score: 1
+action count: 1
+
+lifes: 69
+score: 1
+action count: 3
+
+lifes: 68
+score: 1
+action count: 5
+
+lifes: 67
+score: 1
+action count: 1
+
+lifes: 66
+score: 1
+action count: 3
+
+lifes: 65
+score: 1
+action count: 2
+
+lifes: 64
+score: 1
+action count: 4
+
+lifes: 63
+score: 1
+action count: 2
+
+lifes: 62
+score: 1
+action count: 4
+
+lifes: 61
+score: 1
+action count: 3
+
+lifes: 60
+score: 1
+action count: 3
+
+lifes: 59
+score: 1
+action count: 3
+

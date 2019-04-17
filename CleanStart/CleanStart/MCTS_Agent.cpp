@@ -58,7 +58,7 @@ void MCTS_Agent<State_T>::evaluate_action()
 		std::vector<Action> possible_actions =
 			m_environment->possible_actions(
 				m_self_pointer);
-		const auto state = m_environment->actual_state(m_self_pointer);
+		const auto state = m_environment->current_state(m_self_pointer);
 
 		set_up_tree(state, possible_actions);
 
@@ -180,10 +180,10 @@ MC_Node<State_T>::~MC_Node()
 
 //TREE
 template <class State_T>
-void MCTS_Agent<State_T>::set_up_tree(const State_T& actual_state, const std::vector<Action>& possible_actions)
+void MCTS_Agent<State_T>::set_up_tree(const State_T& current_state, const std::vector<Action>& possible_actions)
 {
 	//set the root Node
-	root = new MC_Node(actual_state, Action(0));
+	root = new MC_Node(current_state, Action(0));
 	expand(*root, possible_actions);
 	//do one playthrought for each child
 	for (auto& child : root->children)

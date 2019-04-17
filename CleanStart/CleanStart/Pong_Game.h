@@ -28,7 +28,7 @@ namespace Ai_Arena
 		std::vector<Action> possible_actions(std::shared_ptr<Actor<Pong_World>>, Pong_World) const;
 		std::vector<Pong_World>  assume_action(std::shared_ptr<Actor<Pong_World>>, Pong_World, Action) const;
 		void   apply_action(std::shared_ptr<Actor<Pong_World>>, Action);
-		Pong_World  actual_state(std::shared_ptr<Actor<Pong_World>>) const;
+		Pong_World  current_state(std::shared_ptr<Actor<Pong_World>>) const;
 
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor) const;
 		Perception get_perception(std::shared_ptr<Actor<Pong_World>>, Sensor, Pong_World) const;

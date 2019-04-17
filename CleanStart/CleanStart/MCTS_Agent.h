@@ -43,7 +43,7 @@ namespace Ai_Arena
 
 		//Tree
 	public:
-		void set_up_tree(const State_T& actual_state, const std::vector<Action>& possible_actions);
+		void set_up_tree(const State_T& current_state, const std::vector<Action>& possible_actions);
 		void delete_tree();
 
 		MC_Node<State_T>* best_child(MC_Node<State_T>*) const;

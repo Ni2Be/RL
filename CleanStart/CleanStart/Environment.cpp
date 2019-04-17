@@ -76,21 +76,21 @@ void Environment<State_T>::set_next_execution_time(std::chrono::system_clock::ti
 template <class State_T>
 std::vector<Action> Environment<State_T>::possible_actions(std::shared_ptr<Actor<State_T>> actor) const
 {
-	return possible_actions(actor, actual_state(actor));
+	return possible_actions(actor, current_state(actor));
 };
 
 /*returns the reward of a given state*/
 template <class State_T>
 Reward Environment<State_T>::reward(std::shared_ptr<Actor<State_T>> actor)
 {
-	return reward(actor, actual_state(actor));
+	return reward(actor, current_state(actor));
 }
 
 /*prooves if the current state is a final state*/
 template <class State_T>
 bool   Environment<State_T>::is_final(std::shared_ptr<Actor<State_T>> actor, bool is_simulation) const
 {
-	return is_final(actor, actual_state(actor), is_simulation);
+	return is_final(actor, current_state(actor), is_simulation);
 };
 
 

@@ -226,7 +226,7 @@ Reward Pong_Game::reward(std::shared_ptr<Actor<Pong_World>> actor, Pong_World st
 }
 
 
-Pong_World Pong_Game::actual_state(std::shared_ptr<Actor<Pong_World>> actor) const
+Pong_World Pong_Game::current_state(std::shared_ptr<Actor<Pong_World>> actor) const
 {
 	Pong_World current_world = world;
 	return current_world;
@@ -237,8 +237,8 @@ Pong_World Pong_Game::actual_state(std::shared_ptr<Actor<Pong_World>> actor) con
 
 Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor) const
 {
-	Pong_World actual_world = world;
-	return get_perception(actor, sensor, actual_world);
+	Pong_World current_world = world;
+	return get_perception(actor, sensor, current_world);
 
 	//Perception perception;
 	//return perception;
