@@ -460,7 +460,7 @@ const Perception Pong_Game::own_position_and_ball(Actor_Representation perceivin
 
 	//Perception für Chunks
 
-	
+	/*
 	for (int i = 0; chunkSize > i; i++)
 	{
 		if (chunk * i <= actor_center_y && actor_center_y < chunk * (i + 1))
@@ -478,7 +478,7 @@ const Perception Pong_Game::own_position_and_ball(Actor_Representation perceivin
 			}
 		}
 	}
-	
+	*/
 
 	//Nicht normalisiert
 	//perception.push_back(actor_front_y);
@@ -487,7 +487,7 @@ const Perception Pong_Game::own_position_and_ball(Actor_Representation perceivin
 
 	perception.push_back(normalize_height(actor_front_y));
 	//perception.push_back(normalize_width(actor_x));
-	perception.push_back(normalize_height(actor_back_y));
+	//perception.push_back(normalize_height(actor_back_y));
 	//perception.push_back(normalize_width(ball_x));
 	perception.push_back(normalize_height(ball_y));
 

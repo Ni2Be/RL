@@ -31,7 +31,7 @@ namespace Ai_Arena
 		using Actor<State_T>::is_active;
 		using Actor<State_T>::activate;
 		using Actor<State_T>::deactivate;
-		NeuralNetwork nn = NeuralNetwork(5, 12, 3);
+		NeuralNetwork nn = NeuralNetwork(2, 1, 3);
 		//NeuralNetwork best_nn;
 		bool firstRound = true;
 		Perception lastPerception;
