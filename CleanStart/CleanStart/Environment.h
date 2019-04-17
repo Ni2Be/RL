@@ -253,6 +253,7 @@ namespace Ai_Arena
 		virtual void   apply_action(std::shared_ptr<Actor<State_T>>, Action) = 0;
 
 		/*returns the actual state of the enviroment*/
+		//umbenennen current
 		virtual State_T  actual_state(std::shared_ptr<Actor<State_T>>) const = 0;
 
 

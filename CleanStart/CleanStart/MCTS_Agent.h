@@ -11,20 +11,17 @@ namespace Ai_Arena
 	class MC_Node
 	{
 	public:
-		MC_Node(State_T);
+		MC_Node(State_T, Action);
 		~MC_Node();
 		State_T state;
-		float value;
-		bool is_fully_expanded = false;
-		int visits = 0;
+		Action action;
+		double value = 0.01;
+		bool   is_fully_expanded = false;
+		int    visits = 1;
+		int    height = 1;
+		bool   is_final;
 		std::vector<MC_Node*> children;
 		MC_Node* parent;
-		//upper confidence bound
-		MC_Node* uct_child() const;
-		const float sqrt2 = 1.41421356237309504880;
-		float m_c = sqrt2;
-
-		static float uct(int parent_visits, int child_visits, float child_value, float c);
 	};
 
 	template <class State_T>
@@ -40,22 +37,30 @@ namespace Ai_Arena
 	private:
 		Action select_action();
 
+		//Monitor
+		int simulated_steps;
+		int applied_actions;
 
 		//Tree
 	public:
 		void set_up_tree(const State_T& actual_state, const std::vector<Action>& possible_actions);
 		void delete_tree();
+
+		MC_Node<State_T>* best_child(MC_Node<State_T>*) const;
+		double ucb(MC_Node<State_T>* child) const;
+
 		MC_Node<State_T>& select() const;
-		void expand(MC_Node<State_T>&, const std::vector<Action>&);
-		void simulate(MC_Node<State_T>&);
+		void expand       (MC_Node<State_T>&, const std::vector<Action>&);
+		void simulate     (MC_Node<State_T>&);
 		void backpropagate(MC_Node<State_T>&);
 	private:
+		void load_settings();
 
-		int node_height(MC_Node<State_T>& node) const;
 		MC_Node<State_T>* root;
-		int max_simulation_depth = 10;
-		float discount_factor = 1.0f;
-
+		int   max_simulation_depth;
+		int   max_tree_height = 100;
+		double m_c = 2;
+		double discount_factor;
 		//parent template
 		using Actor<State_T>::m_self_pointer;
 		using Actor<State_T>::m_environment;

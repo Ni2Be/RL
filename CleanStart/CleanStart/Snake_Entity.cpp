@@ -125,6 +125,7 @@ void Snake_Entity::respown(Area_int area)
 					Utility::random_int_ts(area.upper_left.y, area.lower_right.y)));
 	body()[0].is_head() = true;
 
+	m_score = m_lifes;
 }
 
 void Snake_Entity::game_over()

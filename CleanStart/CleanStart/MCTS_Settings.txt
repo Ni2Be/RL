@@ -1,0 +1,3 @@
+max_simulation_depth 30
+dicount_factor 0.8
+c 1.41421356237

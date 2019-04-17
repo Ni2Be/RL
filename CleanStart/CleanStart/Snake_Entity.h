@@ -77,8 +77,8 @@ namespace Ai_Arena
 
 		inline const Pos_int& head_position() const { return body()[0].position(); }
 	
-		inline int& lives() { return m_lives; }
-		inline const int lives() const { return m_lives; }
+		inline int& lifes() { return m_lifes; }
+		inline const int lifes() const { return m_lifes; }
 		inline int& score() { return m_score; }
 		inline const int score() const { return m_score; }
 		inline int& last_score() { return m_last_score; }
@@ -95,7 +95,7 @@ namespace Ai_Arena
 		Snake_Segment m_prev_tail_end = {0,0};
 		Action m_current_action = Actions::NO_ACTION;
 		
-		int  m_lives = 30;
+		int  m_lifes = 100;
 		int  m_last_score = 0;
 		int  m_score = 0;
 		bool m_has_lost = false;
