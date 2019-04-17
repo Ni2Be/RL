@@ -44,7 +44,8 @@ void MCTS_Agent<State_T>::load_settings()
 	std::cout << "Load MCTS:"
 		<< "\nmax_simulation_depth: " << max_simulation_depth
 		<< "\ndiscount_factor: " << discount_factor
-		<< "\nc: " << m_c << "\n";
+		<< "\nc: " << m_c
+		<< "\n";
 }
 
 
@@ -64,7 +65,7 @@ void MCTS_Agent<State_T>::evaluate_action()
 		
 		//use the time untill the next action will be executed to
 		//find a good action
-		Action next_action = 0;
+		Action next_action = possible_actions[0];
 		auto next_action_time = m_environment->next_execution_time();
 
 		int simulation_steps = 0;
@@ -75,16 +76,18 @@ void MCTS_Agent<State_T>::evaluate_action()
 		}
 		//DEBUG
 		std::cout << "simulation steps: " << simulation_steps << "\n";
+		std::cout << "root: va: " << root->value << ", vi: " << root->visits << "\n";
 		simulated_steps += simulation_steps;
 		for (int i = 0; i < root->children.size(); i++)
 		{
 			char ch = 'n';
-			switch (i) {
+			switch (root->children[i]->action.action) {
 			case 0: ch = 'u'; break;
 			case 1: ch = 'd'; break;
-			case 2: ch = 'l'; break;
-			case 3: ch = 'r'; break;}
-			std::cout << "action " << i << ": " << ch << ": " << root->children[i]->value << "\n";
+			case 2: ch = 'r'; break;
+			case 3: ch = 'l'; break;}
+			std::cout << "action " << root->children[i]->action.action << ": " << ch << ": " << ucb(root->children[i]) << "  |  ";
+			std::cout << "child: va: " << root->children[i]->value << ", vi: " << root->children[i]->visits << "\n";
 		}
 		std::cout << "selected: " << next_action.action << "\n----\n\n";
 		//ENDDEBUG
@@ -116,38 +119,26 @@ Action MCTS_Agent<State_T>::select_action()
 	//expand best leaf
 	//TODO could support variable possible_actions.size()
 	expand(best_leaf, possible_actions);
-
+	
 	//simulate all children
 	for (auto child : best_leaf.children)
 		simulate(*child);
 	
-	//beackpropagate values
-	for (auto child : best_leaf.children)
-		backpropagate(*child);
-	
-	//DEBUG
-
-	//for (auto child : root->children)
-	//	std::cout << "value: " << child->value << ", visits: " << child->visits << ", uct: " << MC_Node<State_T>::uct(root->visits, child->visits, child->value, child->m_c) << "\n";
-	//std::cout << "\n";
-	//ENDDEBUG
-
-	//TODO implement function
-	//return the assumed best action
-	int next_action_index = 0;
-	auto best_child = root->children[0];
-	for (int i = 0; i < root->children.size(); i++)
+	//beackpropagate values / if endnode backprop again
+	if (best_leaf.children.size() > 0)
+		for (auto child : best_leaf.children)
+			backpropagate(*child);
+	else
 	{
-		if (root->children[i]->value > best_child->value)
-		{
-			best_child = root->children[i];
-			next_action_index = i;
-		}
+		//TODO ein leaf das in eine Sackgasse führt sollte sich selbst verstärt bestrafen 
+		best_leaf.value += best_leaf.value;
+		backpropagate(best_leaf);
 	}
-	//std::cout << "seldected: " << next_action_index << "\n";
-	
+	//return the assumed best action
+	MC_Node<State_T>* best = best_child(this->root);
+	Action next_action = best->action;
 
-	return possible_actions[next_action_index];
+	return next_action;
 }
 
 template <class State_T>
@@ -172,10 +163,10 @@ void MCTS_Agent<State_T>::shut_down()
 	
 //NODE
 template <class State_T>
-MC_Node<State_T>::MC_Node(State_T state, float c)
+MC_Node<State_T>::MC_Node(State_T state, Action action)
 	:
 	state(state),
-	m_c(c)
+	action(action)
 {
 }
 
@@ -186,50 +177,17 @@ MC_Node<State_T>::~MC_Node()
 		delete child;
 }
 
-template <class State_T>
-MC_Node<State_T>* MC_Node<State_T>::uct_child() const
-{
-	if (children.size() <= 0)
-	{
-		std::cerr << "MC_Node best_child(), children size <= 0!\n";
-		exit(-1);
-	}
-	//for all visited childs 
-	MC_Node* best_path = children[0];
-	float best_path_uct = uct(this->visits, best_path->visits, best_path->value, best_path->m_c);
-	for (auto child : children)
-	{
-		float child_uct = uct(this->visits, child->visits, child->value, m_c);
-
-		if (child_uct > best_path_uct)
-		{
-			best_path = child;
-			best_path_uct = child_uct;
-		}
-	}
-	return best_path;
-}
-
-template <class State_T>
-float MC_Node<State_T>::uct(int parent_visits, int child_visits, float child_value, float c)
-{
-	float partent_vi = static_cast<float>(parent_visits);
-	float child_vi = static_cast<float>(child_visits);
-
-	return (child_value / child_vi) + (c * std::sqrt(std::logf(partent_vi) / child_vi));
-}
 
 //TREE
 template <class State_T>
 void MCTS_Agent<State_T>::set_up_tree(const State_T& actual_state, const std::vector<Action>& possible_actions)
 {
 	//set the root Node
-	root = new MC_Node(actual_state, m_c);
+	root = new MC_Node(actual_state, Action(0));
 	expand(*root, possible_actions);
-	root->visits++;
+	//do one playthrought for each child
 	for (auto& child : root->children)
 		simulate(*child);
-
 }
 
 template <class State_T>
@@ -241,27 +199,64 @@ void MCTS_Agent<State_T>::delete_tree()
 template <class State_T>
 MC_Node<State_T>& MCTS_Agent<State_T>::select() const
 {
-	//find the leaf with the highest uct that is not fully expanded
+	//find the most promising leaf
 	MC_Node<State_T>* best_leaf = root;
-	int i = 0;
-	while (best_leaf->is_fully_expanded)
+	while (best_leaf->is_fully_expanded
+		&& best_leaf->children.size() > 0)
 	{
-		best_leaf = best_leaf->uct_child();
-		i++;
+		best_leaf = best_child(best_leaf);
 	}
 	return *best_leaf;
+}
+
+template <class State_T>
+MC_Node<State_T>* MCTS_Agent<State_T>::best_child(MC_Node<State_T>* node) const
+{
+	if (node->children.size() == 0)
+		return node;
+	MC_Node<State_T>* best_child = node->children[0];
+	for (int i = 1; i < node->children.size(); i++)
+	{
+		if (ucb(node->children[i])
+			>= ucb(best_child))
+		{
+			//DEBUG
+			//std::cout << "best_child ucb: " << ucb(best_child) << "\n";
+			best_child = node->children[i];
+		}
+	
+	}
+	//std::cout << "\n";
+	return best_child;
+}
+
+template <class State_T>
+double MCTS_Agent<State_T>::ucb(MC_Node<State_T>* child) const
+{
+	double partent_vi = static_cast<double>(child->parent->visits);
+	double child_vi = static_cast<double>(child->visits);
+
+	return (child->value / child_vi) + (m_c * std::sqrt(std::log(partent_vi) / child_vi));
 }
 
 
 template <class State_T>
 void MCTS_Agent<State_T>::expand(MC_Node<State_T>& leaf, const std::vector<Action>& possible_actions)
 {
-	//make a new child for every possible Action and set the childs state
+	//make a new child for every possible Action that does not lead to a final state
 	for (int i = 0; i < possible_actions.size(); i++)
 	{
 		auto possible_child_states = m_environment->assume_action(m_self_pointer, leaf.state, possible_actions[i]);
-		leaf.children.push_back(new MC_Node<State_T>(possible_child_states[0], m_c));
-		leaf.children.back()->parent = &leaf;
+		if (!m_environment->is_final(m_self_pointer, possible_child_states[0], true)
+			&& (m_environment->reward(m_self_pointer, possible_child_states[0]) >= 0)) //TEST SNAKE
+		{
+			leaf.children.push_back(new MC_Node<State_T>(possible_child_states[0], possible_actions[i]));
+			leaf.children.back()->parent = &leaf;
+			leaf.children.back()->height = leaf.children.back()->parent->height + 1;
+			leaf.children.back()->value = m_environment->reward(m_self_pointer, possible_child_states[0]) 
+				                           * std::pow(discount_factor, leaf.children.back()->height);
+			leaf.children.back()->value += leaf.children.back()->parent->value;//TODO TEST SNAKE
+		}
 	}
 	leaf.is_fully_expanded = true;
 }
@@ -270,65 +265,43 @@ void MCTS_Agent<State_T>::expand(MC_Node<State_T>& leaf, const std::vector<Actio
 template <class State_T>
 void MCTS_Agent<State_T>::simulate(MC_Node<State_T>& child)
 {
-	//simulates a playthrought for one child until a final state
-	//or the max_simulation_depth is reached
-	
+	State_T child_state = child.state;
 	int simulation_step = 0;
-	float child_value = 0.0f;
-	auto child_state = child.state;
-	auto child_height = node_height(child);
-	//randomly choose one action
-	//TODO could support variable possible_actions.size()
-	std::vector<Action> possible_actions =
-		m_environment->possible_actions(m_self_pointer);
-	while ((simulation_step++ < max_simulation_depth)
-		&& !m_environment->is_final(m_self_pointer, child_state, true))
+
+	//simulates a playthrought until a final state
+	//or the max_simulation_depth is reached
+	while (!m_environment->is_final(m_self_pointer, child_state, true)
+		   && max_simulation_depth > simulation_step)
 	{
-		//play random moves from the childs state
-		int random_action_index = Utility::random_int_ts(0, possible_actions.size() - 1);
+		std::vector<Action> possible_actions = m_environment->possible_actions(m_self_pointer);
+		int  random_action_index   = Utility::random_int_ts(0, possible_actions.size() - 1);
 		auto possible_child_states = m_environment->assume_action(m_self_pointer, child_state, possible_actions[random_action_index]);
-		//check reward and update value
-		child_value += m_environment->reward(m_self_pointer, possible_child_states[0]) * std::pow(discount_factor, simulation_step + child_height);
 		child_state = possible_child_states[0];
+		//check reward and update value
+		child.value += m_environment->reward(m_self_pointer, child_state)
+								* std::pow(discount_factor, simulation_step + child.height);
+		simulation_step++;
+
+		//TODO TEST SNAKE SIMULATION STOP WHEN HITTING WALL
+		if (m_environment->reward(m_self_pointer, child_state) < 0)
+		{
+			break;
+		}
+		//END TEST SNAKE STOP WHEN HITTING WALL
+
 	}
-	//set child value
-	child_value /= static_cast<float>(simulation_step);
-	child.value = child_value + child.parent->value;
-	child.visits += 1;
 }
 
 template <class State_T>
 void MCTS_Agent<State_T>::backpropagate(MC_Node<State_T>& child)
 {
-	//backpropagate the childs value weighted
-	MC_Node<State_T>* node = &child;
-	if (&child == nullptr)
+	double leaf_value = child.value;
+	auto node = &child;
+	node->visits++;
+	while (node != root)
 	{
-		std::cout << "node is null!\n";
-		return;
-	}
-	while (node->parent != root)
-	{
-		//add childs value to parents value and count up parents visits
-		node->parent->value += node->value;
 		node->parent->visits++;
-		//repeat
+		node->parent->value += leaf_value;//TODO klappt besser ohne
 		node = node->parent;
 	}
-	root->visits++;
-}
-
-template <class State_T>
-int MCTS_Agent<State_T>::node_height(MC_Node<State_T>& node) const
-{
-	MC_Node<State_T>* node_ptr = &node;
-	int height = 1;
-	if (node_ptr = root)
-		return 0;
-	while (node_ptr->parent != root)
-	{
-		height++;
-		node_ptr = node_ptr->parent;
-	}
-	return height;
 }

@@ -40,7 +40,7 @@ void Snake_World::check_events()
 		{
 			//save old score
 			snake.last_score() = snake.score();
-
+			
 			//ate?
 			if (snake.head_position() == apple.position)
 			{

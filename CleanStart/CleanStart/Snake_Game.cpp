@@ -119,7 +119,7 @@ void Snake_Game::update()
 			exit(-1);
 		}
 		m_old_lifes = world.snakes[0].lifes();
-		ofs << "lifes: " << m_old_lifes << "\nscore: " << world.snakes[0].last_score() << "\naction count: " <<  action_counter[0] << "\n\n";
+		ofs << "lifes: " << m_old_lifes << "\nscore: " << world.snakes[0].last_score() - m_old_lifes << "\naction count: " <<  action_counter[0] << "\n\n";
 
 		action_counter[0] = 0;
 		ofs.close();
@@ -177,8 +177,8 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 	else
 		reward = 0.0f;
 
-	//return reward;
-	return controlled_snake->score();
+	return reward;
+	//return controlled_snake->score();
 }
 
 

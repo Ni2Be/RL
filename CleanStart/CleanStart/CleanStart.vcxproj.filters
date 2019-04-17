@@ -124,6 +124,9 @@
     <ClCompile Include="NeuralNetwork.cpp">
       <Filter>Actor\Agent\TD_Agent</Filter>
     </ClCompile>
+    <ClCompile Include="MCTS_UCB_Agent.cpp">
+      <Filter>Actor\Agent\MCTS_Agent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Eight_Puzzle.h">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="NeuralNetwork.h">
       <Filter>Actor\Agent\TD_Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTS_UCB_Agent.h">
+      <Filter>Actor\Agent\MCTS_Agent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
