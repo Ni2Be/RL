@@ -39,6 +39,8 @@ namespace Ai_Arena
 
 		//Monitor
 		int simulated_steps;
+		int simulated_states = 0;
+		int simulated_playouts = 0;
 		int applied_actions;
 
 		//Tree
@@ -58,7 +60,7 @@ namespace Ai_Arena
 
 		MC_Node<State_T>* root;
 		int   max_simulation_depth;
-		int   max_tree_height = 100;
+		int   max_tree_height = 100;//not used atm
 		double m_c = 2;
 		double discount_factor;
 		//parent template

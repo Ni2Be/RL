@@ -65,8 +65,12 @@ void Snake_World::check_events()
 			}
 
 			//crashed in wall?
-			if (playing_field[snake.head_position().x][snake.head_position().y] == Playing_Field::WALL)
+			if (((snake.head_position().x >= 0 && snake.head_position().y >= 0) 
+				|| (snake.head_position().x < playing_field.size() && snake.head_position().y < playing_field[0].size()))
+				&&//TODO bug headpos sometimes (-1,-2) or (-1,0) or bigger then size
+				playing_field[snake.head_position().x][snake.head_position().y] == Playing_Field::WALL)
 				snake_events.push_back({ &snake, Events::CRASHED });
+
 		}
 	}
 
@@ -134,7 +138,17 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 	}
 
 	if (apple.is_eaten)
+	{
+		if (find_spawn_area().lower_right.x == -1)
+		{
+			for (auto& snake : snakes)
+				snake.body().clear();
+			for (auto& snake : snakes)
+				snake.respown(find_spawn_area());
+
+		}
 		apple.respawn(find_spawn_area());
+	}
 }
 
 Area_int Snake_World::find_spawn_area()

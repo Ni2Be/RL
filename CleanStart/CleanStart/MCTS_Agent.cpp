@@ -131,7 +131,7 @@ Action MCTS_Agent<State_T>::select_action()
 	else
 	{
 		//TODO ein leaf das in eine Sackgasse führt sollte sich selbst verstärt bestrafen 
-		best_leaf.value += best_leaf.value;
+		best_leaf.value += best_leaf.value;// -= std::abs(best_leaf.value);
 		backpropagate(best_leaf);
 	}
 	//return the assumed best action
@@ -155,7 +155,9 @@ void MCTS_Agent<State_T>::shut_down()
 	}
 	
 	ofs << "\napplied actions: " << applied_actions;
-	ofs << "\nsimulated states: " << simulated_steps;
+	ofs << "\nsimulated states: " << simulated_states;
+	ofs << "\nsimulated playouts: " << simulated_playouts;
+
 	ofs.close();
 	m_is_running = false;
 }
@@ -267,7 +269,7 @@ void MCTS_Agent<State_T>::simulate(MC_Node<State_T>& child)
 {
 	State_T child_state = child.state;
 	int simulation_step = 0;
-
+	simulated_playouts++;
 	//simulates a playthrought until a final state
 	//or the max_simulation_depth is reached
 	while (!m_environment->is_final(m_self_pointer, child_state, true)
@@ -276,6 +278,7 @@ void MCTS_Agent<State_T>::simulate(MC_Node<State_T>& child)
 		std::vector<Action> possible_actions = m_environment->possible_actions(m_self_pointer);
 		int  random_action_index   = Utility::random_int_ts(0, possible_actions.size() - 1);
 		auto possible_child_states = m_environment->assume_action(m_self_pointer, child_state, possible_actions[random_action_index]);
+		simulated_states++;
 		child_state = possible_child_states[0];
 		//check reward and update value
 		child.value += m_environment->reward(m_self_pointer, child_state)
@@ -301,7 +304,7 @@ void MCTS_Agent<State_T>::backpropagate(MC_Node<State_T>& child)
 	while (node != root)
 	{
 		node->parent->visits++;
-		node->parent->value += leaf_value;//TODO klappt besser ohne
+		node->parent->value += leaf_value;
 		node = node->parent;
 	}
 }

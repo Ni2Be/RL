@@ -153,7 +153,7 @@ bool Snake_Game::is_final(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 {
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 	//TODO should be handled differently
-	if (controlled_snake->has_lost() && !is_simulation)
+	if (!is_simulation && controlled_snake->has_lost())
 	{
 		actor->deactivate();
 		//notify the environment that all actors could be finished

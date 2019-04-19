@@ -51,7 +51,7 @@ namespace Ai_Arena
 
 		enum Events
 		{
-			ATE, CRASHED, NO_EVENT
+			ATE, CRASHED, WON, NO_EVENT
 		};
 
 		/*
