@@ -27,7 +27,7 @@ namespace Ai_Arena
 		class Snake_Segment_G : public sf::Drawable
 		{
 		public:
-			Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color);
+			Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color, int length, int head);
 
 			sf::RectangleShape rect;
 			

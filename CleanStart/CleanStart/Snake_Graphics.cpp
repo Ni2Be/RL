@@ -73,14 +73,12 @@ Snake_Graphics::Snake_Entity_G::Snake_Entity_G(const Snake_Entity& snake, int fi
 
 
 {
-	
-	
 		for (const auto& segment : snake.body())
 		{
 			if (segment.is_head())
-				segments.push_back(Snake_Segment_G(segment, field_pixel, m_head_color));
+				segments.push_back(Snake_Segment_G(segment, field_pixel, m_head_color, snake.body().size(), snake.body()[0].direction()));
 			else
-				segments.push_back(Snake_Segment_G(segment, field_pixel, m_color));
+				segments.push_back(Snake_Segment_G(segment, field_pixel, m_color, snake.body().size(), snake.body()[0].direction()));
 		}
 	
 };
@@ -92,7 +90,7 @@ void Snake_Graphics::Snake_Entity_G::draw(sf::RenderTarget& target, sf::RenderSt
 		target.draw(segment, states);
 }
 
-Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color)
+Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segment, int field_pixel, sf::Color color, int length, int head)
 	:
 	rect(sf::Vector2f(field_pixel, field_pixel))
 	
@@ -129,16 +127,28 @@ Snake_Graphics::Snake_Segment_G::Snake_Segment_G(const Snake_Segment& segment, i
 
 		if (segment.is_tail())
 		{
-			if (segment.direction() == U)
-				rect.setTexture(&tail_u);
-			if (segment.direction() == D)
-				rect.setTexture(&tail_d);
-
-			if (segment.direction() == L)
-				rect.setTexture(&tail_l);
-			if (segment.direction() == R)
-				rect.setTexture(&tail_r);
-			
+			if (length == 2)
+			{
+				if (head == U)
+					rect.setTexture(&tail_u);
+				if (head == D)
+					rect.setTexture(&tail_d);
+				if (head == L)
+					rect.setTexture(&tail_l);
+				if (head == R)
+					rect.setTexture(&tail_r);
+			}
+			else
+			{
+				if (segment.direction() == U)
+					rect.setTexture(&tail_u);
+				if (segment.direction() == D)
+					rect.setTexture(&tail_d);
+				if (segment.direction() == L)
+					rect.setTexture(&tail_l);
+				if (segment.direction() == R)
+					rect.setTexture(&tail_r);
+			}
 		}
 		else 
 		{
