@@ -134,7 +134,9 @@ Action MCTS_Agent<State_T>::select_action()
 		best_leaf.value += best_leaf.value;// -= std::abs(best_leaf.value);
 		backpropagate(best_leaf);
 	}
-	//return the assumed best action
+
+
+	//return the assumed best action with ucb
 	MC_Node<State_T>* best = best_child(this->root);
 	Action next_action = best->action;
 
@@ -230,6 +232,23 @@ MC_Node<State_T>* MCTS_Agent<State_T>::best_child(MC_Node<State_T>* node) const
 	}
 	//std::cout << "\n";
 	return best_child;
+}
+
+template <class State_T>
+Action MCTS_Agent<State_T>::best_next_action() const
+{
+	if (root->children.size() == 0)
+		return 0;
+	MC_Node<State_T>* best_child = root->children[0];
+	for (int i = 1; i < root->children.size(); i++)
+	{
+		if (root->children[i]->value >= best_child->value)
+		{
+			best_child = root->children[i];
+		}
+
+	}
+	return best_child->action;
 }
 
 template <class State_T>

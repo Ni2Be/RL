@@ -36,6 +36,7 @@ namespace Ai_Arena
 		
 	private:
 		Action select_action();
+		Action best_next_action() const;
 
 		//Monitor
 		int simulated_steps;

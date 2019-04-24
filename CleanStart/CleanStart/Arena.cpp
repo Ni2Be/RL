@@ -8,7 +8,7 @@ void Arena::run()
 #ifdef SNAKE
 	//SNAKE NEW
 		//Snake
-		m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(10, 40));
+		m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(12, 40));
 	for (int i = 0; i < humanPlayers; i++) {
 		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
 		m_enviroment->add_actor(m_actors[addedAgents]);
