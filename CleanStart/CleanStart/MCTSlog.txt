@@ -1,0 +1,4 @@
+
+applied actions: 817
+simulated states: 9342296
+simulated playouts: 2315462

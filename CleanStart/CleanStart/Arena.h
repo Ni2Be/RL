@@ -2,8 +2,8 @@
 #include <memory>
 #include <vector>
 
-#define PONG
-//#define SNAKE
+//#define PONG
+#define SNAKE
 
 #ifdef PONG
 #include "Pong_Game.h"
