@@ -124,9 +124,13 @@ void Snake_Game::update()
 		action_counter[0] = 0;
 		ofs.close();
 	}
+
+	if (world.snakes[0].lifes() % 500 == 0)
+		std::cout << world.snakes[0].lifes() << " games left\n";
+
 	//only update graphics in play mode
 	//if(needed)
-	graphics()->update_graphics(world);
+	//graphics()->update_graphics(world);
 }
 
 
@@ -241,7 +245,6 @@ std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_W
 };
 
 //I_Environment helper
-
 const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const
 {
 	//TODO find good state representation
@@ -301,93 +304,104 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	const int C_LEFT = 2;
 	const int C_RIGHT = 3;
 	*/
+	std::vector<double> td_perception;
 
+	int snakePosX = world.snakes[0].body()[0].position().x;
+	int snakePosY = world.snakes[0].body()[0].position().y;
+	Snake::Actions snakeDirection = Snake::Actions::NO_ACTION;
+	if(world.snakes[0].body().size() > 0)
+		Snake::Actions snakeDirection = world.snakes[0].body()[0].direction();
+	
+	int distanceLeft = 1.0, distanceFront = 1.0, distanceRight = 1.0;
+	int startX, startY;
 
-	//create temp 2d vector
-	std::vector<std::vector<std::pair<int, int>>>
-		world_state(world.playing_field[0].size(),
-			std::vector<std::pair<int, int>>
-			(world.playing_field.size(), { 0, 0 })
-		);
-
-	//fill in the walls
-	for (int x = 0; x < world.playing_field.size(); x++) {
-		for (int y = 0; y < world.playing_field[0].size(); y++) {
-			if (world.playing_field[x][y] == Snake_World::Playing_Field::WALL)
-			{
-				world_state[x][y].first = C_WALL;
-			}
-		}
-	}
-
-	//fill in the apple
-	world_state[world.apple.position.x][world.apple.position.y].first = C_APPLE;
-
-	//fill in the snakes
-	int snake_counter = 0;
-	for (auto snake : world.snakes)
+	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::CRASHED)
 	{
-		for (auto snake_segment : snake.body())
-		{
-			if (snake_segment.is_head())
-				world_state[snake_segment.position().x][snake_segment.position().y].first = C_P_ACTOR_HEAD + snake_counter * 2;
-			else
-				world_state[snake_segment.position().x][snake_segment.position().y].first = C_P_ACTOR_BODY + snake_counter * 2;
+		td_perception.push_back(1.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+	}
+	else if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::ATE)
+	{
+		td_perception.push_back(0.0);
+		td_perception.push_back(1.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
+	}
+	else
+	{
+		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
 
-			switch (snake_segment.direction())
+		if (world.snakes[0].body().size() > 0)
+		{
+			switch (snakeDirection)
 			{
 			case Snake::Actions::U:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_UP;
+				td_perception.push_back((double)world.snakes[0].distanceToBodyLeft() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
 				break;
 			case Snake::Actions::D:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_DOWN;
+				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyLeft() / 10.0);
 				break;
 			case Snake::Actions::L:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_LEFT;
+				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
 				break;
 			case Snake::Actions::R:
-				world_state[snake_segment.position().x][snake_segment.position().y].second = C_RIGHT;
+				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
 				break;
 			case Snake::Actions::NO_ACTION:
 				break;
 			default:
-				std::cerr << "convert_to_state()\ninvalid action: " << snake_segment.direction() << "\n";
+				std::cerr << "convert_to_state()\ninvalid action: " << snakeDirection << "\n";
 				exit(-1);
 			}
-
 		}
-		snake_counter++;
-	}
-
-	//convert to perception
-	std::vector<double> perception;
-
-	for (int collumn = 0; collumn < world_state.size(); collumn++)
-	{
-		for (int row = 0; row < world_state[0].size(); row++)
+		else
 		{
-			perception.push_back(world_state[row][collumn].first);
-			perception.push_back(world_state[row][collumn].second);
+			td_perception.push_back(0.0);
+			td_perception.push_back(0.0);
+			td_perception.push_back(0.0);
+		}
+		int x, y;
+
+		if (world.snakes[0].body().size() > 0)
+		{
+			if (world.snakes[0].body()[0].position().x < world.apple.position.x)
+				x = world.apple.position.x - world.snakes[0].body()[0].position().x;
+			else if (world.snakes[0].body()[0].position().x > world.apple.position.x)
+				x = world.snakes[0].body()[0].position().x - world.apple.position.x;
+			else
+				x = 0;
+
+			if (world.snakes[0].body()[0].position().y < world.apple.position.y)
+				y = world.apple.position.x - world.snakes[0].body()[0].position().y;
+			else if (world.snakes[0].body()[0].position().y > world.apple.position.x)
+				y = world.snakes[0].body()[0].position().y - world.apple.position.x;
+			else
+				y = 0;
+
+			td_perception.push_back((19 - (x + y)) / 19);
+		}
+		else
+		{
+			td_perception.push_back(0.0);
 		}
 	}
 
-	//pushback events
-	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::CRASHED)
-		perception.push_back(C_IS_CRASHED);
-	else
-		perception.push_back(0.0f);
-	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::ATE)
-		perception.push_back(C_HAS_EATEN);
-	else
-		perception.push_back(0.0f);
-
-	////////////////////////////////
-
-	//TODO normalize
-	//for (auto& i : state)
-	//	i /= static_cast<float>(C_O_ACTOR_HEAD + snake_counter + 2);
-
-	return perception;
+	return td_perception;
 }
 
 

@@ -39,7 +39,8 @@ void Arena::run()
 		m_enviroment->add_actor(m_actors[addedAgents]);
 		addedAgents++;
 	}
-	m_enviroment->update_interval() = std::chrono::milliseconds(200);
+
+	m_enviroment->update_interval() = std::chrono::milliseconds(0);
 
 
 	for (auto& actor : m_actors)

@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
 	using namespace Ai_Arena;
 
-	int humanPlayers = 0, MCTSAgents = 1, ReflexAgents = 0, RandomAgents = 0, TDAgents = 0;
+	int humanPlayers = 0, MCTSAgents = 0, ReflexAgents = 0, RandomAgents = 0, TDAgents = 1;
 
 	if (argc >= 3)
 	{

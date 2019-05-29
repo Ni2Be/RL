@@ -163,8 +163,8 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCTS_Agent.cpp" />
-    <ClCompile Include="NeuralNetwork.cpp" />
-    <ClCompile Include="NN.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="Neuron.cpp" />
     <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="Pong_Game.cpp" />
     <ClCompile Include="Pong_Graphics.cpp" />
@@ -186,12 +186,12 @@
     <ClInclude Include="Eight_Puzzle_Graphics.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
-    <ClInclude Include="NeuralNetwork.h" />
+    <ClInclude Include="Network.h" />
     <ClInclude Include="TD_Agent.h" />
     <ClInclude Include="Human_Player.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="MCTS_Agent.h" />
-    <ClInclude Include="NN.h" />
+    <ClInclude Include="Neuron.h" />
     <ClInclude Include="Paddle.h" />
     <ClInclude Include="Pong_Game.h" />
     <ClInclude Include="Pong_Graphics.h" />

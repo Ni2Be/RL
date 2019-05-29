@@ -31,11 +31,11 @@ namespace Ai_Arena
 		inline bool& is_tail() { return m_is_tail; }
 		inline Diagonals& turn() { return m_turn; }
 
-		inline const Pos_int& position() const { return m_position; }
-		inline const Actions& direction() const { return m_direction; }
-		inline const bool& is_head() const { return m_is_head; }
-		inline const bool& is_tail() const { return m_is_tail; }
-		inline const Diagonals& turn() const { return m_turn; }
+		inline Pos_int position() const { return m_position; }
+		inline Actions direction() const { return m_direction; }
+		inline bool is_head() const { return m_is_head; }
+		inline bool is_tail() const { return m_is_tail; }
+		inline Diagonals turn() const { return m_turn; }
 
 
 	private:
@@ -87,6 +87,12 @@ namespace Ai_Arena
 
 		inline bool& has_lost() { return m_has_lost; };
 		inline const bool has_lost() const { return m_has_lost; };
+
+
+		int distanceToBodyLeft() const;
+		int distanceToBodyUp() const;
+		int distanceToBodyRight() const;
+		int distanceToBodyDown() const;
 	private:
 
 		std::vector<Snake_Segment> m_body;
@@ -95,7 +101,7 @@ namespace Ai_Arena
 		Snake_Segment m_prev_tail_end = {0,0};
 		Action m_current_action = Actions::NO_ACTION;
 		
-		int  m_lifes = 100;
+		int  m_lifes = 10000;
 		int  m_last_score = 0;
 		int  m_score = 0;
 		bool m_has_lost = false;

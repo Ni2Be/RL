@@ -67,6 +67,8 @@ namespace Ai_Arena
 
 		int m_old_lifes = 0;
 
+		
+
 
 		const int C_WALL = 1;
 		const int C_APPLE = 2;

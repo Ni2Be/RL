@@ -133,6 +133,89 @@ void Snake_Entity::game_over()
 	body().clear();
 	has_lost() = true;
 }
+int Snake_Entity::distanceToBodyLeft() const
+{
+	int x = body()[0].position().x - 1, y = body()[0].position().y, distance = 1;
+	while (x > 0)
+	{
+		for (int i = 1; i < m_body.size(); i++)
+		{
+			if (x == m_body[i].position().x && y == m_body[i].position().y)
+			{
+				distance++;
+				return distance;
+			}
+
+		}
+		distance++;
+		x--;
+	}
+
+	return distance;
+}
+
+int Snake_Entity::distanceToBodyUp() const
+{
+	int x = m_body[0].position().x, y = m_body[0].position().y - 1, distance = 1;
+	while (y > 0)
+	{
+		for (int i = 1; i < m_body.size(); i++)
+		{
+			if (x == m_body[i].position().x && y == m_body[i].position().y)
+			{
+				distance++;
+				return distance;
+			}
+
+		}
+		distance++;
+		y--;
+	}
+
+	return distance;
+}
+
+int Snake_Entity::distanceToBodyRight() const
+{
+	int x = m_body[0].position().x + 1, y = m_body[0].position().y, distance = 1;
+	while (x < 11)
+	{
+		for (int i = 1; i < m_body.size(); i++)
+		{
+			if (x == m_body[i].position().x && y == m_body[i].position().y)
+			{
+				distance++;
+				return distance;
+			}
+
+		}
+		distance++;
+		x++;
+	}
+
+	return distance;
+}
+
+int Snake_Entity::distanceToBodyDown() const 
+{
+	int x = m_body[0].position().x, y = m_body[0].position().y + 1, distance = 1;
+	while (y < 11)
+	{
+		for (int i = 1; i < m_body.size(); i++)
+		{
+			if (x == m_body[i].position().x && y == m_body[i].position().y)
+			{
+				distance++;
+				return distance;
+			}
+
+		}
+		distance++;
+		y++;
+	}
+
+	return distance;
+}
 
 Pos_int Snake_Entity::position()
 {
