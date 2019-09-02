@@ -353,7 +353,7 @@ namespace Ai_Arena
 		Environment() {};
 
 
-
+		bool m_trainings_mode = false;
 
 	private:
 		std::queue<sf::Event> m_events;

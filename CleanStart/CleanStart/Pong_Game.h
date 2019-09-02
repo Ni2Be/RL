@@ -57,7 +57,8 @@ namespace Ai_Arena
 
 
 
-		int m_old_lives = 0;
+		int m_old_lives = 10;
+		int C_MAX_SCORE = 10000;
 
 		double x1_w, x2_w, y1_w, y2_w, m_w, b_w;
 		double x1_h, x2_h, y1_h, y2_h, m_h, b_h;

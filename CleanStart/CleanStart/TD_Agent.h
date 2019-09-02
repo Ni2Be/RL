@@ -30,6 +30,7 @@ namespace Ai_Arena
 		using Actor<State_T>::is_active;
 		using Actor<State_T>::activate;
 		using Actor<State_T>::deactivate;
+		using Actor<State_T>::m_sensor;
 
 	private:
 		int findMove(std::vector<Action> possible_actions);

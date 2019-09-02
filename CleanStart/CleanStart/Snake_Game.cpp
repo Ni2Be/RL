@@ -62,6 +62,8 @@ void Snake_Game::set_up()
 	for (auto& actor : actors())
 	{
 		actor.actor->activate();
+
+		actor.actor->m_sensor = Sensor::SEE_THE_WHOLE_STATE;
 	}
 }
 
@@ -129,8 +131,8 @@ void Snake_Game::update()
 		std::cout << world.snakes[0].lifes() << " games left\n";
 
 	//only update graphics in play mode
-	//if(needed)
-	//graphics()->update_graphics(world);
+	if(!m_trainings_mode)
+		graphics()->update_graphics(world);
 }
 
 

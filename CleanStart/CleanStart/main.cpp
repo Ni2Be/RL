@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
 	using namespace Ai_Arena;
 
-	int humanPlayers = 0, MCTSAgents = 0, ReflexAgents = 0, RandomAgents = 0, TDAgents = 1;
+	int humanPlayers = 1, MCTSAgents = 1, ReflexAgents = 1, RandomAgents = 1, TDAgents = 1, trainings_mode = 0;
 
 	if (argc >= 3)
 	{
@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
 	}
 
 	Arena arena(humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents);
+
+	if (argc >= 6)
+		trainings_mode = std::stoi(argv[6]);
+	arena.trainings_mode() = trainings_mode;
 
 	try
 	{

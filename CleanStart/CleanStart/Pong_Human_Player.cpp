@@ -32,7 +32,6 @@ void Pong_Human_Player<State_T>::set_action()
 			}
 			events.pop();
 		}
-
 		m_next_action = m_last_action;
 	}
 	else

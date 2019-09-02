@@ -42,11 +42,12 @@ namespace Ai_Arena
 		}
 
 		void run();
-
+		bool& trainings_mode() { return m_trainings_mode; };
+		bool trainings_mode() const { return m_trainings_mode; };
 	protected:
 
 		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, addedAgents = 0;
-
+		bool m_trainings_mode = false;
 #ifdef SNAKE
 		std::shared_ptr<Environment<Snake_World>> m_enviroment;
 		std::vector<std::shared_ptr<Actor<Snake_World>>> m_actors;

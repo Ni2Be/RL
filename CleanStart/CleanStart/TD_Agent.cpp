@@ -47,7 +47,7 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 	{
 		auto possible_state = m_environment->assume_action(m_self_pointer, state, possible_actions[i]);
 
-		perceptions.push_back(m_environment->get_perception(m_self_pointer, Sensor::SEE_THE_WHOLE_STATE, possible_state[0]));
+		perceptions.push_back(m_environment->get_perception(m_self_pointer, m_sensor, possible_state[0]));
 	}
 
 	if (firstRound)
@@ -60,7 +60,7 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 
 	if (Utility::random_int_ts(0, 4) == 0)
 	{
-		int perceptionIndex = Utility::random_int_ts(0, 2);
+		int perceptionIndex = Utility::random_int_ts(0, perceptions.size() - 1);
 		lastPerception = perceptions[perceptionIndex];
 		return perceptionIndex;
 	}

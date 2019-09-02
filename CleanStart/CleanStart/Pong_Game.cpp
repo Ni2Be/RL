@@ -65,6 +65,7 @@ void Pong_Game::set_up()
 	for (auto& actor : actors())
 	{
 		actor.actor->activate();
+		actor.actor->m_sensor = Sensor::OWN_POS_AND_BALL;
 	}
 	//Lineare Funktion aufstellen (normalisierung zwischen 0 und 1) 
 	
@@ -123,6 +124,14 @@ void Pong_Game::execute_actions()
 
 void Pong_Game::update()
 {
+
+	for (auto& actor : actors())
+	{
+		Paddle* paddle = &(world.paddles[actor.actor->id()]);
+		if (paddle->score() > C_MAX_SCORE)
+			this->m_is_running = false;
+	}
+
 	update_world();
 
 /*	
@@ -133,8 +142,8 @@ if (m_old_lives != world.Pongs[0].lives())
 	}
 */
 	//only update graphics in play mode
-	//if(needed)
-	graphics()->update_graphics(world);
+	if(!m_trainings_mode)
+		graphics()->update_graphics(world);
 }
 
 
@@ -145,10 +154,8 @@ std::vector<Action> Pong_Game::possible_actions(std::shared_ptr<Actor<Pong_World
 
 	std::vector<Action> all_actions = {
 		Actions::U,
-		Actions::D,
-		//Actions::L,
-		//Actions::R
-		Actions::NO_ACTION 
+		Actions::D//,
+		//Actions::NO_ACTION 
 	};
 
 	return all_actions;
@@ -249,14 +256,14 @@ Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, S
 Perception Pong_Game::get_perception(std::shared_ptr<Actor<Pong_World>> actor, Sensor sensor, Pong_World state) const
 {
 	Perception perception;
-	if (sensor == Sensor::SEE_THE_WHOLE_STATE)
-	{
-		perception = convert_to_SEE_THE_WHOLE_STATE(actors()[actor->id()], state);
-	}
-	if (sensor == Sensor::OWN_POS_AND_BALL)
-	{
+	//if (sensor == Sensor::SEE_THE_WHOLE_STATE)
+	//{
+	//	perception = convert_to_SEE_THE_WHOLE_STATE(actors()[actor->id()], state);
+	//}
+	//if (sensor == Sensor::OWN_POS_AND_BALL)
+	//{
 		perception = own_position_and_ball(actors()[actor->id()], state);
-	}
+	//}
 
 	return perception;
 }
@@ -285,10 +292,8 @@ void Pong_Game::apply_action(std::shared_ptr<Actor<Pong_World>> actor, Action ac
 std::vector<Pong_World> Pong_Game::assume_action(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state, Action action) const
 {
 	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
-
 	controlled_paddle->perform_action(action.action);
 
-	////handle events like ate apple or crashed
 	state.check_events();
 
 	return { state };

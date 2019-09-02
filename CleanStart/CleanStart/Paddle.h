@@ -77,7 +77,6 @@ namespace Ai_Arena
 		inline int& last_score() { return m_last_score; }
 		inline const int last_score() const { return m_last_score; }
 
-
 	private:
 		std::vector<Paddle_Segment> m_body;
 		Action m_current_action = Pong::Actions::NO_ACTION;

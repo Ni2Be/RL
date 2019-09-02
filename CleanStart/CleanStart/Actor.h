@@ -134,6 +134,8 @@ namespace Ai_Arena
 		int& id() { return m_id; }
 		const int& id() const { return m_id; }
 		virtual bool is_human() = 0;
+
+		Sensor m_sensor;
 	protected:
 		int    m_id;
 

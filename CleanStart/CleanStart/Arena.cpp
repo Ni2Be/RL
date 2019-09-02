@@ -40,7 +40,12 @@ void Arena::run()
 		addedAgents++;
 	}
 
-	m_enviroment->update_interval() = std::chrono::milliseconds(0);
+	if (m_trainings_mode)
+		m_enviroment->update_interval() = std::chrono::milliseconds(0);
+	else
+		m_enviroment->update_interval() = std::chrono::milliseconds(200);
+
+
 
 
 	for (auto& actor : m_actors)
@@ -83,7 +88,12 @@ void Arena::run()
 		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
 		addedAgents++;
 	}
-	m_pong_enviroment->update_interval() = std::chrono::milliseconds(33);
+
+	if(m_trainings_mode)
+		m_pong_enviroment->update_interval() = std::chrono::milliseconds(0);
+	else
+		m_pong_enviroment->update_interval() = std::chrono::milliseconds(30);
+
 	for (auto& actor : m_pong_actors)
 		actor->start_actor_thread();
 	m_pong_enviroment->run();
