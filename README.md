@@ -1,5 +1,8 @@
 # RL
 
+Dieser Branch wird nicht mehr genutzt. 
+
+
 ###Installation
 
 1. Branch "init" runterladen
