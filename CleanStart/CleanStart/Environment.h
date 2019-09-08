@@ -352,7 +352,7 @@ namespace Ai_Arena
 		void debug(Actor_Representation actor_action);
 		Environment() {};
 
-
+	public:
 		bool m_trainings_mode = false;
 
 	private:

@@ -11,8 +11,27 @@ template <class State_T>
 TD_Agent<State_T>::TD_Agent(std::shared_ptr<Environment<State_T>> enviroment)
 	:
 	Agent<State_T>::Agent(enviroment)
-{}
+{
+}
 
+template <class State_T>
+void TD_Agent<State_T>::set_up()
+{
+	//TODO save to file
+	std::cout << "set up\n";
+
+	this->nn.loadRewardsFromFile("test_td_nn.txt");
+}
+
+template <class State_T>
+void TD_Agent<State_T>::shut_down()
+{
+	//TODO save to file
+	std::cout << "shut down\n";
+
+	this->nn.saveRewardsInFile("test_td_nn.txt");
+	m_is_running = false;
+}
 
 template <class State_T>
 void TD_Agent<State_T>::evaluate_action()

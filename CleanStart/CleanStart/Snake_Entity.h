@@ -101,7 +101,7 @@ namespace Ai_Arena
 		Snake_Segment m_prev_tail_end = {0,0};
 		Action m_current_action = Actions::NO_ACTION;
 		
-		int  m_lifes = 10000;
+		int  m_lifes = 100000;
 		int  m_last_score = 0;
 		int  m_score = 0;
 		bool m_has_lost = false;

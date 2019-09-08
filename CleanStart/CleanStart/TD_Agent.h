@@ -32,6 +32,10 @@ namespace Ai_Arena
 		using Actor<State_T>::deactivate;
 		using Actor<State_T>::m_sensor;
 
+		//using Actor<State_T>::set_up;
+		//using Actor<State_T>::shut_down;
+		void set_up();
+		void shut_down();
 	private:
 		int findMove(std::vector<Action> possible_actions);
 		bool firstRound = true;

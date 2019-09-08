@@ -1,5 +1,8 @@
 #include "Network.h"
 
+#include <iostream>
+#include <fstream>
+
 NeuralNetwork::NeuralNetwork(int input, int hiddenLayerSize, int hiddenLayer, int output) :
 	inputLayer(Layer(input + 1)),
 	hiddenLayers(LayerContainer(hiddenLayer, Layer(hiddenLayerSize + 1))),
@@ -298,4 +301,67 @@ void NeuralNetwork::setOutputWeights(const Matrix & weights)
 void NeuralNetwork::setHiddenWeights(const MatrixContainer & weights)
 {
 	hiddenWeights = weights;
+}
+
+
+void NeuralNetwork::saveRewardsInFile(const std::string& file_name)
+{
+	std::ofstream myfile(file_name.c_str());
+	if (myfile.is_open())
+	{
+		for (int i = 0; i < inputWeights.size(); i++)
+			for (int j = 0; j < inputWeights[i].size(); j++)
+				myfile << inputWeights[i][j] << " , ";
+
+		for (int i = 0; i < hiddenWeights.size(); i++)
+			for (int j = 0; j < hiddenWeights[i].size(); j++)
+				for (int k = 0; k < hiddenWeights[i][j].size(); k++)
+					myfile << hiddenWeights[i][j][k] << " , ";
+
+		for (int i = 0; i < outputWeights.size(); i++)
+			for (int j = 0; j < outputWeights[i].size(); j++)
+				myfile << outputWeights[i][j] << " , ";
+
+		myfile.close();
+	}
+	else std::cout << "Unable to open file";
+}
+
+void NeuralNetwork::loadRewardsFromFile(const std::string& file_name)
+{
+	std::ifstream myfile(file_name.c_str());
+	NeuralNetwork& nn = *this;
+	Matrix inputMatrix = nn.getInputWeights();
+	MatrixContainer hiddenMatrix = nn.getHiddenWeights();
+	Matrix outputMatrix = nn.getOutputWeights();
+	char sign;
+	if (myfile.is_open())
+	{
+		for (int i = 0; i < inputMatrix.size(); i++)
+			for (int j = 0; j < inputMatrix[i].size(); j++)
+			{
+				myfile >> inputMatrix[i][j];
+				myfile >> sign;
+			}
+
+		for (int i = 0; i < hiddenMatrix.size(); i++)
+			for (int j = 0; j < hiddenMatrix[i].size(); j++)
+				for (int k = 0; k < hiddenMatrix[i][j].size(); k++)
+				{
+					myfile >> hiddenMatrix[i][j][k];
+					myfile >> sign;
+				}
+
+		for (int i = 0; i < outputMatrix.size(); i++)
+			for (int j = 0; j < outputMatrix[i].size(); j++)
+			{
+				myfile >> outputMatrix[i][j];
+				myfile >> sign;
+			}
+		setInputWeights(inputMatrix);
+		setOutputWeights(outputMatrix);
+		setHiddenWeights(hiddenMatrix);
+		myfile.close();
+	}
+	else std::cout << "Unable to open file";
 }

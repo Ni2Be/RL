@@ -59,6 +59,9 @@ public:
 	void setOutputWeights(const Matrix& weights);
 	void setHiddenWeights(const MatrixContainer& weights);
 
+
+	void saveRewardsInFile(const std::string& file_name);
+	void loadRewardsFromFile(const std::string& file_name);
 private:
 	//Layer
 	Layer inputLayer, outputLayer;

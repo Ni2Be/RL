@@ -127,7 +127,7 @@ void Snake_Game::update()
 		ofs.close();
 	}
 
-	if (world.snakes[0].lifes() % 500 == 0)
+	if (world.snakes[0].lifes() % 100 == 0)
 		std::cout << world.snakes[0].lifes() << " games left\n";
 
 	//only update graphics in play mode

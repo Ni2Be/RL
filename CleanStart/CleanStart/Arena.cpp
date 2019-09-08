@@ -8,7 +8,7 @@ void Arena::run()
 #ifdef SNAKE
 	//SNAKE NEW
 		//Snake
-		m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(12, 40));
+	m_enviroment = std::shared_ptr<Environment<Snake_World>>(new Snake_Game(12, 40));
 	for (int i = 0; i < humanPlayers; i++) {
 		m_actors.push_back(std::shared_ptr<Actor<Snake_World>>(new Snake_Human_Player(m_enviroment)));
 		m_enviroment->add_actor(m_actors[addedAgents]);
@@ -41,7 +41,10 @@ void Arena::run()
 	}
 
 	if (m_trainings_mode)
+	{
+		m_enviroment->m_trainings_mode = true;
 		m_enviroment->update_interval() = std::chrono::milliseconds(0);
+	}
 	else
 		m_enviroment->update_interval() = std::chrono::milliseconds(200);
 
@@ -57,7 +60,7 @@ void Arena::run()
 #ifdef PONG
 	//NEW PONG
 		//Pong
-		m_pong_enviroment = std::shared_ptr<Environment<Pong_World>>(new Pong_Game(10, 150, 80, 10));
+	m_pong_enviroment = std::shared_ptr<Environment<Pong_World>>(new Pong_Game(10, 150, 80, 10));
 	for (int i = 0; i < humanPlayers; i++) {
 		m_pong_actors.push_back(std::shared_ptr<Actor<Pong_World>>(new Pong_Human_Player(m_pong_enviroment)));
 		m_pong_enviroment->add_actor(m_pong_actors[addedAgents]);
@@ -89,8 +92,12 @@ void Arena::run()
 		addedAgents++;
 	}
 
-	if(m_trainings_mode)
+
+	if (m_trainings_mode)
+	{
+		m_pong_enviroment->m_trainings_mode = true;
 		m_pong_enviroment->update_interval() = std::chrono::milliseconds(0);
+	}
 	else
 		m_pong_enviroment->update_interval() = std::chrono::milliseconds(30);
 
