@@ -63,6 +63,7 @@ namespace Ai_Arena
 		////I_Environment helper
 		const Perception convert_to_SEE_THE_WHOLE_STATE(Actor_Representation perceiving_actor, const Snake_World& world) const;
 		std::vector<Snake_World::Events> m_actor_events;
+		std::vector<Snake_World::Events> m_actor_last_events;
 
 
 		int m_old_lifes = 0;

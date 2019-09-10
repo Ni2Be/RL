@@ -39,6 +39,13 @@ void Snake_Game::update_world()
 		return (m_unexecuted_actions == active_actors());
 	});
 
+	//emty events
+	for (int i = 0; i < m_actor_events.size(); i++)
+	{
+		m_actor_last_events[i] = m_actor_events[i];
+		m_actor_events[i] = Snake_World::Events::NO_EVENT;
+	}
+
 	//Do everything that changes the state
 	execute_actions();
 	//wait untill all actors sleep
@@ -74,7 +81,9 @@ void Snake_Game::add_actor(std::shared_ptr<Actor<Snake_World>> actor)
 {
 	Environment::add_actor(Actor_Representation(actor, { Actions::NO_ACTION }));
 	m_actor_events.push_back(Snake_World::Events::NO_EVENT);
+	m_actor_last_events.push_back(Snake_World::Events::NO_EVENT);
 	world.add_snake();
+	world.snakes.back().agent_id = actor->id();
 	action_counter.push_back(0);
 	action_counter.shrink_to_fit();
 }
@@ -95,7 +104,9 @@ void Snake_Game::execute_actions()
 			action_counter[actor_representation.actor->id()]++;
 
 			if (!controlled_snake->has_lost())
+			{
 				controlled_snake->perform_action(actor_representation.action.action);
+			}
 			else
 				actor_representation.actor->deactivate();
 
@@ -104,7 +115,7 @@ void Snake_Game::execute_actions()
 	}
 
 	//handle events like ate apple or crashed
-	world.check_events();
+	world.check_events(m_actor_events);
 
 }
 
@@ -240,9 +251,10 @@ std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_W
 	Snake_Entity* controlled_snake = &(state.snakes[actor->id()]);
 
 	controlled_snake->perform_action(action.action);
+	std::vector<Snake_World::Events> dummy_snake_world_events(state.snakes.size());
 
 	////handle events like ate apple or crashed
-	state.check_events();
+	state.check_events(dummy_snake_world_events);
 
 	return { state };
 };
@@ -309,14 +321,19 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	*/
 	std::vector<double> td_perception;
 
-	int snakePosX = world.snakes[0].body()[0].position().x;
-	int snakePosY = world.snakes[0].body()[0].position().y;
+	const Snake_Entity* controlled_snake = &(world.snakes[perceiving_actor.actor->id()]);
+
+	int snakePosX = controlled_snake->body()[0].position().x;
+	int snakePosY = controlled_snake->body()[0].position().y;
 	Snake::Actions snakeDirection = Snake::Actions::NO_ACTION;
-	if(world.snakes[0].body().size() > 0)
-		Snake::Actions snakeDirection = world.snakes[0].body()[0].direction();
+	if(controlled_snake->body().size() > 0)
+		snakeDirection = controlled_snake->body()[0].direction();
 	
 	int distanceLeft = 1.0, distanceFront = 1.0, distanceRight = 1.0;
 	int startX, startY;
+
+
+	//hab auch mal m_actor_last_events rein gemacht falls das hilft 
 
 	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::CRASHED)
 	{
@@ -341,35 +358,35 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
 
-		if (world.snakes[0].body().size() > 0)
+		if (controlled_snake->body().size() > 0)
 		{
 			switch (snakeDirection)
 			{
 			case Snake::Actions::U:
-				td_perception.push_back((double)world.snakes[0].distanceToBodyLeft() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyLeft() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
 				break;
 			case Snake::Actions::D:
-				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyLeft() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyLeft() / 10.0);
 				break;
 			case Snake::Actions::L:
-				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
 				break;
 			case Snake::Actions::R:
-				td_perception.push_back((double)world.snakes[0].distanceToBodyUp() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)world.snakes[0].distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
 				break;
 			case Snake::Actions::NO_ACTION:
 				break;
 			default:
 				std::cerr << "convert_to_state()\ninvalid action: " << snakeDirection << "\n";
-				exit(-1);
+				//exit(-1);
 			}
 		}
 		else
@@ -380,19 +397,19 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 		}
 		int x, y;
 
-		if (world.snakes[0].body().size() > 0)
+		if (controlled_snake->body().size() > 0)
 		{
-			if (world.snakes[0].body()[0].position().x < world.apple.position.x)
-				x = world.apple.position.x - world.snakes[0].body()[0].position().x;
-			else if (world.snakes[0].body()[0].position().x > world.apple.position.x)
-				x = world.snakes[0].body()[0].position().x - world.apple.position.x;
+			if (controlled_snake->body()[0].position().x < world.apple.position.x)
+				x = world.apple.position.x - controlled_snake->body()[0].position().x;
+			else if (controlled_snake->body()[0].position().x > world.apple.position.x)
+				x = controlled_snake->body()[0].position().x - world.apple.position.x;
 			else
 				x = 0;
 
-			if (world.snakes[0].body()[0].position().y < world.apple.position.y)
-				y = world.apple.position.x - world.snakes[0].body()[0].position().y;
-			else if (world.snakes[0].body()[0].position().y > world.apple.position.x)
-				y = world.snakes[0].body()[0].position().y - world.apple.position.x;
+			if (controlled_snake->body()[0].position().y < world.apple.position.y)
+				y = world.apple.position.x - controlled_snake->body()[0].position().y;
+			else if (controlled_snake->body()[0].position().y > world.apple.position.x)
+				y = controlled_snake->body()[0].position().y - world.apple.position.x;
 			else
 				y = 0;
 
@@ -403,7 +420,6 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 			td_perception.push_back(0.0);
 		}
 	}
-
 	return td_perception;
 }
 

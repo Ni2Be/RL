@@ -92,6 +92,8 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 	int nextAction = greedyMove(perceptions);
 
 	Reward reward = m_environment->reward(m_self_pointer, state);
+	if (Agent<State_T>::m_environment->name == "Snake")
+		reward *= 10.0f;
 	if (reward != 0)
 	{
 		nn.calculate(lastPerception);

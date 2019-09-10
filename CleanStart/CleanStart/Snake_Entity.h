@@ -42,7 +42,7 @@ namespace Ai_Arena
 		bool m_is_head = false;
 		bool m_is_tail = false;
 		Pos_int m_position;
-		Actions m_direction;
+		Actions m_direction = Actions::NO_ACTION;
 		Diagonals m_turn;
 	};
 
@@ -93,6 +93,8 @@ namespace Ai_Arena
 		int distanceToBodyUp() const;
 		int distanceToBodyRight() const;
 		int distanceToBodyDown() const;
+
+		int agent_id = 0;
 	private:
 
 		std::vector<Snake_Segment> m_body;

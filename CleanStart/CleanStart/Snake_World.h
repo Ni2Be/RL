@@ -62,12 +62,12 @@ namespace Ai_Arena
 		That's done in handle_events(std::vector<std::pair<Snake_Entity*, Events>>& snake_events)
 		*/
 		//TODO check evetns sollte prüfen ob sich events widersprechen, vielleicht neue funktion check_contradictions() 
-		void check_events();
+		void check_events(std::vector<Snake_World::Events>& snake_world_events);
 		/*
 		handles events. if something was eaten the snake will be extended etc
 		atm handles what event will be executed if two events contradict each other
 		*/
-		void handle_events(std::vector<std::pair<Snake_Entity*, Events>>& snake_events);
+		void handle_events(std::vector<std::pair<Snake_Entity*, Events>>& snake_events, std::vector<Snake_World::Events>& snake_world_events);
 
 		void add_snake()
 		{
