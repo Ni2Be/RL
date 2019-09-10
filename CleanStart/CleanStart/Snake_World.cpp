@@ -33,6 +33,12 @@ void Snake_World::Apple::respawn(Area_int area)
 
 void Snake_World::check_events(std::vector<Snake_World::Events>& snake_world_events)
 {
+	for (int i = 0; i < m_actor_events.size(); i++)
+	{
+		m_actor_last_events[i] = m_actor_events[i];
+		m_actor_events[i] = Events::NO_EVENT;
+	}
+
 	std::vector<std::pair<Snake_Entity*, Events>> snake_events;
 	for (auto& snake : snakes)
 	{
@@ -119,11 +125,13 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 		{
 		case Events::ATE:
 			snake_world_events[snake_event_pair.first->agent_id] = Events::ATE;
+			m_actor_events[snake_event_pair.first->agent_id] = Events::ATE;
 			snake_event_pair.first->extend();
 			snake_event_pair.first->score()++;
 			break;
 		case Events::CRASHED:
 			snake_world_events[snake_event_pair.first->agent_id] = Events::CRASHED;
+			m_actor_events[snake_event_pair.first->agent_id] = Events::CRASHED;
 			snake_event_pair.first->score() = 0;
 			//only respown if lives left
 			if (--snake_event_pair.first->lifes() <= 0)
@@ -133,6 +141,7 @@ void Snake_World::handle_events(std::vector<std::pair<Snake_Entity*, Events>>& s
 			break;
 		case Events::NO_EVENT:
 			snake_world_events[snake_event_pair.first->agent_id] = Events::NO_EVENT;
+			m_actor_events[snake_event_pair.first->agent_id] = Events::NO_EVENT;
 			break;
 		default:
 			std::cerr << std::endl << "invalid event" << std::endl;

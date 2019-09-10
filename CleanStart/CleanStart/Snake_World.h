@@ -54,6 +54,8 @@ namespace Ai_Arena
 			ATE, CRASHED, WON, NO_EVENT
 		};
 
+		std::vector<Snake_World::Events> m_actor_events;
+		std::vector<Snake_World::Events> m_actor_last_events;
 		/*
 		checks if an event happened.
 		atm: It's possible that two events like
@@ -73,12 +75,16 @@ namespace Ai_Arena
 		{
 			snakes.push_back(Snake_Entity());
 			snakes[snakes.size() - 1].respown(find_spawn_area());
+			m_actor_events.push_back(Events::NO_EVENT);
+			m_actor_last_events.push_back(Events::NO_EVENT);
 		};
 
 		void add_snake(Pos_int pos)
 		{
 			snakes.push_back(Snake_Entity());
 			snakes[snakes.size() - 1].respown({ pos, pos });
+			m_actor_events.push_back(Events::NO_EVENT);
+			m_actor_last_events.push_back(Events::NO_EVENT);
 		};
 
 		/*

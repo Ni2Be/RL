@@ -255,7 +255,7 @@ std::vector<Snake_World> Snake_Game::assume_action(std::shared_ptr<Actor<Snake_W
 
 	////handle events like ate apple or crashed
 	state.check_events(dummy_snake_world_events);
-
+	
 	return { state };
 };
 
@@ -325,17 +325,16 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 
 	int snakePosX = controlled_snake->body()[0].position().x;
 	int snakePosY = controlled_snake->body()[0].position().y;
-	Snake::Actions snakeDirection = Snake::Actions::NO_ACTION;
-	if(controlled_snake->body().size() > 0)
-		snakeDirection = controlled_snake->body()[0].direction();
+	Snake::Actions snakeDirection = controlled_snake->body()[0].direction();
 	
 	int distanceLeft = 1.0, distanceFront = 1.0, distanceRight = 1.0;
 	int startX, startY;
 
-
 	//hab auch mal m_actor_last_events rein gemacht falls das hilft 
+	Snake_World worl_cpy = world;
+	Snake_World::Events snake_event = worl_cpy.m_actor_events[controlled_snake->agent_id];
 
-	if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::CRASHED)
+	if (snake_event == Snake_World::Events::CRASHED)
 	{
 		td_perception.push_back(1.0);
 		td_perception.push_back(0.0);
@@ -344,7 +343,7 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
 	}
-	else if (m_actor_events[perceiving_actor.actor->id()] == Snake_World::Events::ATE)
+	else if (snake_event == Snake_World::Events::ATE)
 	{
 		td_perception.push_back(0.0);
 		td_perception.push_back(1.0);
