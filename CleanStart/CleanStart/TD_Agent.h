@@ -41,7 +41,7 @@ namespace Ai_Arena
 		bool firstRound = true;
 		int greedyMove(std::vector<std::vector<double>>& perceptions);
 		Perception lastPerception;
-		NeuralNetwork nn = NeuralNetwork(6, 6, 2, 1);
+		NeuralNetwork nn;
 	};
 }
 

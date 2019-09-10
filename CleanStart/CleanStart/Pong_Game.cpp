@@ -18,6 +18,7 @@ Pong_Game::Pong_Game(int paddle_length,int fields_x, int fields_y, int field_pix
 				"Pong",
 				field_pixel)));
 
+	this->name = "Pong";
 
 	m_graphics->update_graphics(world);
 
@@ -142,7 +143,7 @@ if (m_old_lives != world.Pongs[0].lives())
 	}
 */
 	//only update graphics in play mode
-	if(!m_trainings_mode)
+	//if(!m_trainings_mode)
 		graphics()->update_graphics(world);
 }
 
@@ -179,39 +180,56 @@ bool Pong_Game::is_final(std::shared_ptr<Actor<Pong_World>> actor, Pong_World st
 Reward Pong_Game::reward(std::shared_ptr<Actor<Pong_World>> actor, Pong_World state) const
 {
 	Paddle* controlled_paddle = &(state.paddles[actor->id()]);
-	Reward reward = 0.0;
-	const Pong_World world = state;
+	Reward reward = -10.0;
+	//const Pong_World world = state;
 
-	int chunkSize = 5;
-	int actor_front_y = controlled_paddle->body().front().position().y;
+	//int chunkSize = 5;
+	//int actor_front_y = controlled_paddle->body().front().position().y;
 	int paddle_size = (int) controlled_paddle->body().size();
 	int actor_center_y = controlled_paddle->body()[paddle_size / 2 - 1].position().y;
-	int actor_back_y = controlled_paddle->body().back().position().y;
+	//int actor_back_y = controlled_paddle->body().back().position().y;
 	int ball_y = state.ball.position.y;
-	float chunk = state.m_fields_y / chunkSize;
+	//float chunk = state.m_fields_y / chunkSize;
 
+	int actor_x = controlled_paddle->body().front().position().x;
+	int ball_x = state.ball.position.x;
 	
-	
-	for (int i = 0; chunkSize > i; i++)
-	{
-		//std::cout << "chunk " << i << ": " << chunk * i<< std::endl;
+	//for (int i = 0; chunkSize > i; i++)
+	//{
+	//	//std::cout << "chunk " << i << ": " << chunk * i<< std::endl;
 
-		if (chunk * i < actor_center_y && actor_center_y < chunk * (i + 1))
-		{
-		
-			if (chunk * i < ball_y && ball_y < chunk * (i + 1))
-				reward += 0.2;
-		}
-	}
-	
+	//	if (chunk * i < actor_center_y && actor_center_y < chunk * (i + 1))
+	//	{
+	//	
+	//		if (chunk * i < ball_y && ball_y < chunk * (i + 1))
+	//			reward += 0.2;
+	//	}
+	//}
+	//
 
 	
 	//Ball auf Paddle Höhe
-	if (controlled_paddle->body().front().position().y <= state.ball.position.y && state.ball.position.y <= controlled_paddle->body().back().position().y)
-		reward += 0.7;
-		
 
-	
+	if (actor_x < (b_w / 2.0))
+	{
+		if (ball_x < 120)
+		{
+			if ((ball_y >= actor_center_y - 2)
+				&& (ball_y <= actor_center_y + 2))
+				reward = 50.0;
+		}
+	}
+	else
+	{
+		if (ball_x > 30)
+		{
+			if ((ball_y >= actor_center_y - 2)
+				&& (ball_y <= actor_center_y + 2))
+				reward = 50.0;
+		}
+	}
+
+	//
 	//Paddle schlägt Ball
 	for (int i = 0; controlled_paddle->body().size() > i; i++)
 	{
@@ -219,13 +237,10 @@ Reward Pong_Game::reward(std::shared_ptr<Actor<Pong_World>> actor, Pong_World st
 			controlled_paddle->body()[i].position().x - 1 == state.ball.position.x && controlled_paddle->body()[i].position().y == state.ball.position.y && controlled_paddle->get_side() == Sides::R
 			)
 		{
-			reward += 0.8;
+			reward += 100.0;
 			//std::cout << "BOUNCE! "  << std::endl;
 		}
 	}
-
-	if (reward == 0.0)
-		reward = 0.0001;
 
 
 	return reward;
@@ -455,6 +470,8 @@ const Perception Pong_Game::own_position_and_ball(Actor_Representation perceivin
 	int ball_y = state.ball.position.y;
 	float chunk = state.m_fields_y / chunkSize;
 
+	int ball_accel_x = state.ball.accel_x;
+	int ball_accel_y = state.ball.accel_y;
 
 	//Perception falls Ball vor einem!
 	/*if (actor_front_y <= ball_y && ball_y <= actor_back_y)
@@ -490,17 +507,25 @@ const Perception Pong_Game::own_position_and_ball(Actor_Representation perceivin
 	//perception.push_back(actor_back_y);
 	//perception.push_back(ball_y);
 
-	perception.push_back(normalize_height(actor_front_y));
+	perception.push_back((actor_center_y - ball_y));
+
+	if (actor_x < (b_w / 2))
+	{
+		perception.push_back((ball_x));
+		perception.push_back(ball_accel_x * 10);
+	}
+	else
+	{
+		perception.push_back(std::abs((actor_x - ball_x)));
+		perception.push_back(-ball_accel_x * 10);
+	}
+	perception.push_back(ball_accel_y);
+	//std::cout << "\ndif: " << actor_center_y - ball_y;
+	//perception.push_back(normalize_height(actor_front_y));
 	//perception.push_back(normalize_width(actor_x));
 	//perception.push_back(normalize_height(actor_back_y));
 	//perception.push_back(normalize_width(ball_x));
-	perception.push_back(normalize_height(ball_y));
-
-
-
-
-
-
+	//perception.push_back(normalize_height(ball_y));
 
 	return perception;
 }

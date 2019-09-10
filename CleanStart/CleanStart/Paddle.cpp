@@ -40,10 +40,6 @@ void Paddle::perform_action(Action action)
 
 				break;
 
-			case Actions::NO_ACTION:
-				
-				body()[i].direction() = Actions::NO_ACTION;
-				break;
 			default:
 				std::cerr << std::endl << "invalid action" << std::endl;
 				exit(-1);

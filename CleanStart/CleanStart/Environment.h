@@ -239,6 +239,8 @@ namespace Ai_Arena
 	class Environment
 	{
 	public:
+		std::string name = "none";
+
 		//ACTOR COMMUNICATION
 
 			/*returns the possible actions in a given State*/

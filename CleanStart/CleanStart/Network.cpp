@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "Utility.h"
+
 NeuralNetwork::NeuralNetwork(int input, int hiddenLayerSize, int hiddenLayer, int output) :
 	inputLayer(Layer(input + 1)),
 	hiddenLayers(LayerContainer(hiddenLayer, Layer(hiddenLayerSize + 1))),
@@ -15,16 +17,12 @@ NeuralNetwork::NeuralNetwork(int input, int hiddenLayerSize, int hiddenLayer, in
 
 void NeuralNetwork::initInputWeights(double from, double to)
 {
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-	std::uniform_real_distribution<> dis(from, to);
-
 	for (int i = 0; i < hiddenLayers[0].size() - 1; i++)
 	{
 		std::vector<double> temp;
 		for (int j = 0; j < inputLayer.size(); j++)
 		{
-			temp.push_back(dis(gen));
+			temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
 		}
 		inputWeights.push_back(temp);
 	}
@@ -33,10 +31,6 @@ void NeuralNetwork::initInputWeights(double from, double to)
 
 void NeuralNetwork::initHiddenWeights(double from, double to)
 {
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-	std::uniform_real_distribution<> dis(from, to);
-
 	for (int i = 0; i < hiddenLayers.size() - 1; i++)
 	{
 		Matrix weights;
@@ -45,7 +39,7 @@ void NeuralNetwork::initHiddenWeights(double from, double to)
 			std::vector<double> temp;
 			for (int k = 0; k < hiddenLayers[0].size(); k++)
 			{
-				temp.push_back(dis(gen));
+				temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
 			}
 			weights.push_back(temp);
 		}
@@ -55,16 +49,12 @@ void NeuralNetwork::initHiddenWeights(double from, double to)
 
 void NeuralNetwork::initOutputWeights(double from, double to)
 {
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-	std::uniform_real_distribution<> dis(from, to);
-	//dis(gen)
 	for (int i = 0; i < outputLayer.size(); i++)
 	{
 		std::vector<double> temp;
 		for (int j = 0; j < hiddenLayers[0].size(); j++)
 		{
-			temp.push_back(dis(gen));
+			temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
 		}
 		outputWeights.push_back(temp);
 	}
@@ -330,13 +320,14 @@ void NeuralNetwork::saveRewardsInFile(const std::string& file_name)
 void NeuralNetwork::loadRewardsFromFile(const std::string& file_name)
 {
 	std::ifstream myfile(file_name.c_str());
-	NeuralNetwork& nn = *this;
-	Matrix inputMatrix = nn.getInputWeights();
-	MatrixContainer hiddenMatrix = nn.getHiddenWeights();
-	Matrix outputMatrix = nn.getOutputWeights();
-	char sign;
+
 	if (myfile.is_open())
 	{
+		NeuralNetwork& nn = *this;
+		Matrix inputMatrix = nn.getInputWeights();
+		MatrixContainer hiddenMatrix = nn.getHiddenWeights();
+		Matrix outputMatrix = nn.getOutputWeights();
+		char sign;
 		for (int i = 0; i < inputMatrix.size(); i++)
 			for (int j = 0; j < inputMatrix[i].size(); j++)
 			{

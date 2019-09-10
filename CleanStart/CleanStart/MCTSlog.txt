@@ -2,3 +2,12 @@
 applied actions: 16052
 simulated states: 9912513
 simulated playouts: 641513
+applied actions: 263
+simulated states: 52660
+simulated playouts: 527
+applied actions: 48
+simulated states: 9661
+simulated playouts: 97
+applied actions: 1367
+simulated states: 197693
+simulated playouts: 30525

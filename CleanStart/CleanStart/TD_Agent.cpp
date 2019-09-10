@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Utility.h"
 
+#include <string>
+
 using namespace Ai_Arena;
 
 template <class State_T>
@@ -19,8 +21,12 @@ void TD_Agent<State_T>::set_up()
 {
 	//TODO save to file
 	std::cout << "set up\n";
+	if(Agent<State_T>::m_environment->name == "Pong")
+		nn = NeuralNetwork(4, 6, 2, 1);
+	else if(Agent<State_T>::m_environment->name == "Snake")
+		nn = NeuralNetwork(6, 6, 2, 1);
 
-	this->nn.loadRewardsFromFile("test_td_nn.txt");
+	this->nn.loadRewardsFromFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 }
 
 template <class State_T>
@@ -28,8 +34,7 @@ void TD_Agent<State_T>::shut_down()
 {
 	//TODO save to file
 	std::cout << "shut down\n";
-
-	this->nn.saveRewardsInFile("test_td_nn.txt");
+	this->nn.saveRewardsInFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 	m_is_running = false;
 }
 
@@ -77,7 +82,7 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 		return nextPerception;
 	}
 
-	if (Utility::random_int_ts(0, 4) == 0)
+	if (Utility::random_int_ts(0, 10) == 0)
 	{
 		int perceptionIndex = Utility::random_int_ts(0, perceptions.size() - 1);
 		lastPerception = perceptions[perceptionIndex];

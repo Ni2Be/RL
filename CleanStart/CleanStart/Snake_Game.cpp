@@ -17,6 +17,7 @@ Snake_Game::Snake_Game(int fields, int field_pixel)
 				"Snake",
 				field_pixel)));
 
+	this->name = "Snake";
 
 	m_graphics->update_graphics(world);
 
@@ -131,7 +132,7 @@ void Snake_Game::update()
 		std::cout << world.snakes[0].lifes() << " games left\n";
 
 	//only update graphics in play mode
-	if(!m_trainings_mode)
+	//if(!m_trainings_mode)
 		graphics()->update_graphics(world);
 }
 
