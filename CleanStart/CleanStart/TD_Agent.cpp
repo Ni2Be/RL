@@ -24,7 +24,7 @@ void TD_Agent<State_T>::set_up()
 	if(Agent<State_T>::m_environment->name == "Pong")
 		nn = NeuralNetwork(4, 6, 2, 1);
 	else if(Agent<State_T>::m_environment->name == "Snake")
-		nn = NeuralNetwork(6, 6, 2, 1);
+		nn = NeuralNetwork(7, 6, 2, 1);
 
 	this->nn.loadRewardsFromFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 }
@@ -43,6 +43,12 @@ void TD_Agent<State_T>::evaluate_action()
 {
 	if (!Agent<State_T>::m_environment->is_final(Agent<State_T>::m_self_pointer))
 	{
+		if (counter++ == 10000)
+		{
+			counter = 0;
+			std::cout << "\nsaving agent " << Agent<State_T>::id();
+			this->nn.saveRewardsInFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
+		}
 
 		std::vector<Action> possible_actions =
 			Agent<State_T>::m_environment->possible_actions(

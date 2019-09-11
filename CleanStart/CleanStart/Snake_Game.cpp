@@ -188,12 +188,18 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 
 	Reward reward = 0.0f;
 
-	if (controlled_snake->score() < controlled_snake->last_score())
+	Snake_World::Events snake_event = state.m_actor_events[controlled_snake->agent_id];
+
+	if (snake_event == Snake_World::Events::CRASHED)
+		reward = -1.0f;
+	else if (snake_event == Snake_World::Events::ATE)
+		reward = 1.0f;
+	/*if (controlled_snake->score() < controlled_snake->last_score())
 		reward = -1.0f;
 	else if (controlled_snake->score() > controlled_snake->last_score())
 		reward = 1.0f;
 	else
-		reward = 0.0f;
+		reward = 0.0f;*/
 
 	return reward;
 	//return controlled_snake->score();
@@ -342,11 +348,13 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
+		td_perception.push_back(0.0);
 	}
 	else if (snake_event == Snake_World::Events::ATE)
 	{
 		td_perception.push_back(0.0);
 		td_perception.push_back(1.0);
+		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
@@ -398,6 +406,9 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 
 		if (controlled_snake->body().size() > 0)
 		{
+			//x = std::abs(world.apple.position.x - controlled_snake->body()[0].position().x);
+			//y = std::abs(world.apple.position.x - controlled_snake->body()[0].position().y);
+
 			if (controlled_snake->body()[0].position().x < world.apple.position.x)
 				x = world.apple.position.x - controlled_snake->body()[0].position().x;
 			else if (controlled_snake->body()[0].position().x > world.apple.position.x)
@@ -411,11 +422,12 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 				y = controlled_snake->body()[0].position().y - world.apple.position.x;
 			else
 				y = 0;
-
-			td_perception.push_back((19 - (x + y)) / 19);
+			td_perception.push_back(x);
+			td_perception.push_back(y);
 		}
 		else
 		{
+			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
 		}
 	}

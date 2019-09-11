@@ -37,6 +37,8 @@ namespace Ai_Arena
 		void set_up();
 		void shut_down();
 	private:
+		int counter = 0;
+
 		int findMove(std::vector<Action> possible_actions);
 		bool firstRound = true;
 		int greedyMove(std::vector<std::vector<double>>& perceptions);
