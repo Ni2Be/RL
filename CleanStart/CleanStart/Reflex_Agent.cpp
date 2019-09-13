@@ -58,7 +58,6 @@ void Reflex_Agent<State_T>::evaluate_action()
 		deactivate();
 		sleep();
 	}
-
 }
 
 template <class State_T>

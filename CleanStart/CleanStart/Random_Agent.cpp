@@ -17,7 +17,7 @@ Random_Agent<State_T>::Random_Agent(std::shared_ptr<Environment<State_T>> enviro
 template <class State_T>
 void Random_Agent<State_T>::evaluate_action()
 {
-	if (!Agent<State_T>::m_environment->is_final(Agent<State_T>::m_self_pointer))
+	if (!m_environment->is_final(m_self_pointer))
 	{
 		std::vector<Action> possible_actions =
 			Agent<State_T>::m_environment->possible_actions(

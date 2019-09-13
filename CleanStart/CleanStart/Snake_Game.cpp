@@ -331,6 +331,10 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 
 	const Snake_Entity* controlled_snake = &(world.snakes[perceiving_actor.actor->id()]);
 
+	if (controlled_snake->has_lost())
+		return { 0,0,0,0, 0,0,0,0 };
+
+
 	int snakePosX = controlled_snake->body()[0].position().x;
 	int snakePosY = controlled_snake->body()[0].position().y;
 	Snake::Actions snakeDirection = controlled_snake->body()[0].direction();

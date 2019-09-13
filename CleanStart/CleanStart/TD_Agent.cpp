@@ -41,7 +41,7 @@ void TD_Agent<State_T>::shut_down()
 template <class State_T>
 void TD_Agent<State_T>::evaluate_action()
 {
-	if (!Agent<State_T>::m_environment->is_final(Agent<State_T>::m_self_pointer))
+	if (!m_environment->is_final(m_self_pointer))
 	{
 		if (counter++ == 10000)
 		{
@@ -60,11 +60,10 @@ void TD_Agent<State_T>::evaluate_action()
 	}
 	else
 	{
-		std::cout << "actor " << Agent<State_T>::id() << " deactivated\n";
+		std::cout << "actor " <<id() << " deactivated\n";
 		deactivate();
 		sleep();
 	}
-
 }
 
 template<class State_T>
