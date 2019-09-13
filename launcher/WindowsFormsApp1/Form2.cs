@@ -169,6 +169,8 @@ namespace WindowsFormsApp1
                     ref1.gameName = "Pong";
                 }
 
+                if (checkBox1.Checked) ref1.console_output = 1; else ref1.console_output = 0;
+
                 ref1.tdOptions = "TD_OPTIONS";
                 if (tdName.Count == 0)
                 {

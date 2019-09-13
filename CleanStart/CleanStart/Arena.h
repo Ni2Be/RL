@@ -2,8 +2,8 @@
 #include <memory>
 #include <vector>
 
-#define PONG
-//#define SNAKE
+//#define PONG
+#define SNAKE
 
 #ifdef PONG
 #include "Pong_Game.h"
@@ -31,7 +31,7 @@ namespace Ai_Arena
 	class Arena
 	{
 	public:
-		Arena(int humanPlayers, int MCTSAgents, int ReflexAgents, int RandomAgents, int TDAgents, int max_Score_Limit)
+		Arena(int humanPlayers, int MCTSAgents, int ReflexAgents, int RandomAgents, int TDAgents, int max_Score_Limit, int game_speed)
 		{
 			this->humanPlayers = humanPlayers;
 			this->MCTSAgents = MCTSAgents;
@@ -39,6 +39,7 @@ namespace Ai_Arena
 			this->RandomAgents = RandomAgents;
 			this->TDAgents = TDAgents;
 			this->max_Score_Limit = max_Score_Limit;
+			this->game_speed = game_speed;
 			
 		}
 
@@ -47,7 +48,7 @@ namespace Ai_Arena
 		bool trainings_mode() const { return m_trainings_mode; };
 	protected:
 
-		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, max_Score_Limit, addedAgents = 0;
+		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, max_Score_Limit, game_speed, addedAgents = 0;
 		bool m_trainings_mode = false;
 #ifdef SNAKE
 		std::shared_ptr<Environment<Snake_World>> m_enviroment;

@@ -20,6 +20,7 @@ namespace WindowsFormsApp1
         public int RandomAgents = 0;
         public int TDAgents = 0;
         public int game = 0;
+        public int console_output = 1;
         public String tdOptions = "TD_OPTIONS:";
         public int max_Score_Limit = 10000;
         public String gameName = "Snake";
@@ -66,7 +67,7 @@ namespace WindowsFormsApp1
                 startInfo.FileName = @"Release\Snake.exe";
             else
                 startInfo.FileName = @"Release\Pong.exe";
-            startInfo.Arguments = @"" + humanPlayers + " " + MCTSAgents + " "+ " " + ReflexAgents + " "+ " " + RandomAgents + " " + TDAgents + " " + max_Score_Limit;
+            startInfo.Arguments = @"" + humanPlayers + " " + MCTSAgents + " "+ " " + ReflexAgents + " "+ " " + RandomAgents + " " + TDAgents + " " + max_Score_Limit + " " + console_output;
             Process.Start(startInfo);
         }
 
