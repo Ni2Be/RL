@@ -5,8 +5,9 @@ int main(int argc, char *argv[])
 {
 	using namespace Ai_Arena;
 
-	int humanPlayers = 0, MCTSAgents = 0, ReflexAgents = 0, RandomAgents = 0, TDAgents = 1, trainings_mode = 0;
+	int humanPlayers = 1, MCTSAgents = 0, ReflexAgents = 0, RandomAgents = 0, TDAgents = 1, max_Score_Limit = 100;
 
+	int trainings_mode = 0;
 	if (argc >= 3)
 	{
 
@@ -15,11 +16,11 @@ int main(int argc, char *argv[])
 		ReflexAgents = std::stoi(argv[3]);
 		RandomAgents = std::stoi(argv[4]);
 		TDAgents = std::stoi(argv[5]);
-
+		max_Score_Limit = std::stoi(argv[6]);
 		//game = std::stoi(argv[3]);
 	}
 
-	Arena arena(humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents);
+	Arena arena(humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, max_Score_Limit);
 
 	if (argc >= 6)
 		trainings_mode = std::stoi(argv[6]);
@@ -36,5 +37,3 @@ int main(int argc, char *argv[])
 	}
 	return 0;
 }
-
-

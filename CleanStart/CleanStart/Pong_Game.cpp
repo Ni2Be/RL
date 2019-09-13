@@ -5,7 +5,7 @@ using namespace Ai_Arena;
 using namespace Pong;
 
 
-Pong_Game::Pong_Game(int paddle_length,int fields_x, int fields_y, int field_pixel)
+Pong_Game::Pong_Game(int paddle_length,int fields_x, int fields_y, int field_pixel, int max_Score_Limit)
 	:
 	//m_fields(fields),
 	world(fields_x, fields_y, paddle_length)
@@ -20,6 +20,7 @@ Pong_Game::Pong_Game(int paddle_length,int fields_x, int fields_y, int field_pix
 
 	this->name = "Pong";
 
+	C_MAX_SCORE = max_Score_Limit;
 	m_graphics->update_graphics(world);
 
 }

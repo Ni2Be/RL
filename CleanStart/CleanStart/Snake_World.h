@@ -16,7 +16,7 @@ namespace Ai_Arena
 	public:
 		Snake_World() {}
 
-
+		
 
 		//apple represents the eatable item
 		struct Apple
@@ -45,7 +45,8 @@ namespace Ai_Arena
 		};
 
 		//Sets up a standard playingfield and sporns the apple the first time 
-		Snake_World(int fields);
+		Snake_World(int fields, int max_Score_Limit);
+
 		//copy
 		Snake_World(const Snake_World&) = default;
 
@@ -74,6 +75,7 @@ namespace Ai_Arena
 		void add_snake()
 		{
 			snakes.push_back(Snake_Entity());
+			snakes[snakes.size() - 1].lifes() = max_Score_Limit;
 			snakes[snakes.size() - 1].respown(find_spawn_area());
 			m_actor_events.push_back(Events::NO_EVENT);
 			m_actor_last_events.push_back(Events::NO_EVENT);
@@ -82,6 +84,7 @@ namespace Ai_Arena
 		void add_snake(Pos_int pos)
 		{
 			snakes.push_back(Snake_Entity());
+			snakes[snakes.size() - 1].lifes() = max_Score_Limit;
 			snakes[snakes.size() - 1].respown({ pos, pos });
 			m_actor_events.push_back(Events::NO_EVENT);
 			m_actor_last_events.push_back(Events::NO_EVENT);
@@ -101,7 +104,7 @@ namespace Ai_Arena
 
 
 		bool game_over = false;
-
+		int max_Score_Limit;
 
 		Playing_Field playing_field;
 	};

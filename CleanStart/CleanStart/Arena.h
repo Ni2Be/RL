@@ -31,14 +31,15 @@ namespace Ai_Arena
 	class Arena
 	{
 	public:
-		Arena(int humanPlayers, int MCTSAgents, int ReflexAgents, int RandomAgents, int TDAgents)
+		Arena(int humanPlayers, int MCTSAgents, int ReflexAgents, int RandomAgents, int TDAgents, int max_Score_Limit)
 		{
 			this->humanPlayers = humanPlayers;
 			this->MCTSAgents = MCTSAgents;
 			this->ReflexAgents = ReflexAgents;
 			this->RandomAgents = RandomAgents;
 			this->TDAgents = TDAgents;
-			std::cout << "tst";
+			this->max_Score_Limit = max_Score_Limit;
+			
 		}
 
 		void run();
@@ -46,7 +47,7 @@ namespace Ai_Arena
 		bool trainings_mode() const { return m_trainings_mode; };
 	protected:
 
-		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, addedAgents = 0;
+		int humanPlayers, MCTSAgents, ReflexAgents, RandomAgents, TDAgents, max_Score_Limit, addedAgents = 0;
 		bool m_trainings_mode = false;
 #ifdef SNAKE
 		std::shared_ptr<Environment<Snake_World>> m_enviroment;

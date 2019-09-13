@@ -11,3 +11,9 @@ simulated playouts: 97
 applied actions: 1367
 simulated states: 197693
 simulated playouts: 30525
+applied actions: 233
+simulated states: 4158094
+simulated playouts: 538351
+applied actions: 15
+simulated states: 263914
+simulated playouts: 24552

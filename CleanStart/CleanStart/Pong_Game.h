@@ -9,7 +9,7 @@ namespace Ai_Arena
 	class Pong_Game : public Game_Base<Pong_Graphics, Pong_World>
 	{
 	public:
-		Pong_Game(int paddle_length, int fields_x, int fields_y, int field_pixel);
+		Pong_Game(int paddle_length, int fields_x, int fields_y, int field_pixel, int max_Score_Limit);
 
 		void update_world();
 

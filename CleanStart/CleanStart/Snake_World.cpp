@@ -3,7 +3,7 @@
 
 using namespace Ai_Arena;
 
-Snake_World::Snake_World(int fields)
+Snake_World::Snake_World(int fields, int max_Score_Limit)
 	:
 	playing_field(fields, std::vector<int>(fields, Playing_Field::EMPTY))
 {
@@ -14,7 +14,7 @@ Snake_World::Snake_World(int fields)
 		field_vec[0] = Playing_Field::WALL;
 		field_vec[fields - 1] = Playing_Field::WALL;
 	}
-
+	this->max_Score_Limit = max_Score_Limit;
 	apple.respawn({ {fields / 2, fields / 2},{fields / 2, fields / 2} });
 }
 

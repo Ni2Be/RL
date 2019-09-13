@@ -22,7 +22,7 @@ namespace Ai_Arena
 	{
 	public:
 
-		Snake_Game(int fields_width_count, int field_pixel);
+		Snake_Game(int fields_width_count, int field_pixel, int max_Score_Limit);
 
 		void update_world();
 

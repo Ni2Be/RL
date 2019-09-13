@@ -5,10 +5,10 @@ using namespace Ai_Arena;
 using namespace Snake;
 #include <fstream>
 
-Snake_Game::Snake_Game(int fields, int field_pixel)
+Snake_Game::Snake_Game(int fields, int field_pixel, int max_Score_Limit)
 	:
 	m_fields_width_count(fields),
-	world(fields)
+	world(fields, max_Score_Limit)
 {
 	graphics(
 		std::shared_ptr<Snake_Graphics>(
@@ -18,6 +18,7 @@ Snake_Game::Snake_Game(int fields, int field_pixel)
 				field_pixel)));
 
 	this->name = "Snake";
+
 
 	m_graphics->update_graphics(world);
 
