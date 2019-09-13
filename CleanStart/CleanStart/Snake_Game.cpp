@@ -236,6 +236,7 @@ Perception Snake_Game::get_perception(std::shared_ptr<Actor<Snake_World>> actor,
 
 void Snake_Game::apply_action(std::shared_ptr<Actor<Snake_World>> actor, Action action)
 {
+	//std::cout << "\napply_action\n";
 	//assign action to actor
 	exchange_action(actor, action);
 
@@ -344,57 +345,66 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 	{
 		td_perception.push_back(1.0);
 		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
 	}
 	else if (snake_event == Snake_World::Events::ATE)
 	{
 		td_perception.push_back(0.0);
 		td_perception.push_back(1.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
-		td_perception.push_back(0.0);
 	}
 	else
 	{
 		td_perception.push_back(0.0);
 		td_perception.push_back(0.0);
-
+	}
 		if (controlled_snake->body().size() > 0)
 		{
 			switch (snakeDirection)
 			{
 			case Snake::Actions::U:
-				td_perception.push_back((double)controlled_snake->distanceToBodyLeft() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyLeft());
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp());
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight());
 				break;
 			case Snake::Actions::D:
-				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyLeft() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight());
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown());
+				td_perception.push_back((double)controlled_snake->distanceToBodyLeft());
 				break;
 			case Snake::Actions::L:
-				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown());
+				td_perception.push_back((double)controlled_snake->distanceToBodyLeft());
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp());
 				break;
 			case Snake::Actions::R:
-				td_perception.push_back((double)controlled_snake->distanceToBodyUp() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyRight() / 10.0);
-				td_perception.push_back((double)controlled_snake->distanceToBodyDown() / 10.0);
+				td_perception.push_back((double)controlled_snake->distanceToBodyUp());
+				td_perception.push_back((double)controlled_snake->distanceToBodyRight());
+				td_perception.push_back((double)controlled_snake->distanceToBodyDown());
 				break;
 			case Snake::Actions::NO_ACTION:
 				break;
 			default:
 				std::cerr << "convert_to_state()\ninvalid action: " << snakeDirection << "\n";
+				if (td_perception[2] < 0
+					|| td_perception[3] < 0
+					|| td_perception[4] < 0
+					|| td_perception[2] > world.playing_field.size()
+					|| td_perception[3] > world.playing_field.size()
+					|| td_perception[4] > world.playing_field.size())
+				{
+					td_perception[2] = 0;
+					td_perception[3] = 0;
+					td_perception[4] = 0;
+				}
+				else
+				{
+					td_perception[2] /= 100.0;
+					td_perception[3] /= 100.0;
+					td_perception[4] /= 100.0;
+
+				}
 				//exit(-1);
 			}
+			//std::cout << "\nl: " << td_perception[2] << ", f: " << td_perception[3] << ", r: " << td_perception[4];
 		}
 		else
 		{
@@ -424,13 +434,16 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 				y = 0;
 			td_perception.push_back(x);
 			td_perception.push_back(y);
+
+			td_perception.push_back(x - controlled_snake->body()[0].position().x + y - controlled_snake->body()[0].position().y);
 		}
 		else
 		{
 			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
+			td_perception.push_back(0.0);
 		}
-	}
+	
 	return td_perception;
 }
 

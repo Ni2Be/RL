@@ -24,7 +24,7 @@ void TD_Agent<State_T>::set_up()
 	if(Agent<State_T>::m_environment->name == "Pong")
 		nn = NeuralNetwork(4, 6, 2, 1);
 	else if(Agent<State_T>::m_environment->name == "Snake")
-		nn = NeuralNetwork(7, 6, 2, 1);
+		nn = NeuralNetwork(8, 9, 2, 1);
 
 	this->nn.loadRewardsFromFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 }
