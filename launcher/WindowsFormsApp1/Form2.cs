@@ -91,6 +91,8 @@ namespace WindowsFormsApp1
             numericUpDown4.Value = 0;
             numericUpDown5.Value = 0;
 
+            numericUpDown7.Value = 200;
+
             label8.Text = "Anzahl der Leben:";
 
             load_descriptions();
@@ -150,6 +152,10 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Pong: Die Anzahl der Spieler darf nur 2 betragen!", "Hinweis");
             }
+            else if(numericUpDownSum == 0) 
+            {
+                MessageBox.Show("Es muss mindestens ein Spieler vorhanden sein!", "Hinweis");
+            }
             else
             {
                 ref1.humanPlayers = (int)numericUpDown1.Value;
@@ -158,6 +164,7 @@ namespace WindowsFormsApp1
                 ref1.RandomAgents = (int)numericUpDown4.Value;
                 ref1.TDAgents = (int)numericUpDown5.Value;
                 ref1.max_Score_Limit = (int)numericUpDown6.Value;
+                ref1.game_speed = (int)numericUpDown7.Value;
                 if (radioButton1.Checked)
                 {
                     ref1.game = 0;
@@ -199,6 +206,7 @@ namespace WindowsFormsApp1
             numericUpDown3.Value = 0;
             numericUpDown4.Value = 0;
             numericUpDown5.Value = 1;
+            numericUpDown7.Value = 30;
 
             label8.Text = "Punktzahl bis Spielende:";
 
