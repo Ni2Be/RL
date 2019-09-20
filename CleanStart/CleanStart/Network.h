@@ -60,7 +60,7 @@ public:
 	void setHiddenWeights(const MatrixContainer& weights);
 
 
-	void saveRewardsInFile(const std::string& file_name);
+	void saveRewardsInFile(const std::string& file_name) const;
 	void loadRewardsFromFile(const std::string& file_name);
 private:
 	//Layer

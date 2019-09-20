@@ -294,7 +294,7 @@ void NeuralNetwork::setHiddenWeights(const MatrixContainer & weights)
 }
 
 
-void NeuralNetwork::saveRewardsInFile(const std::string& file_name)
+void NeuralNetwork::saveRewardsInFile(const std::string& file_name) const 
 {
 	std::ofstream myfile(file_name.c_str());
 	if (myfile.is_open())

@@ -22,7 +22,9 @@ namespace Ai_Arena
 		//Thread save random int
 		static int random_int_ts(const int& min, const int& max)
 		{
-			static __declspec(thread) std::mt19937 generator;
+			static __declspec(thread) std::random_device r;
+			static __declspec(thread) std::seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
+			static __declspec(thread) std::mt19937 generator(seed);
 			std::uniform_int_distribution<int> distribution(min, max);
 			return distribution(generator);
 		}
@@ -30,7 +32,9 @@ namespace Ai_Arena
 		//Thread save random float
 		static float random_float_ts(const float& min, const float& max)
 		{
-			static __declspec(thread) std::mt19937 generator;
+			static __declspec(thread) std::random_device r;
+			static __declspec(thread) std::seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
+			static __declspec(thread) std::mt19937 generator(seed);
 			std::uniform_real_distribution<float> distribution(min, max);
 			return distribution(generator);
 		}

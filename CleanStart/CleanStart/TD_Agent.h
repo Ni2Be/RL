@@ -37,7 +37,8 @@ namespace Ai_Arena
 		void set_up();
 		void shut_down();
 	private:
-		int counter = 0;
+		unsigned int counter = 0;
+		unsigned int random_move_range_max = 4;
 
 		int findMove(std::vector<Action> possible_actions);
 		bool firstRound = true;

@@ -440,10 +440,12 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 			td_perception.push_back(x);
 			td_perception.push_back(y);
 
+			td_perception.push_back((world.playing_field.size() * 2 - (x + y)) / world.playing_field.size() * 2);
 			td_perception.push_back(x - controlled_snake->body()[0].position().x + y - controlled_snake->body()[0].position().y);
 		}
 		else
 		{
+			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);

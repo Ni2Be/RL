@@ -24,7 +24,7 @@ void TD_Agent<State_T>::set_up()
 	if(Agent<State_T>::m_environment->name == "Pong")
 		nn = NeuralNetwork(4, 6, 2, 1);
 	else if(Agent<State_T>::m_environment->name == "Snake")
-		nn = NeuralNetwork(8, 9, 2, 1);
+		nn = NeuralNetwork(9, 9, 2, 1);
 
 	this->nn.loadRewardsFromFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 }
@@ -34,7 +34,7 @@ void TD_Agent<State_T>::shut_down()
 {
 	//TODO save to file
 	std::cout << "shut down\n";
-	this->nn.saveRewardsInFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
+	this->nn.saveRewardsInFile(m_environment->name + "_td_nn" + std::to_string(id()) + ".txt");
 	m_is_running = false;
 }
 
@@ -43,13 +43,17 @@ void TD_Agent<State_T>::evaluate_action()
 {
 	if (!m_environment->is_final(m_self_pointer))
 	{
-		if (counter++ == 10000)
+		if (counter++ % 10000 == 0)
 		{
-			counter = 0;
-			std::cout << "\nsaving agent " << Agent<State_T>::id();
-			this->nn.saveRewardsInFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
+			std::cout << "\nsaving agent " << id();
+			this->nn.saveRewardsInFile(m_environment->name + "_td_nn" + std::to_string(id()) + ".txt");
 		}
-
+		//if (counter % 50000 == 0)
+		//{
+		//	std::cout << "\nrandom_move_range_max " << random_move_range_max;
+		//	if(random_move_range_max < 10)
+		//		random_move_range_max++;
+		//}
 		std::vector<Action> possible_actions =
 			Agent<State_T>::m_environment->possible_actions(
 				Agent<State_T>::m_self_pointer);
@@ -87,7 +91,7 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 		return nextPerception;
 	}
 
-	if (Utility::random_int_ts(0, 10) == 0)
+	if (Utility::random_int_ts(0, random_move_range_max) == 0)
 	{
 		int perceptionIndex = Utility::random_int_ts(0, perceptions.size() - 1);
 		lastPerception = perceptions[perceptionIndex];
@@ -98,7 +102,13 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 
 	Reward reward = m_environment->reward(m_self_pointer, state);
 	if (Agent<State_T>::m_environment->name == "Snake")
+	{
+		//if (reward == 0.0f)
+		//	reward = -0.01f;
 		reward *= 10.0f;
+	}
+	bool is_learning = false;
+	double learning_rate = 0.1;
 	if (reward != 0)
 	{
 		nn.calculate(lastPerception);
@@ -107,15 +117,16 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 			desiredOutput.push_back(0.0);
 		else
 			desiredOutput.push_back(reward);
-		nn.backpropagation(desiredOutput, 0.1);
+		if(is_learning)
+			nn.backpropagation(desiredOutput, learning_rate);
 		firstRound = true;
 	}
-
 	nn.calculate(perceptions[nextAction]);
 	Vector desiredOutput = nn.getOutput();
 	nn.calculate(lastPerception);
 	desiredOutput[0] = 0.95 * desiredOutput[0];
-	nn.backpropagation(desiredOutput, 0.1);
+	if(is_learning)
+		nn.backpropagation(desiredOutput, learning_rate);
 	lastPerception = perceptions[nextAction];
 	return nextAction;
 }
