@@ -187,6 +187,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_Graphics.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="Reflex_Agent.h" />
     <ClInclude Include="TD_Agent.h" />
     <ClInclude Include="Human_Player.h" />
     <ClInclude Include="Environment.h" />

@@ -217,7 +217,7 @@ int Snake_Entity::distanceToBodyDown() const
 	return distance;
 }
 
-Pos_int Snake_Entity::position()
+Pos_int Snake_Entity::position() const
 {
 	return body().front().position();
 }

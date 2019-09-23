@@ -54,7 +54,7 @@ namespace Ai_Arena
 
 		void perform_action(Action action);
 
-		Pos_int position();
+		Pos_int position() const;
 
 		//grow the snake
 		void extend();
@@ -93,6 +93,7 @@ namespace Ai_Arena
 		int distanceToBodyUp() const;
 		int distanceToBodyRight() const;
 		int distanceToBodyDown() const;
+
 
 		int agent_id = 0;
 	private:

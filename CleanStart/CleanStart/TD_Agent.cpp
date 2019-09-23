@@ -24,7 +24,7 @@ void TD_Agent<State_T>::set_up()
 	if(Agent<State_T>::m_environment->name == "Pong")
 		nn = NeuralNetwork(4, 6, 2, 1);
 	else if(Agent<State_T>::m_environment->name == "Snake")
-		nn = NeuralNetwork(9, 9, 2, 1);
+		nn = NeuralNetwork(8, 9, 2, 1);
 
 	this->nn.loadRewardsFromFile(Agent<State_T>::m_environment->name + "_td_nn" + std::to_string(Agent<State_T>::id()) + ".txt");
 }
@@ -45,15 +45,11 @@ void TD_Agent<State_T>::evaluate_action()
 	{
 		if (counter++ % 10000 == 0)
 		{
+			counter = 0;
 			std::cout << "\nsaving agent " << id();
 			this->nn.saveRewardsInFile(m_environment->name + "_td_nn" + std::to_string(id()) + ".txt");
 		}
-		//if (counter % 50000 == 0)
-		//{
-		//	std::cout << "\nrandom_move_range_max " << random_move_range_max;
-		//	if(random_move_range_max < 10)
-		//		random_move_range_max++;
-		//}
+
 		std::vector<Action> possible_actions =
 			Agent<State_T>::m_environment->possible_actions(
 				Agent<State_T>::m_self_pointer);
@@ -82,6 +78,17 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 
 		perceptions.push_back(m_environment->get_perception(m_self_pointer, m_sensor, possible_state[0]));
 	}
+	
+	for (auto& p : perceptions)
+	{
+		for (auto& feature : p)
+		{
+			if (feature < 0.0 || feature > 1.0)
+				std::cerr << "\nTD Agent: perception is not in range: " << feature << "\n";
+		}
+	}
+
+
 
 	if (firstRound)
 	{
@@ -101,14 +108,21 @@ int TD_Agent<State_T>::findMove(std::vector<Action> possible_actions)
 	int nextAction = greedyMove(perceptions);
 
 	Reward reward = m_environment->reward(m_self_pointer, state);
+
 	if (Agent<State_T>::m_environment->name == "Snake")
 	{
-		//if (reward == 0.0f)
-		//	reward = -0.01f;
-		reward *= 10.0f;
+		if (reward < 0.0f)
+			reward = 0.0f;
+		reward *= 0.01f;
+		if (reward > 1.0f)
+			reward = 1.0f;
 	}
-	bool is_learning = false;
-	double learning_rate = 0.1;
+
+
+
+
+	bool is_learning = true;
+	float learning_rate = 0.1f;
 	if (reward != 0)
 	{
 		nn.calculate(lastPerception);

@@ -22,7 +22,7 @@ void NeuralNetwork::initInputWeights(double from, double to)
 		std::vector<double> temp;
 		for (int j = 0; j < inputLayer.size(); j++)
 		{
-			temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
+			temp.push_back(Ai_Arena::Utility::random_double_ts(from, to));
 		}
 		inputWeights.push_back(temp);
 	}
@@ -39,7 +39,7 @@ void NeuralNetwork::initHiddenWeights(double from, double to)
 			std::vector<double> temp;
 			for (int k = 0; k < hiddenLayers[0].size(); k++)
 			{
-				temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
+				temp.push_back(Ai_Arena::Utility::random_double_ts(from, to));
 			}
 			weights.push_back(temp);
 		}
@@ -54,7 +54,7 @@ void NeuralNetwork::initOutputWeights(double from, double to)
 		std::vector<double> temp;
 		for (int j = 0; j < hiddenLayers[0].size(); j++)
 		{
-			temp.push_back(Ai_Arena::Utility::random_float_ts(from, to));
+			temp.push_back(Ai_Arena::Utility::random_double_ts(from, to));
 		}
 		outputWeights.push_back(temp);
 	}

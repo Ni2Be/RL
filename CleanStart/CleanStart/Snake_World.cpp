@@ -183,6 +183,15 @@ Area_int Snake_World::find_spawn_area()
 
 }
 
+float Snake_World::distance_to_apple(int snake_id) const 
+{
+	auto snake_pos = snakes[snake_id].position();
+	auto apple_pos = apple.position;
+
+
+	return std::abs(snake_pos.x - apple_pos.x) + std::abs(snake_pos.y - apple_pos.y);
+}
+
 
 bool Snake_World::is_empty(Area_int area)
 {

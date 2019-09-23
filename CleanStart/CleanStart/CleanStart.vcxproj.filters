@@ -204,5 +204,8 @@
     <ClInclude Include="Neuron.h">
       <Filter>Actor\Agent\TD_Agent</Filter>
     </ClInclude>
+    <ClInclude Include="Reflex_Agent.h">
+      <Filter>Actor\Agent\Reflex_Agent</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

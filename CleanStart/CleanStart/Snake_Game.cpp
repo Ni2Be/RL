@@ -195,13 +195,16 @@ Reward Snake_Game::reward(std::shared_ptr<Actor<Snake_World>> actor, Snake_World
 		reward = -1.0f;
 	else if (snake_event == Snake_World::Events::ATE)
 		reward = 1.0f;
+
+	reward += 10.0 / state.distance_to_apple(controlled_snake->agent_id);
 	/*if (controlled_snake->score() < controlled_snake->last_score())
 		reward = -1.0f;
 	else if (controlled_snake->score() > controlled_snake->last_score())
 		reward = 1.0f;
 	else
 		reward = 0.0f;*/
-
+	if (reward < 0.0)
+		reward = 0.0;
 	return reward;
 	//return controlled_snake->score();
 }
@@ -440,17 +443,33 @@ const Perception Snake_Game::convert_to_SEE_THE_WHOLE_STATE(Actor_Representation
 			td_perception.push_back(x);
 			td_perception.push_back(y);
 
-			td_perception.push_back((world.playing_field.size() * 2 - (x + y)) / world.playing_field.size() * 2);
-			td_perception.push_back(x - controlled_snake->body()[0].position().x + y - controlled_snake->body()[0].position().y);
+			td_perception.push_back((world.distance_to_apple(controlled_snake->agent_id)));
 		}
 		else
 		{
 			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
 			td_perception.push_back(0.0);
-			td_perception.push_back(0.0);
 		}
 	
+		for (auto& v : td_perception)
+		{
+			if ((v > world.playing_field.size() * 2.0) || (v < 0.9))
+				v = 0.0;
+			v = std::round(v);
+
+			v /= world.playing_field.size() * 2.0;
+		}
+
+		//std::cout << "\ncrash: " << td_perception[0]
+		//	<< "\neat: " << td_perception[1]
+		//	<< "\n Left: " << td_perception[2]
+		//	<< "\nFront: " << td_perception[3]
+		//	<< "\nRight: " << td_perception[4]
+		//	<< "\napl x: " << td_perception[5]
+		//	<< "\napl y: " << td_perception[6]
+		//	<< "\napl dist: " << td_perception[7];
+
 	return td_perception;
 }
 

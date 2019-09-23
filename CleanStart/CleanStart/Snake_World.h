@@ -72,6 +72,11 @@ namespace Ai_Arena
 		*/
 		void handle_events(std::vector<std::pair<Snake_Entity*, Events>>& snake_events, std::vector<Snake_World::Events>& snake_world_events);
 
+
+
+		float distance_to_apple(int snake_id) const ;
+
+
 		void add_snake()
 		{
 			snakes.push_back(Snake_Entity());
