@@ -1,6 +1,4 @@
-# RL
-
-An Ai Framework
+# Ai Arena
 
 Implemented games:
  - Snake
