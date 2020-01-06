@@ -9,12 +9,15 @@ Implemented games:
 Implemented Agents:
  - MCTS-Agent
  - TD-Agent
+ 
+The framework supports multiple agents playing together. Each agent calculates its next move in a separate thread, so if an agent that needs to calculate many moves (like the MCTS-Agent) is playing against an agent that doesn’t need to calculate so much (like the TD-Agent) both can show their full potential. This also ensures if two or more agents are playing against each other the fairness is handled by the operating system.
 
-The framework supports multiple agents playing together. Each agent calculates its next move in a separate thread so if an agent that needs to calculate many moves (like the MCTS-Agent) is playing against an agent that doesn’t need to calculate so much (like the TD-Agent) both can show their full potential. And if two or more agents are playing against each other that need to calculate much the fairness is handled by the operating system.
+|One MCTS-Agent|Two MCTS-Agent|
+|-------------------------------|-----------------------------|
+|![one player MCTS](https://github.com/Ni2Be/RL/blob/template_state/one%20player.gif)|![two player MCTS](https://github.com/Ni2Be/RL/blob/template_state/two%20player.gif)|
 
-![one player MCTS](https://github.com/Ni2Be/RL/blob/template_state/one%20player.gif)
 
-![two player MCTS](https://github.com/Ni2Be/RL/blob/template_state/two%20player.gif)
+
 
 ### Setup for devs
 
