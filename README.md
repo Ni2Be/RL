@@ -12,7 +12,7 @@ The framework supports multiple agents playing together. Each agent calculates i
 
 |One MCTS-Agent|Two MCTS-Agents|
 |-------------------------------|-----------------------------|
-|![one player MCTS](https://github.com/Ni2Be/RL/blob/template_state/one%20player.gif)|![two player MCTS](https://github.com/Ni2Be/RL/blob/template_state/two%20player.gif)|
+|![one player MCTS](https://raw.githubusercontent.com/Ni2Be/RL/template_state/one%20player.gif)|![two player MCTS](https://raw.githubusercontent.com/Ni2Be/RL/template_state/two%20player.gif)|
 
 
 
